@@ -1,0 +1,23 @@
+﻿
+<MudPaper Class="pa-1 ma-2" Outlined="true">
+    <div class="d-flex flex-column">
+        <MudText Typo="Typo.h6">@date.ToString(@"HH\:mm")</MudText>
+    </div>
+</MudPaper>
+
+@code {
+    DateTime date => DateTimeGlobally.Now;
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await SimulateProgressAsync();
+    }
+    async Task SimulateProgressAsync()
+    {
+        do
+        {
+            StateHasChanged();
+            await Task.Delay(1000);
+        } while (true);
+    }
+}

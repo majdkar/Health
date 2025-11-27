@@ -1,0 +1,73 @@
+﻿@using SchoolV01.Application.Requests;
+@inject Microsoft.Extensions.Localization.IStringLocalizer<UplaodImage> _localizer
+
+<MudItem>
+    <label><strong>@_localizer[Label]</strong> </label>
+</MudItem>
+<div class="d-flex justify-center mb-2">
+    @if (!string.IsNullOrWhiteSpace(File))
+    {
+        <MudButton Href="@File" Class="ml-2 mr-2" Target="_blank" StartIcon="@Icons.Material.Filled.FileDownload" Size="Size.Small" Variant="Variant.Outlined" Color="Color.Primary">@_localizer["Download Attachment"]</MudButton>
+
+    }
+    else if (_file != null)
+    {
+        <MudList T="bool" id="FilesList">
+            <MudListItem Icon="@Icons.Material.Filled.AttachFile" @key="@_file">
+                @_file.Name <code>@_file.Size bytes</code>
+            </MudListItem>
+        </MudList>
+    }
+    else
+    {
+        <MudButton Variant="Variant.Filled" FullWidth=true Class="ml-2 mr-2" Disabled StartIcon="@Icons.Material.Filled.FileDownload" Size="Size.Small" Color="Color.Default">@_localizer["No Attachment"]</MudButton>
+    }
+</div>
+<MudCardActions>
+    <InputFile id="@Id" OnChange="UploadFiles" hidden />
+    <MudIconButton id="@($"{Id}Button")" Disabled="Disabled" HtmlTag="label" Variant="Variant.Text" Color="Color.Primary" Size="Size.Small" Icon="@Icons.Material.Filled.UploadFile" for="@Id">
+        @_localizer["UploadFile"]
+    </MudIconButton>
+    <MudIconButton Disabled="Disabled" Icon="@Icons.Material.Filled.DeleteOutline" Color="Color.Error" OnClick="DeleteFileAsync" />
+</MudCardActions>
+
+@code {
+    [Parameter] public string Id { get; set; } = "file2Input";
+    [Parameter] public string File { get; set; }
+    [Parameter] public UploadRequest UploadRequest { get; set; }
+    [Parameter] public EventCallback<UploadRequest> UploadRequestChanged { get; set; }
+    [Parameter] public EventCallback OnDelete { get; set; }
+    [Parameter] public long? MaxFileSize { get; set; }
+
+    [Parameter] public bool Disabled { get; set; } = false;
+    [Parameter] public string Label { get; set; } = "Attachment";
+    [Parameter] public List<string> Types { get; set; } = new();
+
+    private long? maxFileSize
+    {
+        get { return MaxFileSize * 1024 * 1024; }
+        set { value = maxFileSize; }
+    }
+    private IBrowserFile _file;
+    private async Task UploadFiles(InputFileChangeEventArgs e)
+    {
+        _file = e.File;
+        if (_file != null)
+        {
+            File = null;
+            var file = await FileHelper.UploadFiles(e, Application.Enums.UploadType.TasksFiles, maxFileSize, Types);
+            if (file.Count() > 0)
+            {
+                await UploadRequestChanged.InvokeAsync(file.FirstOrDefault());
+            }
+        }
+    }
+    private async Task DeleteFileAsync()
+    {
+        UploadRequest = null;
+        _file = null;
+        await OnDelete.InvokeAsync();
+        StateHasChanged();
+    }
+
+}

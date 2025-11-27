@@ -1,0 +1,103 @@
+﻿@inject Microsoft.Extensions.Localization.IStringLocalizer<Menus> localizer
+
+<EditForm Model="@PageModel" OnValidSubmit="SaveAsync">
+    <FluentValidationValidator />
+
+    <MudDialog>
+        <TitleContent>
+            @{
+                if (PageModel.Id == 0)
+                {
+                    <MudText Typo="Typo.h6">
+                        <MudIcon Icon="@Icons.Material.Filled.Add" Class="mr-3 mb-n1" />
+                        @localizer["AddPage"]
+                    </MudText>
+                }
+                else
+                {
+                    <MudText Typo="Typo.h6">
+                        <MudIcon Icon="@Icons.Material.Filled.Update" Class="mr-3 mb-n1" />
+                        @localizer["UpdatePage"]
+                    </MudText>
+                }
+            }
+        </TitleContent>
+        <DialogContent>
+            <MudGrid>
+
+                <MudItem xs="12" md="12">
+                    <MudTextField For="@(() => PageModel.NameAr)" @bind-Value="PageModel.NameAr" Label="@localizer["Name"]" />
+                </MudItem>
+
+                <MudItem xs="12" md="12">
+                    <MudTextField For="@(() => PageModel.Type)" @bind-Value="PageModel.Type" Label="@localizer["Type"]" />
+                </MudItem>
+
+                <MudItem xs="12" md="12">
+                    <MudTextField For="@(() => PageModel.RecordOrder)" @bind-Value="PageModel.RecordOrder" InputType=InputType.Number Label="@localizer["RecordOrder"]" />
+                </MudItem>
+
+                <MudItem xs="12" md="6">
+                    <MudItem>
+                        <InputFile id="imageInput" OnChange="SelectImage" hidden />
+                        <MudButton id="imageInputButton"
+                                   HtmlTag="label"
+                                   Variant="Variant.Filled"
+                                   Color="Color.Secondary"
+                                   StartIcon="@Icons.Material.Filled.CloudUpload"
+                                   for="imageInput">
+                            @localizer["UploadImage"]
+                        </MudButton>
+                        @if (_images != null)
+                        {
+                            <MudList T="bool" id="ImagesList">
+                                @foreach (var image in _images)
+                                {
+                                    <MudListItem Icon="@Icons.Material.Filled.AttachFile" @key="@image">
+                                        @image.Name
+                                    </MudListItem>
+                                }
+                            </MudList>
+                        }
+                    </MudItem>
+                </MudItem>
+
+                <MudItem xs="12" md="6">
+                    <MudCheckBox T="bool" For="@(() => PageModel.IsActive)" @bind-Value="PageModel.IsActive" Label="@localizer["IsActive"]" />
+                </MudItem>
+
+            </MudGrid>
+        </DialogContent>
+        <DialogActions>
+           <MudButton Variant="Variant.Filled" ButtonType="ButtonType.Button" OnClick="Cancel">@localizer["Cancel"]</MudButton>
+            @if (PageModel.Id != 0)
+            {
+               <MudButton Variant="Variant.Filled" ButtonType="ButtonType.Submit" Color="Color.Success">
+                @if (_processing)
+                    {
+                        <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                        <MudText Class="ms-2">@localizer["Processing"]</MudText>
+                    }
+                    else
+                    {
+                        @localizer["Update"]
+                    }
+                </MudButton>
+            }
+            else
+            {
+               <MudButton Variant="Variant.Filled" ButtonType="ButtonType.Submit" Color="Color.Success">
+                @if (_processing)
+                    {
+                        <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                        <MudText Class="ms-2">@localizer["Processing"]</MudText>
+                    }
+                    else
+                    {
+                        @localizer["Save"]
+                    }
+                </MudButton>
+            }
+        </DialogActions>
+    </MudDialog>
+</EditForm>

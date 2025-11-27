@@ -1,0 +1,22 @@
+﻿@namespace SchoolV01.Client.Shared.Dialogs
+@inject Microsoft.Extensions.Localization.IStringLocalizer<DeleteConfirmation> localizer
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            <MudIcon Icon="@Icons.Material.Filled.PhotoAlbum" Class="mr-3 mb-n1" />
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudAvatar Image="@ImagePath" Square="false" Style="height: auto; width: auto; max-height: 100%"> </MudAvatar>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">@localizer["Close"]</MudButton>
+    </DialogActions>
+</MudDialog>
+@code {
+    [CascadingParameter] IMudDialogInstance MudDialog { get; set; }
+
+    [Parameter] public string ImagePath { get; set; }
+
+    void Cancel() => MudDialog.Cancel();
+}

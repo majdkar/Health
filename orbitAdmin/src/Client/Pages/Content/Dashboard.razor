@@ -1,0 +1,20 @@
+﻿@page "/dashboard"
+@attribute [Authorize(Policy = Permissions.Dashboards.View)]
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Dashboard> _localizer
+
+
+@if (_isProcessingDashboardDataResponse)
+{
+    <MudProgressLinear Color="Color.Primary" Indeterminate="true" Class="my-7" />
+}
+else
+{
+    <MudGrid Class="mb-3">
+        
+
+    </MudGrid>
+
+}
+
+
+

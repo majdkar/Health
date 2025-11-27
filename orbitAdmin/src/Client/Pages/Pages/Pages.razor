@@ -1,0 +1,104 @@
+﻿@page "/pages"
+
+@using SchoolV01.Shared.ViewModels.Pages;
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Pages> localizer
+<style>
+.mud-dialog-container{
+        overflow: scroll;
+    }
+</style>
+<style>
+    .mud-table-container {
+        overflow: auto;
+    }
+</style>
+<style>
+    .mud-dialog-container {
+        overflow: scroll;
+    }
+    .tox-tinymce {
+        max-height:250px;
+    }
+</style>
+
+<MudItem xs="12" md="12">
+    <MudText Typo="Typo.h6" Color="Color.Primary">@localizer["Pages Managment"] </MudText>
+</MudItem>
+
+<MudTable Class="my-4" Elevation="4" ServerData="ServerReload"
+          Hover="true" @ref="_table" Breakpoint="Breakpoint.Sm" Loading="@loaded" LoadingProgressColor="Color.Primary"
+          OnRowClick="RowClickEvent" T="PageViewModel">
+
+    <ToolBarContent>
+        <div class="justify-center mud-text-align-center">
+            @if (_isAdmin)
+            {
+               <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="@(() => InvokeAddEditModal(0))" StartIcon="@Icons.Material.Filled.Add" IconColor="Color.Surface">@localizer["New"] </MudButton>
+            }
+           <MudButton Variant="Variant.Filled" OnClick="@(() => OnSearch(""))" StartIcon="@Icons.Material.Filled.Refresh" IconColor="Color.Surface" Color="Color.Secondary">@localizer["Reload"] </MudButton>
+        </div>
+        <MudSpacer />
+        <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder=@localizer["Search"] Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+    </ToolBarContent>
+
+    <HeaderContent>
+           <MudTh><MudTableSortLabel T="PageViewModel" SortLabel="RecordOrder"><strong>@localizer["RecordOrder"]</strong> </MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel T="PageViewModel" SortLabel="Name"><strong>@localizer["Name"]</strong> </MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel T="PageViewModel" SortLabel="Type"><strong>@localizer["Type"] </strong></MudTableSortLabel></MudTh>
+        <MudTd DataLabel="Image"><strong>@localizer["Image"]</strong></MudTd>
+     
+        <MudTd DataLabel="IsActive"><strong>@localizer["IsActive"]</strong> </MudTd>
+        <MudTh ><strong>@localizer["Actions"]</strong> </MudTh>
+    </HeaderContent>
+
+    <RowTemplate>
+          
+          <MudTd DataLabel="RecordOrder">
+            <MudHighlighter Text="@context.RecordOrder.ToString()" />
+        </MudTd>
+        <MudTd DataLabel="Name">
+            <MudHighlighter Text="@context.NameAr" HighlightedText="@searchString" />
+        </MudTd>
+        <MudTd DataLabel="Description">
+            <MudHighlighter Text="@context.Type" HighlightedText="@searchString" />
+        </MudTd>
+        @if (!String.IsNullOrEmpty(context.Image))
+        {
+            <MudTd DataLabel="Image">
+                <MudIconButton Icon="@Icons.Material.Filled.ImageSearch" Color="Color.Secondary" Link=@(@context.Image) Target="_blank" @onclick:stopPropagation></MudIconButton>
+            </MudTd>
+        }
+        else
+        {
+            <MudTd DataLabel="Image">
+            </MudTd>
+        }
+      
+        <MudTd DataLabel="Active?"><MudCheckBox T="bool" @bind-Value="@context.IsActive"  Color="Color.Secondary" ></MudCheckBox></MudTd>
+
+        <MudTd DataLabel="Actions" Style="text-align: right">
+            <MudButton Variant="Variant.Filled"  Color="Color.Info" Size="Size.Small" @onclick="@(() => InvokeAddEditModal(@context.Id))">@localizer["Edit"]</MudButton>
+            @if (_canDeleteWebSiteManagement)
+            {
+                <MudButton Variant="Variant.Filled" Color="Color.Error" Size="Size.Small" @onclick="@(() => SoftDeletePage(@context.Id))">@localizer["Delete"]</MudButton>
+            }
+            @if (_canCreateWebSiteManagement)
+            {
+                <MudButton Variant="Variant.Filled" Color="Color.Info" Size="Size.Small" @onclick="@(() => InvokeAddEditPagePhotos(@context.Id))">@localizer["Album"]</MudButton>
+                <MudButton Variant="Variant.Filled" Color="Color.Info" Size="Size.Small" @onclick="@(() => InvokeAddEditPageAttachements(@context.Id))">@localizer["Attachements"]</MudButton>
+                <MudTooltip Text="@localizer["Seo Managment"]">
+
+                    <MudIconButton Icon="@Icons.Material.Outlined.Analytics" @onclick="@(() => InvokeSeosModal(@context.Id,(IsArabic ? context.NameAr : context.NameEn)))" Color="Color.Tertiary" Variant="Variant.Filled" Size="Size.Small" Style="margin: 3px" />
+                </MudTooltip>
+            
+            }
+        </MudTd>
+    </RowTemplate>
+
+    <PagerContent>
+        <TablePager />
+    </PagerContent>
+
+</MudTable>
+
+

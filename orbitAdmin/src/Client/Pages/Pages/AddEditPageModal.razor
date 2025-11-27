@@ -1,0 +1,371 @@
+﻿@inject Microsoft.Extensions.Localization.IStringLocalizer<Pages> localizer
+
+<EditForm Model="@PageModel" OnValidSubmit="SaveAsync">
+    <FluentValidationValidator />
+    <style>
+        .tox {
+            z-index: 2000 !important; /* أو رقم أعلى من z-index الخاص بـ MudDialog */
+        }
+
+        .tox-tinymce-aux {
+            z-index: 2000 !important;
+        }
+    </style>
+    <MudDialog>
+        <TitleContent>
+            @{
+                if (PageModel.Id == 0)
+                {
+                    <MudText Typo="Typo.h6">
+                        <MudIcon Icon="@Icons.Material.Filled.Add" Class="mr-3 mb-n1" />
+                        @localizer["AddPage"]
+                    </MudText>
+                }
+                else
+                {
+                    <MudText Typo="Typo.h6">
+                        <MudIcon Icon="@Icons.Material.Filled.Update" Class="mr-3 mb-n1" />
+                        @localizer["UpdatePage"]
+                    </MudText>
+                }
+            }
+        </TitleContent>
+        <DialogContent>
+            @*                <MudCard Elevation="4">
+            <MudCardHeader>
+            <CardHeaderContent>
+            </CardHeaderContent>
+            </MudCardHeader>
+            <MudCardContent>
+            </MudCardContent>
+            <MudCardActions Class="d-flex justify-end flex-grow-1 gap-4 mr-2">
+            </MudCardActions>
+            </MudCard>*@
+            <MudGrid>
+
+
+                <MudItem xs="12" md="4">
+                    <MudTextField Disabled="!_isAdmin" For="@(() => PageModel.NameAr)" @bind-Value="PageModel.NameAr" Label="@localizer["Arabic Name"]" Variant="Variant.Outlined" />
+                </MudItem>
+                <MudItem xs="12" md="4">
+                    <MudTextField Disabled="!_isAdmin" For="@(() => PageModel.NameEn)" @bind-Value="PageModel.NameEn" Label="@localizer["English Name"]" Variant="Variant.Outlined" />
+                </MudItem>
+                <MudItem xs="12" md="4">
+                    <MudTextField Disabled="!_isAdmin" For="@(() => PageModel.NameGe)" @bind-Value="PageModel.NameGe" Label="@localizer["German Name"]" Variant="Variant.Outlined" />
+                </MudItem>
+
+                <MudItem xs="12" md="12">
+                    <MudText Typo="Typo.body1">@localizer["Arabic Description"]</MudText>
+                    <Editor Id="editorAr" Field="() => PageModel.DescriptionAr" @bind-Value="PageModel.DescriptionAr" Inline=false
+                            Conf="@editorAr.tinymc"  ScriptSrc="/tinymce/tinymce.min.js" ClassName="tinymce-wrapper" />
+                </MudItem>
+                <MudItem xs="12" md="12">
+                    <MudText Typo="Typo.body1">@localizer["English Description"]</MudText>
+                    <Editor Id="editorEn" Field="() => PageModel.DescriptionEn" @bind-Value="PageModel.DescriptionEn" Inline=false
+                            Conf="@editorEn.tinymc" ScriptSrc="/tinymce/tinymce.min.js" ClassName="tinymce-wrapper" />
+                </MudItem>
+                <MudItem xs="12" md="12">
+                    <MudText Typo="Typo.body1">@localizer["German Description"]</MudText>
+                    <Editor Id="editorSe" Field="() => PageModel.DescriptionGe" @bind-Value="PageModel.DescriptionGe" Inline=false
+                            Conf="@editorSe.tinymc" ScriptSrc="/tinymce/tinymce.min.js" ClassName="tinymce-wrapper" />
+                </MudItem>
+
+                <MudItem xs="12" md="12">
+                    <MudText Typo="Typo.body1">@localizer["Arabic Description1"]</MudText>
+                    <Editor Id="editorAr1" Field="() => PageModel.DescriptionAr1" @bind-Value="PageModel.DescriptionAr1" Inline=false
+                            Conf="@editorAr1.tinymc" ScriptSrc="/tinymce/tinymce.min.js" ClassName="tinymce-wrapper" />
+                </MudItem>
+                <MudItem xs="12" md="12">
+                    <MudText Typo="Typo.body1">@localizer["English Description1"]</MudText>
+                    <Editor Id="editorEn1" Field="() => PageModel.DescriptionEn1" @bind-Value="PageModel.DescriptionEn1" Inline=false
+                            Conf="@editorEn1.tinymc" ScriptSrc="/tinymce/tinymce.min.js" ClassName="tinymce-wrapper" />
+                </MudItem>
+                <MudItem xs="12" md="12">
+                    <MudText Typo="Typo.body1">@localizer["German Description1"]</MudText>
+                    <Editor Id="editorSe1" Field="() => PageModel.DescriptionGe1" @bind-Value="PageModel.DescriptionGe1" Inline=false
+                            Conf="@editorSe1.tinymc" ScriptSrc="/tinymce/tinymce.min.js" ClassName="tinymce-wrapper" />
+                </MudItem>
+
+                <MudItem xs="12" md="12">
+                    <MudText Typo="Typo.body1">@localizer["Arabic Description2"]</MudText>
+                    <Editor Id="editorAr2" Field="() => PageModel.DescriptionAr2" @bind-Value="PageModel.DescriptionAr2" Inline=false
+                            Conf="@editorAr2.tinymc" ScriptSrc="/tinymce/tinymce.min.js" ClassName="tinymce-wrapper" />
+                </MudItem>
+                <MudItem xs="12" md="12">
+                    <MudText Typo="Typo.body1">@localizer["English Description2"]</MudText>
+                    <Editor Id="editorEn2" Field="() => PageModel.DescriptionEn2" @bind-Value="PageModel.DescriptionEn2" Inline=false
+                            Conf="@editorEn2.tinymc" ScriptSrc="/tinymce/tinymce.min.js" ClassName="tinymce-wrapper" />
+                </MudItem>
+                <MudItem xs="12" md="12">
+                    <MudText Typo="Typo.body1">@localizer["German Description2"]</MudText>
+                    <Editor Id="editorSe2" Field="() => PageModel.DescriptionGe2" @bind-Value="PageModel.DescriptionGe2" Inline=false
+                            Conf="@editorSe2.tinymc" ScriptSrc="/tinymce/tinymce.min.js" ClassName="tinymce-wrapper" />
+                </MudItem>
+
+                <MudItem xs="12" md="12">
+                    <MudText Typo="Typo.body1">@localizer["Arabic Description3"]</MudText>
+                    <Editor Id="editorAr3" Field="() => PageModel.DescriptionAr3" @bind-Value="PageModel.DescriptionAr3" Inline=false
+                            Conf="@editorAr3.tinymc" ScriptSrc="/tinymce/tinymce.min.js" ClassName="tinymce-wrapper" />
+                </MudItem>
+                <MudItem xs="12" md="12">
+                    <MudText Typo="Typo.body1">@localizer["English Description3"]</MudText>
+                    <Editor Id="editorEn2" Field="() => PageModel.DescriptionEn3" @bind-Value="PageModel.DescriptionEn3" Inline=false
+                            Conf="@editorEn3.tinymc" ScriptSrc="/tinymce/tinymce.min.js" ClassName="tinymce-wrapper" />
+                </MudItem>
+                <MudItem xs="12" md="12">
+                    <MudText Typo="Typo.body1">@localizer["German Description3"]</MudText>
+                    <Editor Id="editorSe2" Field="() => PageModel.DescriptionGe3" @bind-Value="PageModel.DescriptionGe3" Inline=false
+                            Conf="@editorSe3.tinymc" ScriptSrc="/tinymce/tinymce.min.js" ClassName="tinymce-wrapper" />
+                </MudItem>
+
+
+
+                <MudItem xs="12" md="4">
+                    <MudSelect Disabled="!_isAdmin" For="@(() => PageModel.Type)" @bind-Value="PageModel.Type" T="string" Label="@localizer["Type"]">
+                        <MudSelectItem T="string">N/A</MudSelectItem>
+                        @foreach (string pagetype in PageTypes)
+                        {
+                            <MudSelectItem T="string" Value="@pagetype">@pagetype</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+                <MudItem xs="12" md="4">
+                    @if (_menus != null)
+                    {
+                        <MudSelect Disabled="!_isAdmin" For="@(() => PageModel.MenuId)" @bind-Value="PageModel.MenuId" T="int" Label="@localizer["MenuName"]">
+                            <MudSelectItem T="int" Value="0">N/A</MudSelectItem>
+                            @foreach (var menu in _menus)
+                            {
+                                <MudSelectItem T="int" Value="@menu.Id">@menu.NameAr</MudSelectItem>
+                            }
+                        </MudSelect>
+                    }
+                </MudItem>
+                <MudItem xs="12" md="4">
+                    <MudNumericField Disabled="!_isAdmin" For="@(() => PageModel.RecordOrder)" @bind-Value="PageModel.RecordOrder" Label="@localizer["RecordOrder"]" Variant="Variant.Outlined" Min="0" />
+                </MudItem>
+
+                <MudItem xs="12" md="4">
+                    <MudCheckBox T="bool" Disabled="!_isAdmin" For="@(() => PageModel.IsActive)" @bind-Value="PageModel.IsActive" Label="@localizer["IsActive"]" />
+                </MudItem>
+                <MudItem xs="12" md="8">
+                    <MudTextField Disabled="!_isAdmin" For="@(() => PageModel.Url)" @bind-Value="PageModel.Url" Label="@localizer["Url"]" Variant="Variant.Text" />
+                </MudItem>
+                <MudItem xs="12" md="12">
+                    <MudTextField For="@(() => PageModel.GeoLink)" @bind-Value="PageModel.GeoLink" Label="@localizer["GeoLink"]" Variant="Variant.Text" />
+                </MudItem>
+                <MudItem xs="12" md="12">
+                    <MudTextField For="@(() => PageModel.EndpointAr)" @bind-Value="PageModel.EndpointAr" Label="@localizer["Endpoint Ar"]" Variant="Variant.Text" />
+                </MudItem>
+                <MudItem xs="12" md="12">
+                    <MudTextField For="@(() => PageModel.EndpointEn)" @bind-Value="PageModel.EndpointEn" Label="@localizer["Endpoint En"]" Variant="Variant.Text" />
+                </MudItem>
+                <MudItem xs="12" md="12">
+                    <MudTextField For="@(() => PageModel.EndpointGe)" @bind-Value="PageModel.EndpointGe" Label="@localizer["Endpoint Ge"]" Variant="Variant.Text" />
+                </MudItem>
+
+
+
+                <MudItem xs="12" md="3">
+                    <MudItem>
+                        <InputFile id="imageInput" OnChange="SelectImage" hidden />
+                        <MudButton id="imageInputButton" Disabled="!_isAdmin"
+                                   HtmlTag="label"
+                                   Variant="Variant.Filled"
+                                   Color="Color.Secondary"
+                                   StartIcon="@Icons.Material.Filled.CloudUpload"
+                                   for="imageInput">
+                            @localizer["UploadImage"]
+                        </MudButton>
+                        @if (_images != null)
+                        {
+                            <MudList T="bool" id="ImagesList">
+                                @if (_images.Count() != 0)
+                                {
+                                    foreach (var image in _images)
+                                    {
+
+                                        <MudListItem Icon="@Icons.Material.Filled.AttachFile" @key="@image">
+                                            @image.Name
+                                        </MudListItem>
+                                    }
+                                }
+                                else
+                                {
+                                    if (!string.IsNullOrEmpty(PageModel.Image))
+                                    {
+                                        <MudListItem Icon="@Icons.Material.Filled.ImageSearch">
+                                            Image Uploaded
+                                            <MudIconButton Icon="@Icons.Material.Filled.ImageSearch" Color="Color.Secondary" Link=@(@PageModel.Image) @onclick:stopPropagation Target="_blank"></MudIconButton>
+                                        </MudListItem>
+                                    }
+
+                                }
+
+                            </MudList>
+                        }
+                    </MudItem>
+                </MudItem>
+
+
+                <MudItem xs="12" md="3">
+                    <MudItem>
+                        <InputFile id="imageInput1" OnChange="SelectImage1" hidden />
+                        <MudButton id="imageInputButton1" Disabled="!_isAdmin"
+                                   HtmlTag="label"
+                                   Variant="Variant.Filled"
+                                   Color="Color.Secondary"
+                                   StartIcon="@Icons.Material.Filled.CloudUpload"
+                                   for="imageInput1">
+                            @localizer["UploadImage1"]
+                        </MudButton>
+                        @if (_images1 != null)
+                        {
+                            <MudList T="bool" id="ImagesList">
+                                @if (_images1.Count() != 0)
+                                {
+                                    foreach (var image1 in _images1)
+                                    {
+
+                                        <MudListItem Icon="@Icons.Material.Filled.AttachFile" @key="@image1">
+                                            @image1.Name
+                                        </MudListItem>
+                                    }
+                                }
+                                else
+                                {
+                                    if (!string.IsNullOrEmpty(PageModel.Image1))
+                                    {
+                                        <MudListItem Icon="@Icons.Material.Filled.ImageSearch">
+                                            Image Uploaded
+                                            <MudIconButton Icon="@Icons.Material.Filled.ImageSearch" Color="Color.Secondary" Link=@(@PageModel.Image1) @onclick:stopPropagation Target="_blank"></MudIconButton>
+                                        </MudListItem>
+                                    }
+
+                                }
+
+                            </MudList>
+                        }
+                    </MudItem>
+                </MudItem>
+
+
+                <MudItem xs="12" md="3">
+                    <MudItem>
+                        <InputFile id="imageInput2" OnChange="SelectImage2" hidden />
+                        <MudButton id="imageInputButton2" Disabled="!_isAdmin"
+                                   HtmlTag="label"
+                                   Variant="Variant.Filled"
+                                   Color="Color.Secondary"
+                                   StartIcon="@Icons.Material.Filled.CloudUpload"
+                                   for="imageInput2">
+                            @localizer["UploadImage2"]
+                        </MudButton>
+                        @if (_images2 != null)
+                        {
+                            <MudList T="bool" id="ImagesList">
+                                @if (_images2.Count() != 0)
+                                {
+                                    foreach (var image2 in _images2)
+                                    {
+
+                                        <MudListItem Icon="@Icons.Material.Filled.AttachFile" @key="@image2">
+                                            @image2.Name
+                                        </MudListItem>
+                                    }
+                                }
+                                else
+                                {
+                                    if (!string.IsNullOrEmpty(PageModel.Image2))
+                                    {
+                                        <MudListItem Icon="@Icons.Material.Filled.ImageSearch">
+                                            Image Uploaded
+                                            <MudIconButton Icon="@Icons.Material.Filled.ImageSearch" Color="Color.Secondary" Link=@(@PageModel.Image2) @onclick:stopPropagation Target="_blank"></MudIconButton>
+                                        </MudListItem>
+                                    }
+
+                                }
+
+                            </MudList>
+                        }
+                    </MudItem>
+                </MudItem>
+
+                <MudItem xs="12" md="3">
+                    <MudItem>
+                        <InputFile id="imageInput3" OnChange="SelectImage3" hidden />
+                        <MudButton id="imageInputButton3" Disabled="!_isAdmin"
+                                   HtmlTag="label"
+                                   Variant="Variant.Filled"
+                                   Color="Color.Secondary"
+                                   StartIcon="@Icons.Material.Filled.CloudUpload"
+                                   for="imageInput3">
+                            @localizer["UploadImage3"]
+                        </MudButton>
+                        @if (_images3 != null)
+                        {
+                            <MudList T="bool" id="ImagesList3">
+                                @if (_images3.Count() != 0)
+                                {
+                                    foreach (var image3 in _images3)
+                                    {
+
+                                        <MudListItem Icon="@Icons.Material.Filled.AttachFile" @key="@image3">
+                                            @image3.Name
+                                        </MudListItem>
+                                    }
+                                }
+                                else
+                                {
+                                    if (!string.IsNullOrEmpty(PageModel.Image3))
+                                    {
+                                        <MudListItem Icon="@Icons.Material.Filled.ImageSearch">
+                                            Image Uploaded
+                                            <MudIconButton Icon="@Icons.Material.Filled.ImageSearch" Color="Color.Secondary" Link=@(@PageModel.Image3) @onclick:stopPropagation Target="_blank"></MudIconButton>
+                                        </MudListItem>
+                                    }
+
+                                }
+
+                            </MudList>
+                        }
+                    </MudItem>
+                </MudItem>
+
+
+
+            </MudGrid>
+        </DialogContent>
+        <DialogActions>
+            <MudButton Variant="Variant.Filled" ButtonType="ButtonType.Button" OnClick="Cancel">@localizer["Cancel"]</MudButton>
+            @if (PageModel.Id != 0)
+            {
+                <MudButton Variant="Variant.Filled" ButtonType="ButtonType.Submit" Color="Color.Success">
+                    @if (_processing)
+                    {
+                        <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                        <MudText Class="ms-2">@localizer["Processing"]</MudText>
+                    }
+                    else
+                    {
+                        @localizer["Update"]
+                    }
+                </MudButton>
+            }
+            else
+            {
+                <MudButton Variant="Variant.Filled" ButtonType="ButtonType.Submit" Color="Color.Success">
+                    @if (_processing)
+                    {
+                        <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                        <MudText Class="ms-2">@localizer["Processing"]</MudText>
+                    }
+                    else
+                    {
+                        @localizer["Save"]
+                    }
+                </MudButton>
+            }
+        </DialogActions>
+    </MudDialog>
+</EditForm>

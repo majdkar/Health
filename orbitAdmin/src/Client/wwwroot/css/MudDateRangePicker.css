@@ -1,0 +1,46 @@
+﻿.mud-picker-static {
+    width: inherit;
+}
+
+.mud-picker-calendar-container {
+    width: auto;
+}
+
+.mud-picker-calendar-header-day .mud-day-label {
+    width: 13%;
+}
+
+.mud-picker-calendar-transition {
+    min-height: 665px;
+}
+
+.mud-picker-calendar {
+    height: -webkit-fill-available;
+}
+
+    .mud-picker-calendar .mud-day.mud-range {
+        width: 13%;
+    }
+
+    .mud-picker-calendar .mud-day {
+        width: 13%;
+        height: 13%;
+        margin: inherit;
+    }
+
+.mud-typography-caption {
+    font-size: large;
+}
+
+/* .mud-typography-body2 {
+                                                                font-size: xx-large;
+                                                            }
+                                                        */
+.mud-typography-body1 {
+    font-size: x-large;
+}
+
+.mud-picker-calendar-header-switch .mud-picker-calendar-header-transition {
+    height: 44px;
+}
+

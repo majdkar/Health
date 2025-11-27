@@ -1,0 +1,109 @@
+﻿@page "/menus/{CategoryId}"
+
+@using SchoolV01.Shared.ViewModels.Menus;
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Menus> localizer
+
+<style>
+    .mud-table-container {
+        overflow: auto;
+    }
+</style>
+<style>
+    .mud-dialog-container {
+        overflow: scroll;
+    }
+
+    .tox-tinymce {
+        max-height: 250px;
+    }
+</style>
+<MudText Typo="Typo.h6" Color="Color.Primary">@localizer["Menus"] </MudText>
+
+<MudTable Class="my-4" Elevation="4" ServerData="ServerReload"
+          Hover="true" @ref="_table" Breakpoint="Breakpoint.Sm" Loading="@loaded" LoadingProgressColor="Color.Primary"
+          OnRowClick="RowClickEvent" T="MenuViewModel">
+
+    <ToolBarContent>
+        <div class="justify-center mud-text-align-center">
+            @if (_isAdmin)
+            {
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="@(() => InvokeAddEditModal(0))" StartIcon="@Icons.Material.Filled.Add" IconColor="Color.Surface">@localizer["New"] </MudButton>
+            }
+            <MudButton Variant="Variant.Filled" OnClick="@(() => OnSearch(""))" StartIcon="@Icons.Material.Filled.Refresh" IconColor="Color.Surface" Color="Color.Secondary" Style="margin-inline:2px;">@localizer["Reload"] </MudButton>
+            @if (MenuId != null)
+            {
+                <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.ArrowBack" @onclick="@(() => InvokeBackModal(0))" IconColor="Color.Surface" Color="Color.Surface" Style="margin-inline:2px;">@localizer["Home Menu"] </MudButton>
+            }
+        </div>
+        <MudSpacer />
+        <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder=@localizer["Search"] Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+    </ToolBarContent>
+
+    <HeaderContent>
+        <MudTh DataLabel="Id">@localizer["Id"]</MudTh>
+
+        <MudTh><MudTableSortLabel T="MenuViewModel" SortLabel="Name">@localizer["Name"] </MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel T="MenuViewModel" SortLabel="Type">@localizer["Type"] </MudTableSortLabel></MudTh>
+        <MudTh>@localizer["Image"]</MudTh>
+        <MudTh>@localizer["File"]</MudTh>
+        <MudTh>@localizer["ParentName"]</MudTh>
+        <MudTh>@localizer["IsActive"] </MudTh>
+        <MudTh >@localizer["Actions"] </MudTh>
+    </HeaderContent>
+
+    <RowTemplate>
+        <MudTd DataLabel="LevelOrder">
+            <MudHighlighter Text="@context.Id.ToString()" />
+        </MudTd>
+        <MudTd DataLabel="Name">
+            <MudHighlighter Text="@context.NameAr" HighlightedText="@searchString" />
+        </MudTd>
+        <MudTd DataLabel="Type">
+            <MudHighlighter Text="@context.Type" HighlightedText="@searchString" />
+        </MudTd>
+        @if (!String.IsNullOrEmpty(context.Image))
+        {
+            <MudTd DataLabel="Image">
+                <MudIconButton Icon="@Icons.Material.Filled.ImageSearch" Color="Color.Secondary" Link=@(@context.Image) @onclick:stopPropagation Target="_blank"></MudIconButton>
+            </MudTd>
+        }
+        else
+        {
+            <MudTd DataLabel="Image">
+                <MudText>No Image</MudText>
+            </MudTd>
+        }
+        @if (!String.IsNullOrEmpty(context.File))
+        {
+            <MudTd DataLabel="File">
+                <MudIconButton Icon="@Icons.Material.Filled.FileDownload" Color="Color.Primary" Link=@(@context.File) @onclick:stopPropagation Target="_blank"></MudIconButton>
+            </MudTd>
+        }
+        else
+        {
+            <MudTd DataLabel="File">
+                <MudText>No File</MudText>
+            </MudTd>
+        }
+
+        <MudTd DataLabel="ParentName">
+            <MudHighlighter Text="@(!String.IsNullOrEmpty(context.ParentName) ? context.ParentName : "")" />
+        </MudTd>
+        <MudTd DataLabel="Active?"><MudCheckBox T="bool" @bind-Value="@context.IsActive" Color="Color.Secondary"></MudCheckBox></MudTd>
+        <MudTd DataLabel="Actions" Style="text-align: right">
+            <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Edit" Color="Color.Info" Size="Size.Small" @onclick="@(() => InvokeAddEditModal(@context.Id))" Style="margin-inline:2px;">@localizer["Edit"]</MudButton>
+            @if (@context.Type == "Drop Down Menu")
+            {
+                <MudButton Variant="Variant.Filled" Color="Color.Info" Size="Size.Small" @onclick="@(() => InvokeMenuSubModal(@context.Id))" Style="margin-inline:2px;">@localizer["SubMenus"]</MudButton>
+            }
+            @if (_isAdmin)
+            {
+                <MudButton Variant="Variant.Filled" Color="Color.Error" Size="Size.Small" Style="margin-inline:2px;" @onclick="@(() => SoftDeleteMenu(@context.Id))">@localizer["Delete"]</MudButton>
+            }
+        </MudTd>
+    </RowTemplate>
+
+
+</MudTable>
+
+

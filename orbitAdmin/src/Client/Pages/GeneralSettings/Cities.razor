@@ -1,0 +1,88 @@
+﻿@page "/General-Settings/Cities"
+@attribute [Authorize(Policy = Permissions.Cities.View)]
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Cities> _localizer
+@using SchoolV01.Application.Features.Cities.Queries
+@using SchoolV01.Client.Resources.Pages.Settings
+
+<style>
+    .mud-dialog {
+        min-height: 40vh;
+        overflow-y: scroll;
+    }
+</style>
+
+<HeroTitle Title="@_localizer["Cities"]" Description="@_localizer["Manage Cities"]" />
+
+<MudTable Items="@Elements" Hover="true" @ref="_table" CanCancelEdit="true" SortLabel="Sort By" CommitEditTooltip="Save" CancelEditTooltip="Cancel" Loading=@loading
+          Dense="@_dense" Bordered="@_bordered" Striped="@_striped" Filter="new Func<GetAllCitiesResponse,bool>(FilterFunc)" MultiSelection="false"
+              RowEditCommit="@(async(e)=>await ItemHasBeenCommitted((GetAllCitiesResponse)e))">
+
+    <ToolBarContent>
+        <div class="justify-center mud-text-align-center">
+            <AuthorizeView Policy="@Permissions.Cities.Create" Context="Auth">
+               <MudButton Variant="Variant.Filled" Color="Color.Success" @onclick="@(() => InvokeAddEditModalAsync())" StartIcon="@Icons.Material.Filled.Add" IconColor="Color.Surface">@_localizer["Create"] </MudButton>
+            </AuthorizeView>
+           <MudButton Variant="Variant.Filled" OnClick="LoadData" StartIcon="@Icons.Material.Filled.Refresh" IconColor="Color.Surface" Color="Color.Secondary">@_localizer["Reload"]</MudButton>
+           <MudButton Variant="Variant.Filled" OnClick="ExportToExcel" StartIcon="@Icons.Custom.FileFormats.FileExcel" IconColor="Color.Secondary" Color="Color.Surface">@_localizer["Export"]</MudButton>
+        </div>
+        <MudSpacer />
+        <MudTextField T="string" @bind-Value="searchString" Placeholder=@_localizer["Search"] Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+    </ToolBarContent>
+
+    <HeaderContent>
+        <MudTd><MudTableSortLabel SortBy="new Func<GetAllCitiesResponse, object>(x=>x.NameAr)"><strong>@_localizer["Name /Ar"]</strong></MudTableSortLabel> </MudTd>
+        <MudTd><MudTableSortLabel SortBy="new Func<GetAllCitiesResponse, object>(x=>x.NameEn)"><strong>@_localizer["Name /En"]</strong></MudTableSortLabel> </MudTd>
+        <MudTd><MudTableSortLabel SortBy="new Func<GetAllCitiesResponse, object>(x=>IsArabic ? x.CountryAr : x.CountryEn)"><strong>@_localizer["Country"]</strong></MudTableSortLabel> </MudTd>
+        <MudTh>@_localizer["Actions"]</MudTh>
+    </HeaderContent>
+
+    <RowTemplate>
+        <MudTd DataLabel="Name">
+            <MudHighlighter Text="@context.NameAr" HighlightedText="@searchString" />
+        </MudTd>
+        <MudTd DataLabel="Name">
+            <MudHighlighter Text="@context.NameEn" HighlightedText="@searchString" />
+        </MudTd>
+        <MudTd DataLabel="Country">
+            <MudHighlighter Text="@(IsArabic ? context.CountryAr : context.CountryEn)" HighlightedText="@searchString" />
+        </MudTd>
+        <MudTd DataLabel="Country">
+            <MudCheckBox T="bool" Value="@context.IsActive" Disabled />
+        </MudTd>
+        <MudTd DataLabel="Actions">
+            <AuthorizeView Policy="@Permissions.Cities.Delete" Context="Auth">
+                <MudButton StartIcon="@Icons.Material.Filled.Delete" @onclick="@(() => Delete(context.Id))" Color="Color.Error" Variant="Variant.Filled" Size="Size.Small" Style="margin: 7px">
+                    @_localizer["Delete"]
+                </MudButton>
+            </AuthorizeView>
+        </MudTd>
+    </RowTemplate>
+
+    <RowEditingTemplate>
+        <MudTd DataLabel="Name">
+            <MudTextField @bind-Value="@context.NameAr" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="@_localizer["You must enter name"]" />
+        </MudTd>
+        <MudTd DataLabel="Name">
+            <MudTextField @bind-Value="@context.NameEn" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="@_localizer["You must enter name"]" />
+        </MudTd>
+        <MudTd DataLabel="Active?">
+            <MudSelect @bind-Value="@context.CountryId" Variant="Variant.Outlined" Margin="Margin.Dense" Validation="new Func<int ,IEnumerable<string>>(ValidCountry)" T="int">
+                @foreach (var country in countries)
+                {
+                    <MudSelectItem T="int" Value="@country.Id">@(IsArabic ? country.NameAr : country.NameEn)</MudSelectItem>
+                }
+            </MudSelect>
+        </MudTd>
+        <MudTd DataLabel="Active?">
+            <MudCheckBox T="bool" @bind-Value="@context.IsActive" />
+        </MudTd>
+    </RowEditingTemplate>
+    <PagerContent>
+        <TablePager />
+    </PagerContent>
+</MudTable>
+<div class="d-flex flex-wrap mt-4">
+    <MudSwitch T="bool" @bind-Value="@_dense" Color="Color.Secondary" Style="margin-left: 5px;">@_localizer["Dense"]</MudSwitch>
+    <MudSwitch T="bool" @bind-Value="@_striped" Color="Color.Tertiary" Style="margin-left: 5px;">@_localizer["Striped"]</MudSwitch>
+    <MudSwitch T="bool" @bind-Value="@_bordered" Color="Color.Warning" Style="margin-left: 5px;">@_localizer["Bordered"]</MudSwitch>
+</div>

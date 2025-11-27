@@ -1,0 +1,238 @@
+﻿@page "/seoPage-details/{Id:int}/{PageId:int}"
+@using System.Globalization;
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Pages> localizer
+<style>
+    .mud-dialog-container {
+        overflow: scroll;
+    }
+
+    .tox-tinymce {
+        max-height: 250px;
+    }
+</style>
+
+
+<MudGrid>
+    <MudItem xs="12" sm="8" md="12">
+        <EditForm Model="@PageModel" OnValidSubmit="SaveAsync">
+            <FluentValidationValidator />
+            <MudCard Elevation="4">
+                <MudCardHeader>
+                    <CardHeaderAvatar>
+                        <MudAvatar Color="Color.Secondary">
+                            @if (PageModel.Id == 0)
+                            {
+                                <MudIcon Icon="@Icons.Material.Outlined.Add" />
+                            }
+                            else
+                            {
+                                <MudIcon Icon="@Icons.Material.Outlined.PublishedWithChanges" />
+                            }
+                        </MudAvatar>
+                    </CardHeaderAvatar>
+                    <CardHeaderContent>
+                        @if (PageModel.Id == 0)
+                        {
+                            <MudText Typo="Typo.body1">@localizer["AddPage"]</MudText>
+                        }
+                        else
+                        {
+                            <MudText Typo="Typo.body1">@localizer["UpdatePage"]</MudText>
+                        }
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudGrid>
+
+
+
+                        <MudItem xs="12" md="12">
+                            <MudTextField For="@(() => PageModel.MetaNameAr)" @bind-Value="PageModel.MetaNameAr" Label="@localizer["Meta NameAr"]" Variant="MudBlazor.Variant.Outlined" />
+                        </MudItem>
+
+
+                        <MudItem xs="12" md="12">
+                            <MudTextField For="@(() => PageModel.MetaNameEn)" @bind-Value="PageModel.MetaNameEn" Label="@localizer["Meta NameEn"]" Variant="MudBlazor.Variant.Outlined" />
+                        </MudItem>
+
+
+                        <MudItem xs="12" md="12">
+                            <MudTextField For="@(() => PageModel.MetaNameGe)" @bind-Value="PageModel.MetaNameGe" Label="@localizer["Meta NameGe"]" Variant="MudBlazor.Variant.Outlined" />
+                        </MudItem>
+
+
+                        <MudItem xs="12" md="12">
+                            <MudTextField For="@(() => PageModel.MetaTitleAr)" @bind-Value="PageModel.MetaTitleAr" Label="@localizer["Meta TitleAr"]" Variant="MudBlazor.Variant.Outlined" />
+                        </MudItem>
+
+
+                        <MudItem xs="12" md="12">
+                            <MudTextField For="@(() => PageModel.MetaTitleEn)" @bind-Value="PageModel.MetaTitleEn" Label="@localizer["Meta TitleEn"]" Variant="MudBlazor.Variant.Outlined" />
+                        </MudItem>
+
+
+                        <MudItem xs="12" md="12">
+                            <MudTextField For="@(() => PageModel.MetaTitleGe)" @bind-Value="PageModel.MetaTitleGe" Label="@localizer["Meta TitleGe"]" Variant="MudBlazor.Variant.Outlined" />
+                        </MudItem>
+
+                        <MudItem xs="12" md="12">
+                            <MudTextField For="@(() => PageModel.MetaUrlAr)" @bind-Value="PageModel.MetaUrlAr" Label="@localizer["Meta UrlAr"]" Variant="MudBlazor.Variant.Outlined" />
+                        </MudItem>
+
+
+                        <MudItem xs="12" md="12">
+                            <MudTextField For="@(() => PageModel.MetaUrlEn)" @bind-Value="PageModel.MetaUrlEn" Label="@localizer["Meta UrlEn"]" Variant="MudBlazor.Variant.Outlined" />
+                        </MudItem>
+
+
+                        <MudItem xs="12" md="12">
+                            <MudTextField For="@(() => PageModel.MetaUrlGe)" @bind-Value="PageModel.MetaUrlGe" Label="@localizer["Meta UrlGe"]" Variant="MudBlazor.Variant.Outlined" />
+                        </MudItem>
+
+
+                        <MudItem xs="12" md="12">
+                            <MudTextField Lines="3" For="@(() => PageModel.MetaKeywordsAr)" @bind-Value="PageModel.MetaKeywordsAr" Label="@localizer["Meta KeywordsAr"]" Variant="MudBlazor.Variant.Outlined" />
+                        </MudItem>
+
+
+                        <MudItem xs="12" md="12">
+                            <MudTextField Lines="3" For="@(() => PageModel.MetaKeywordsEn)" @bind-Value="PageModel.MetaKeywordsEn" Label="@localizer["Meta KeywordsEn"]" Variant="MudBlazor.Variant.Outlined" />
+                        </MudItem>
+
+
+                        <MudItem xs="12" md="12">
+                            <MudTextField Lines="3" For="@(() => PageModel.MetaKeywordsGe)" @bind-Value="PageModel.MetaKeywordsGe" Label="@localizer["Meta KeywordsGe"]" Variant="MudBlazor.Variant.Outlined" />
+                        </MudItem>
+
+                        <MudItem xs="12" md="12">
+                            <MudTextField Lines="3" For="@(() => PageModel.MetaDescriptionsAr)" @bind-Value="PageModel.MetaDescriptionsAr" MaxLength="320" Immediate="true" Label="@localizer["Meta DescriptionsAr"]" Variant="MudBlazor.Variant.Outlined" />
+                            <MudText Typo="Typo.body1" Class="mt-2">
+                                Character Count: @(PageModel.MetaDescriptionsAr?.Length ?? 0)
+                            </MudText>
+                            <MudText Color="Color.Error">@localizer["320 characters maximum allowed"]</MudText>
+
+                        </MudItem>
+
+
+                        <MudItem xs="12" md="12">
+                            <MudTextField Lines="3" For="@(() => PageModel.MetaDescriptionsEn)" MaxLength="160" @bind-Value="PageModel.MetaDescriptionsEn" Immediate="true" Label="@localizer["Meta DescriptionsEn"]" Variant="MudBlazor.Variant.Outlined" />
+                            <MudText Typo="Typo.body1" Class="mt-2">
+                                Character Count: @(PageModel.MetaDescriptionsEn?.Length ?? 0)
+                            </MudText>
+                            <MudText Color="Color.Error">@localizer["160 characters maximum allowed"]</MudText>
+
+                        </MudItem>
+
+
+                        <MudItem xs="12" md="12">
+                            <MudTextField Lines="3" For="@(() => PageModel.MetaDescriptionsGe)" @bind-Value="PageModel.MetaDescriptionsGe" MaxLength="160" Immediate="true" Label="@localizer["Meta DescriptionsGe"]" Variant="MudBlazor.Variant.Outlined" />
+                            <MudText Typo="Typo.body1" Class="mt-2">
+                                Character Count: @(PageModel.MetaDescriptionsGe?.Length ?? 0)
+                            </MudText>
+                            <MudText Color="Color.Error">@localizer["160 characters maximum allowed"]</MudText>
+
+                        </MudItem>
+
+
+
+
+                        <MudItem xs="12" md="12">
+                            <MudTextField For="@(() => PageModel.ImageAlt1Ar)" @bind-Value="PageModel.ImageAlt1Ar" Label="@localizer["Image1 Alt Ar"]" Variant="MudBlazor.Variant.Outlined" />
+                        </MudItem>
+
+
+                        <MudItem xs="12" md="12">
+                            <MudTextField For="@(() => PageModel.ImageAlt1En)" @bind-Value="PageModel.ImageAlt1En" Label="@localizer["Image1 Alt En"]" Variant="MudBlazor.Variant.Outlined" />
+                        </MudItem>
+
+
+                        <MudItem xs="12" md="12">
+                            <MudTextField For="@(() => PageModel.ImageAlt1Ge)" @bind-Value="PageModel.ImageAlt1Ge" Label="@localizer["Image1 Alt Ge"]" Variant="MudBlazor.Variant.Outlined" />
+                        </MudItem>
+
+
+
+                        <MudItem xs="12" md="12">
+                            <MudTextField For="@(() => PageModel.ImageAlt2Ar)" @bind-Value="PageModel.ImageAlt2Ar" Label="@localizer["Image2 Alt Ar"]" Variant="MudBlazor.Variant.Outlined" />
+                        </MudItem>
+
+
+                        <MudItem xs="12" md="12">
+                            <MudTextField For="@(() => PageModel.ImageAlt2En)" @bind-Value="PageModel.ImageAlt2En" Label="@localizer["Image2 Alt En"]" Variant="MudBlazor.Variant.Outlined" />
+                        </MudItem>
+
+
+                        <MudItem xs="12" md="12">
+                            <MudTextField For="@(() => PageModel.ImageAlt2Ge)" @bind-Value="PageModel.ImageAlt2Ge" Label="@localizer["Image2 Alt Ge"]" Variant="MudBlazor.Variant.Outlined" />
+                        </MudItem>
+
+
+
+                        <MudItem xs="12" md="12">
+                            <MudTextField For="@(() => PageModel.ImageAlt3Ar)" @bind-Value="PageModel.ImageAlt3Ar" Label="@localizer["Image3 Alt Ar"]" Variant="MudBlazor.Variant.Outlined" />
+                        </MudItem>
+
+
+                        <MudItem xs="12" md="12">
+                            <MudTextField For="@(() => PageModel.ImageAlt3En)" @bind-Value="PageModel.ImageAlt3En" Label="@localizer["Image3 Alt En"]" Variant="MudBlazor.Variant.Outlined" />
+                        </MudItem>
+
+
+                        <MudItem xs="12" md="12">
+                            <MudTextField For="@(() => PageModel.ImageAlt3Ge)" @bind-Value="PageModel.ImageAlt3Ge" Label="@localizer["Image3 Alt Ge"]" Variant="MudBlazor.Variant.Outlined" />
+                        </MudItem>
+
+
+                        <MudItem xs="12" md="12">
+                            <MudTextField For="@(() => PageModel.ImageAlt4Ar)" @bind-Value="PageModel.ImageAlt4Ar" Label="@localizer["Image4 Alt Ar"]" Variant="MudBlazor.Variant.Outlined" />
+                        </MudItem>
+
+
+                        <MudItem xs="12" md="12">
+                            <MudTextField For="@(() => PageModel.ImageAlt4En)" @bind-Value="PageModel.ImageAlt4En" Label="@localizer["Image4 Alt En"]" Variant="MudBlazor.Variant.Outlined" />
+                        </MudItem>
+
+
+                        <MudItem xs="12" md="12">
+                            <MudTextField For="@(() => PageModel.ImageAlt4Ge)" @bind-Value="PageModel.ImageAlt4Ge" Label="@localizer["Image4 Alt Ge"]" Variant="MudBlazor.Variant.Outlined" />
+                        </MudItem>
+
+
+                        <MudItem xs="12" md="12">
+                            <MudTextField For="@(() => PageModel.MetaRobots)" @bind-Value="PageModel.MetaRobots" Label="@localizer["Meta Robots"]" Variant="MudBlazor.Variant.Outlined" />
+                        </MudItem>
+
+
+
+                       </MudGrid>
+                       </MudCardContent>
+                <MudCardActions Class="d-flex justify-end flex-grow-1 gap-4 mr-2">
+                    <MudButton DisableElevation Variant="MudBlazor.Variant.Filled" OnClick="Cancel">@localizer["Cancel"]</MudButton>
+                    @if (PageModel.Id != 0)
+                    {
+                        <MudButton DisableElevation Variant="MudBlazor.Variant.Filled" ButtonType="MudBlazor.ButtonType.Submit" Color="Color.Secondary">@localizer["Update"]</MudButton>
+                    }
+                    else
+                    {
+                        <MudButton DisableElevation Variant="MudBlazor.Variant.Filled" ButtonType="MudBlazor.ButtonType.Submit"  Color="Color.Success">@localizer["Save"]</MudButton>
+
+                    }
+                </MudCardActions>
+                       </MudCard>
+                       </EditForm>
+                       </MudItem>
+                      
+
+</MudGrid>
+
+
+
+
+
+
+
+
+
+
+
+

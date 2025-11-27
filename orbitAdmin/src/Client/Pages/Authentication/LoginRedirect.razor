@@ -1,0 +1,10 @@
+﻿@using System.Web
+@attribute [Microsoft.AspNetCore.Authorization.AllowAnonymous]
+
+@code {
+    protected override void OnInitialized()
+    {
+        _navigationManager.NavigateTo("/login?ReturnUrl=" + HttpUtility.UrlEncode(_navigationManager.ToBaseRelativePath(_navigationManager.Uri)), forceLoad: true);
+        // /authentication controller is handled by hosted .Server project
+    }
+}

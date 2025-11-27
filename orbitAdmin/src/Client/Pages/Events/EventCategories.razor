@@ -1,0 +1,56 @@
+﻿@page "/event-categories"
+
+@using SchoolV01.Shared.ViewModels.Events;
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Events> localizer
+
+<style>
+    .mud-table-container {
+        overflow: auto;
+    }  
+</style>
+
+<MudText Typo="Typo.h6" Color="Color.Primary">@localizer["EventCategoriesDescription"] </MudText>
+
+
+<MudTable Class ="my-4" Elevation="4" ServerData="ServerReload" Hover="true" @ref="_table" Breakpoint="Breakpoint.Sm" Loading="@loaded" LoadingProgressColor="Color.Primary"
+          OnRowClick="RowClickEvent" T="EventCategoryViewModel">
+
+    <ToolBarContent>
+        <div class="justify-center mud-text-align-center">
+           <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="@(() => InvokeAddEditModal(0))" StartIcon="@Icons.Material.Filled.Add" IconColor="Color.Surface">@localizer["New"] </MudButton>
+           <MudButton Variant="Variant.Filled" OnClick="@(() => OnSearch(""))" StartIcon="@Icons.Material.Filled.Refresh" IconColor="Color.Surface" Color="Color.Secondary">@localizer["Reload"] </MudButton>
+        </div>
+        <MudSpacer />
+        <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder=@localizer["Search"] Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+    </ToolBarContent>
+
+    <HeaderContent>
+        <MudTh><MudTableSortLabel T="EventCategoryViewModel" SortLabel="Name"><strong>@localizer["Name"] </strong></MudTableSortLabel></MudTh>
+               
+        <MudTh DataLabel="RecordOrder"><strong>@localizer["RecordOrder"]</strong> </MudTh>
+        <MudTh DataLabel="IsActive"><strong>@localizer["IsActive"] </strong></MudTh>
+        <MudTh ><strong>@localizer["Actions"] </strong></MudTh>
+    </HeaderContent>
+
+    <RowTemplate>
+        <MudTd DataLabel="Name">
+            <MudHighlighter Text="@context.Name" HighlightedText="@searchString" />
+        </MudTd>
+        
+        <MudTd DataLabel="RecordOrder">
+            <MudHighlighter Text="@context.RecordOrder.ToString()" />
+        </MudTd>
+        <MudTd DataLabel="Active?"><MudCheckBox T="bool" @bind-Value="@context.IsActive" @oninput="@(() => SoftDeleteEventCategory(@context.Id))" @onclick:stopPropagation Color="Color.Secondary"></MudCheckBox></MudTd>
+        <MudTd DataLabel="Actions" Style="text-align: right">
+            <MudButton Variant="Variant.Filled" Color="Color.Info" Size="Size.Small" @onclick="@(() => InvokeAddEditModal(@context.Id))">@localizer["Edit"]</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Info" Size="Size.Small" @onclick="@(() =>  _navigationManager.NavigateTo($"/events?categoryId={@context.Id}"))">@localizer["ViewEvents"]</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Error" Size="Size.Small" @onclick="@(() => SoftDeleteEventCategory(@context.Id))">@localizer["Delete"]</MudButton>
+        </MudTd>
+    </RowTemplate>
+
+    <PagerContent>
+        <TablePager />
+    </PagerContent>
+
+</MudTable>
+

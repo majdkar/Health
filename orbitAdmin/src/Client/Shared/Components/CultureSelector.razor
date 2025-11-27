@@ -1,0 +1,6 @@
+﻿<MudMenu Icon="@Icons.Material.Outlined.Language" Color="Color.Inherit"   Dense="true">
+    @foreach (var culture in cultures)
+    {
+        <MudMenuItem OnClick="(()=> SetCulture(culture.Key) )">@culture.Value</MudMenuItem>
+    }
+</MudMenu>

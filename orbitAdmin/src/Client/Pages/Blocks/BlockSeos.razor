@@ -1,0 +1,73 @@
+﻿@page "/BlockSeo/{BlockId:int}/{Name}"
+@attribute [Authorize(Policy = Permissions.WebSiteManagement.View)]
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Blocks> _localizer
+
+
+<style>
+    .mud-table-container {
+        overflow: auto;
+    }
+</style>
+
+<HeroTitle Title="@_localizer["Seo Managment"]" Description="@(_localizer["Block : "] + Name)" />
+@if (!_loaded)
+{
+    <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
+}
+else
+{
+    <MudTable Hover="true" Elevation="25" Items="_Seos" @bind-property="_Seo">
+        <ToolBarContent>
+            <div class="justify-center mud-text-align-center">
+                @if (_canCreateBlockSeo)
+                {
+                 
+                    <MudButton Disabled="@(_Seos.Count == 0 ? false : true)"  Variant="Variant.Filled" Color="Color.Primary" OnClick="(() => InvokeModal(0,BlockId))" StartIcon="@Icons.Material.Filled.Add" IconColor="Color.Surface">@_localizer["Add"]</MudButton>
+                }
+                
+            </div>
+            <MudSpacer />
+        </ToolBarContent>
+        <HeaderContent>
+            <MudTh>@_localizer["Meta NameEn"]</MudTh>
+            <MudTh>@_localizer["Meta TitleEn"]</MudTh>
+            <MudTh Style="text-align:right">@_localizer["Actions"]</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="MetaNameEn">@context.MetaNameEn</MudTd>
+            <MudTd DataLabel="MetaTitleEn">@context.MetaTitleEn </MudTd>
+            <MudTd DataLabel="Actions" Style="text-align: right">
+                @if (_canEditBlockSeo || _canDeleteBlockSeo)
+                {
+                    @if (_canEditBlockSeo)
+                    {
+                        <MudTooltip Text="@_localizer["Edit"]">
+
+                            <MudIconButton Icon="@Icons.Material.Outlined.Edit" @onclick="@(() => InvokeModal(@context.Id,context.BlockId))" Color="Color.Primary" Variant="Variant.Filled" Size="Size.Small" Style="margin: 7px" />
+                        </MudTooltip>
+                    }
+                    @if (_canDeleteBlockSeo)
+                    {
+                        <MudTooltip Text="@_localizer["Delete"]">
+
+                            <MudIconButton Icon="@Icons.Material.Outlined.Delete" @onclick="@(() => Delete(@context.Id))" Color="Color.Secondary" Variant="Variant.Filled" Size="Size.Small" Style="margin: 7px" />
+                        </MudTooltip>
+                    }
+
+
+                }
+                else
+                {
+                    <MudButton Variant="Variant.Filled"
+                       DisableElevation="true"
+                       StartIcon="@Icons.Material.Filled.DoNotTouch"
+                       IconColor="Color.Secondary"
+                       Size="Size.Small"
+                       Color="Color.Surface">
+                        @_localizer["No Allowed Actions"]
+                    </MudButton>
+                }
+            </MudTd>
+        </RowTemplate>
+    </MudTable>
+}

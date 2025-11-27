@@ -1,0 +1,128 @@
+﻿@inject Microsoft.Extensions.Localization.IStringLocalizer<TablePager> localizer
+
+<div a="" class="mud-toolbar mud-toolbar-gutters mud-table-pagination-toolbar" style="margin-inline: 2em;">
+
+    <div class="mud-table-pagination-spacer"></div>
+
+    <p class="mud-typography mud-typography-body2 mud-inherit-text mud-table-pagination-caption">@localizer["RowsPerPageString"]</p>
+
+
+
+    <MudSelect Class="mud-select mud-input-control mud-input-control-margin-dense mud-select mud-table-pagination-select" Value="Selected.PageSize" T="int" ValueChanged="OnSelected">
+
+        <MudSelectItem Class="mud-list-item mud-list-item-dense mud-list-item-gutters mud-list-item-clickable mud-ripple" Value="10">
+            10
+        </MudSelectItem>
+        <MudSelectItem Class="mud-list-item mud-list-item-dense mud-list-item-gutters mud-list-item-clickable mud-ripple" Value="25">
+            25
+        </MudSelectItem>
+        <MudSelectItem Class="mud-list-item mud-list-item-dense mud-list-item-gutters mud-list-item-clickable mud-ripple" Value="50">
+            50
+        </MudSelectItem>
+        <MudSelectItem Class="mud-list-item mud-list-item-dense mud-list-item-gutters mud-list-item-clickable mud-ripple" Value="100">
+            100
+        </MudSelectItem>  
+        <MudSelectItem Class="mud-list-item mud-list-item-dense mud-list-item-gutters mud-list-item-clickable mud-ripple" Value="200">
+            200
+        </MudSelectItem>  
+        <MudSelectItem Class="mud-list-item mud-list-item-dense mud-list-item-gutters mud-list-item-clickable mud-ripple" Value="500">
+            500
+        </MudSelectItem>
+        <MudSelectItem Class="mud-list-item mud-list-item-dense mud-list-item-gutters mud-list-item-clickable mud-ripple" Value="int.MaxValue">
+            @localizer["All"]
+        </MudSelectItem>
+
+    </MudSelect>
+
+    <p class="mud-typography mud-typography-body2 mud-inherit-text mud-table-pagination-caption">@CurrentCount @localizer["of"] @TotalCount</p>
+
+    <div class="mud-table-pagination-actions">
+        <MudButton type="button" Disabled="prevDisabled" Class="mud-button-root mud-icon-button mud-ripple mud-ripple-icon mud-flip-x-rtl" _bl_177="" OnClick="FirstPage">
+            <span class="mud-icon-button-label">
+                <svg class="mud-icon-root mud-svg-icon mud-inherit-text mud-icon-size-medium" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M18.41 16.59L13.82 12l4.59-4.59L17 6l-6 6 6 6zM6 6h2v12H6z"></path>
+                    <path d="M24 24H0V0h24v24z" fill="none"></path>
+                </svg>
+            </span>
+        </MudButton>
+        <MudButton type="button" Disabled="prevDisabled" Class="mud-button-root mud-icon-button mud-ripple mud-ripple-icon mud-flip-x-rtl" _bl_178="" OnClick="PervuiosPage">
+            <span class="mud-icon-button-label">
+                <svg class="mud-icon-root mud-svg-icon mud-inherit-text mud-icon-size-medium" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path>
+                </svg>
+            </span>
+        </MudButton>
+        <MudButton type="button" Disabled="nextDisabled" Class="mud-button-root mud-icon-button mud-ripple mud-ripple-icon mud-flip-x-rtl" _bl_179="" OnClick="NextPage">
+            <span class="mud-icon-button-label">
+                <svg class="mud-icon-root mud-svg-icon mud-inherit-text mud-icon-size-medium" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path>
+                </svg>
+            </span>
+        </MudButton>
+        <MudButton type="button" Disabled="nextDisabled" Class="mud-button-root mud-icon-button mud-ripple mud-ripple-icon mud-flip-x-rtl" _bl_180="" OnClick="LastPage">
+            <span class="mud-icon-button-label">
+                <svg class="mud-icon-root mud-svg-icon mud-inherit-text mud-icon-size-medium" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M0 0h24v24H0V0z" fill="none"></path>
+                    <path d="M5.59 7.41L10.18 12l-4.59 4.59L7 18l6-6-6-6zM16 6h2v12h-2z"></path>
+                </svg>
+            </span>
+        </MudButton>
+    </div>
+</div>
+
+
+@code {
+    [Parameter] public TableState Selected { get; set; } = new TableState { Page = 1, PageSize = 10 };
+    [Parameter] public int TotalCount { get; set; } = 0;
+
+    [Parameter] public EventCallback<TableState> SelectedChanged { get; set; }
+
+    private bool prevDisabled;
+    private bool nextDisabled;
+    private int TotalPages = 0;
+    private string CurrentCount = "0-0";
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        await base.OnInitializedAsync();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        TotalPages = (int)Math.Ceiling((double)TotalCount / Selected.PageSize);
+
+        prevDisabled = Selected.Page <= 1;
+        nextDisabled = Selected.Page >= TotalPages;
+
+        var firstElement = (Selected.Page - 1) * Selected.PageSize + 1;
+        var lastElement = firstElement + Selected.PageSize - 1 > TotalCount ? TotalCount : firstElement + Selected.PageSize - 1;
+
+        CurrentCount = $"{firstElement}-{lastElement}";
+        await base.OnParametersSetAsync();
+    }
+
+    protected async Task PervuiosPage()
+    {
+
+        await SelectedChanged.InvokeAsync(new TableState { Page = Selected.Page--, PageSize = Selected.PageSize });
+    }
+    protected async Task FirstPage()
+    {
+        await SelectedChanged.InvokeAsync(new TableState { Page = Selected.Page = 1, PageSize = Selected.PageSize });
+    }
+    protected async Task NextPage()
+    {
+        await SelectedChanged.InvokeAsync(new TableState { Page = Selected.Page++, PageSize = Selected.PageSize });
+    }
+    protected async Task LastPage()
+    {
+        await SelectedChanged.InvokeAsync(new TableState { Page = Selected.Page = TotalPages, PageSize = Selected.PageSize });
+    }
+    protected async Task OnSelected(int pageSize)
+    {
+        await SelectedChanged.InvokeAsync(new TableState { Page = Selected.Page = 1, PageSize = Selected.PageSize = pageSize });
+    }
+}

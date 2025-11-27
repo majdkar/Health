@@ -1,0 +1,90 @@
+﻿@inject Microsoft.Extensions.Localization.IStringLocalizer<Menus> localizer
+
+<EditForm Model="@MenuCategoryModel" OnValidSubmit="SaveAsync">
+    <FluentValidationValidator />
+
+    <MudDialog>
+        <TitleContent>
+            @{
+                if (MenuCategoryModel.Id == 0)
+                {
+                    <MudText Typo="Typo.h6">
+                        <MudIcon Icon="@Icons.Material.Filled.Add" Class="mr-3 mb-n1" />
+                        @localizer["AddMenuCategory"]
+                    </MudText>
+                }
+                else
+                {
+                    <MudText Typo="Typo.h6">
+                        <MudIcon Icon="@Icons.Material.Filled.Update" Class="mr-3 mb-n1" />
+                        @localizer["UpdateMenuCategory"]
+                    </MudText>
+                }
+            }
+        </TitleContent>
+        <DialogContent>
+            <MudGrid>
+
+                <MudItem xs="12" md="4">
+                    <MudTextField For="@(() => MenuCategoryModel.NameAr)" @bind-Value="MenuCategoryModel.NameAr" Label="@localizer["Arabic Name"]" />
+                </MudItem>
+                <MudItem xs="12" md="4">
+                    <MudTextField For="@(() => MenuCategoryModel.NameEn)" @bind-Value="MenuCategoryModel.NameEn" Label="@localizer["English Name"]" />
+                </MudItem>
+                <MudItem xs="12" md="4">
+                    <MudTextField For="@(() => MenuCategoryModel.NameGe)" @bind-Value="MenuCategoryModel.NameGe" Label="@localizer["German Name"]" />
+                </MudItem>
+
+
+                <MudItem xs="12" md="12">
+                    <MudTextField For="@(() => MenuCategoryModel.DescriptionAr)" @bind-Value="MenuCategoryModel.DescriptionAr" Label="@localizer["Arabic Description"]" />
+                </MudItem>
+                <MudItem xs="12" md="12">
+                    <MudTextField For="@(() => MenuCategoryModel.DescriptionEn)" @bind-Value="MenuCategoryModel.DescriptionEn" Label="@localizer["English Description"]" />
+                </MudItem>
+                <MudItem xs="12" md="12">
+                    <MudTextField For="@(() => MenuCategoryModel.DescriptionEn)" @bind-Value="MenuCategoryModel.DescriptionEn" Label="@localizer["German Description"]" />
+                </MudItem>
+
+                <MudItem xs="12" md="6">
+                    <MudCheckBox T="bool" For="@(() => MenuCategoryModel.IsActive)" @bind-Value="MenuCategoryModel.IsActive" Label="@localizer["IsActive"]" />
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudCheckBox T="bool" For="@(() => MenuCategoryModel.IsVisibleUser)" @bind-Value="MenuCategoryModel.IsVisibleUser" Label="@localizer["Visible For User"]" />
+                </MudItem>
+
+            </MudGrid>
+        </DialogContent>
+        <DialogActions>
+            <MudButton Variant="Variant.Filled" ButtonType="ButtonType.Button" OnClick="Cancel">@localizer["Cancel"]</MudButton>
+            @if (MenuCategoryModel.Id != 0)
+            {
+                <MudButton Variant="Variant.Filled" ButtonType="ButtonType.Submit" Color="Color.Secondary">
+                    @if (_processing)
+                    {
+                        <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                        <MudText Class="ms-2">@localizer["Processing"]</MudText>
+                    }
+                    else
+                    {
+                        @localizer["Update"]
+                    }
+                </MudButton>
+            }
+            else
+            {
+                <MudButton Variant="Variant.Filled" ButtonType="ButtonType.Submit" Color="Color.Success">
+                    @if (_processing)
+                    {
+                        <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                        <MudText Class="ms-2">@localizer["Processing"]</MudText>
+                    }
+                    else
+                    {
+                        @localizer["Save"]
+                    }
+                </MudButton>
+            }
+        </DialogActions>
+    </MudDialog>
+</EditForm>

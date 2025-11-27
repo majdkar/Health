@@ -1,0 +1,122 @@
+﻿@page "/event-attachement-details/{id?}"
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Events> localizer
+<style>
+    .mud-dialog-container {
+        overflow: scroll;
+    }
+
+    .tox-tinymce {
+        max-height: 250px;
+    }
+</style>
+
+
+<MudGrid>
+    <MudItem xs="12" sm="12" md="12">
+
+
+        <MudCard Elevation="4" Class="mb-5">
+            <MudCardHeader>
+                <CardHeaderAvatar>
+                    <MudAvatar Color="Color.Secondary">
+                        <MudIcon Icon="@Icons.Material.Outlined.AttachFile" />
+                    </MudAvatar>
+                </CardHeaderAvatar>
+                <CardHeaderContent>
+                    <MudText Typo="Typo.body1">@localizer["Attachements"]</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+
+            <MudGrid>
+
+
+
+
+                @if (EventAttachementUpdateModelList.Count() == 0)
+                {
+                    <MudItem xs="12" sm="4" md="3">
+                        <MudButton Variant="Variant.Filled" Align="center" FullWidth=true Class="ml-2 mr-2" Disabled StartIcon="@Icons.Material.Filled.FileDownload" Size="Size.Small" Color="Color.Default">@localizer["NoAttachment"]</MudButton>
+                    </MudItem>
+
+                }
+                else
+                {
+                    foreach (var fileForPreview in EventAttachementUpdateModelList)
+                    {
+
+
+
+                        <MudItem xs="12" sm="4" md="3">
+
+                            <MudText Typo="Typo.h6" Color="Color.Primary">@(fileForPreview.Name.Count()>=14? fileForPreview.Name.Substring(0,14):fileForPreview.Name) </MudText>
+
+                            <MudTooltip Text="@(fileForPreview.Name)">
+                                <MudButton Link=@(fileForPreview.File) Align="center" Class="ml-2 mr-2" Target="_blank" StartIcon="@Icons.Material.Filled.FileDownload" Size="Size.Small" Variant="Variant.Outlined" Color="Color.Primary">@localizer["DownloadAttachment"]</MudButton>
+                            </MudTooltip>
+                            <MudIconButton Icon="@Icons.Material.Filled.DeleteOutline" Color="Color.Error" OnClick="@(()=>DeleteFile(fileForPreview))" />
+
+                        </MudItem>
+
+                    }
+
+                }
+
+
+
+            </MudGrid>
+            <MudCardActions>
+                <InputFile id="fileInput" OnChange="UploadFiles" hidden multiple />
+                <MudButton HtmlTag="label"
+                           Variant="Variant.Filled"
+                           Color="Color.Success"
+                           for="fileInput">
+                    @localizer["Upload Files"]
+                </MudButton>
+
+                <MudButton HtmlTag="label"
+                           Variant="Variant.Filled"
+                           Color="Color.Error"
+                           OnClick="DeleteAllFiles" Disabled="@disableDeleteEventAttachement">
+                    @localizer["Delete Files"]
+                </MudButton>
+               <MudButton Variant="Variant.Filled" ButtonType="ButtonType.Button" Color="Color.Primary" OnClick="@(()=>EventsAsync())">@localizer["ViewEvents"]</MudButton>
+
+
+
+
+            </MudCardActions>
+        </MudCard>
+
+    </MudItem>
+    @*<MudItem xs="12" sm="12" md="12">
+
+
+        <MudCard Elevation="4" Class="mb-5">
+        <MudCardHeader>
+        <CardHeaderAvatar>
+
+        </CardHeaderAvatar>
+        <CardHeaderContent>
+
+        </CardHeaderContent>
+        </MudCardHeader>
+
+        <MudCardActions>
+
+        </MudCardActions>
+        </MudCard>
+
+        </MudItem>*@
+</MudGrid>
+
+
+
+
+
+
+
+
+
+
+
+

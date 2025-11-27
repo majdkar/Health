@@ -1,0 +1,14 @@
+﻿@if (IsProcessing)
+{
+    <MudItem xs="12" md="12" Class="mt-6">
+        <MudGrid>
+            <MudItem xs="12" md="12">
+                <MudProgressCircular Color="Color.Primary" Indeterminate="true" Size="Size.Small" />
+            </MudItem>
+        </MudGrid>
+    </MudItem>
+}
+@code {
+
+    [Parameter] public bool IsProcessing { get; set; }
+}

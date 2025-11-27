@@ -1,0 +1,239 @@
+﻿@page "/menu-details/{Id:int}/{CategoryId:int?}"
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Menus> localizer
+
+
+<EditForm Model="@MenuModel" OnValidSubmit="SaveAsync">
+    <FluentValidationValidator />
+
+    <MudCard>
+        <MudCardHeader>
+            @{
+                if (MenuModel.Id == 0)
+                {
+                    <MudText Typo="Typo.h6">
+                        <MudIcon Icon="@Icons.Material.Filled.Add" Class="mr-3 mb-n1" />
+                        @localizer["AddMenu"]
+                    </MudText>
+                }
+                else
+                {
+                    <MudText Typo="Typo.h6">
+                        <MudIcon Icon="@Icons.Material.Filled.Update" Class="mr-3 mb-n1" />
+                        @localizer["UpdateMenu"]
+                    </MudText>
+                }
+            }
+        </MudCardHeader>
+        <MudCardContent>
+            <MudGrid>
+
+                <MudItem xs="12" md="4">
+                    <MudTextField Disabled="!_isAdmin" For="@(() => MenuModel.NameAr)" @bind-Value="MenuModel.NameAr" Label="@localizer["Arabic Name"]" Variant="Variant.Outlined" />
+                </MudItem>
+                <MudItem xs="12" md="4">
+                    <MudTextField Disabled="!_isAdmin" For="@(() => MenuModel.NameEn)" @bind-Value="MenuModel.NameEn" Label="@localizer["English Name"]" Variant="Variant.Outlined" />
+                </MudItem>
+                <MudItem xs="12" md="4">
+                    <MudTextField Disabled="!_isAdmin" For="@(() => MenuModel.NameGe)" @bind-Value="MenuModel.NameGe" Label="@localizer["German Name"]" Variant="Variant.Outlined" />
+                </MudItem>
+                <MudItem xs="12" md="12">
+                    <MudText>@localizer["Arabic Description"]</MudText>
+                    <Editor Conf="@Constants.editorConf" JsConfSrc="/tinymce/tinymce.min.js" Id="editorAr" Inline=false ClassName="tinymce-wrapper" Field=@(() => MenuModel.DescriptionAr) @bind-Value="MenuModel.DescriptionAr" />
+                </MudItem>
+                <MudItem xs="12" md="12">
+                    <MudText>@localizer["English Description"]</MudText>
+                    <Editor Conf="@Constants.editorConf" JsConfSrc="/tinymce/tinymce.min.js" Id="editorEn" Inline=false ClassName="tinymce-wrapper" Field=@(() => MenuModel.DescriptionEn) @bind-Value="MenuModel.DescriptionEn" />
+                </MudItem>
+                <MudItem xs="12" md="12">
+                    <MudText>@localizer["German Description"]</MudText>
+                    <Editor Conf="@Constants.editorConf" JsConfSrc="/tinymce/tinymce.min.js" Id="editorSe" Inline=false ClassName="tinymce-wrapper" Field=@(() => MenuModel.DescriptionGe) @bind-Value="MenuModel.DescriptionGe" />
+                </MudItem>
+                <MudItem xs="12" md="12">
+                    <MudCard>
+                        <MudCardContent>
+                            <MudText>@localizer["Show In"]</MudText>
+
+                        </MudCardContent>
+                        <MudCardActions>
+                            <MudItem xs="12" md="4">
+                                <MudCheckBox T="bool" For="@(() => MenuModel.IsHome)" @bind-Value="MenuModel.IsHome" Label="@localizer["Is Home"]" />
+                            </MudItem>
+                            <MudItem xs="12" md="4">
+                                <MudCheckBox T="bool" For="@(() => MenuModel.IsFooter)" @bind-Value="MenuModel.IsFooter" Label="@localizer["Is Footer"]" />
+                            </MudItem>
+                            <MudItem xs="12" md="4">
+                                <MudCheckBox T="bool" For="@(() => MenuModel.IsHomeFooter)" @bind-Value="MenuModel.IsHomeFooter" Label="@localizer["Is Both"]" />
+                            </MudItem>
+
+                        </MudCardActions>
+                    </MudCard>
+
+                </MudItem>
+                <MudItem xs="12" md="3">
+                    <MudSelect Disabled="!_isAdmin" For="@(() => MenuModel.Type)" @bind-Value="MenuModel.Type" T="string" Label="@localizer["Type"]">
+                        <MudSelectItem T="string">N/A</MudSelectItem>
+                        @foreach (string menutype in MenuTypes)
+                        {
+                            <MudSelectItem T="string" Value="@menutype">@menutype</MudSelectItem>
+                        }
+                    </MudSelect>
+
+                </MudItem>
+
+                <MudItem xs="12" md="3">
+                    <MudTextField Disabled="!_isAdmin && SocialMediaId!=MenuModel.CategoryId" For="@(() => MenuModel.PageUrl)" @bind-Value="MenuModel.PageUrl" Label="@localizer["PageUrl"]" Variant="Variant.Text" />
+                </MudItem>
+                <MudItem xs="12" md="3">
+                    <MudTextField Disabled="!_isAdmin && SocialMediaId!=MenuModel.CategoryId" For="@(() => MenuModel.Url)" @bind-Value="MenuModel.Url" Label="@localizer["URL"]" Variant="Variant.Text" />
+                </MudItem>
+
+                <MudItem xs="12" md="3">
+                    @if (categories != null)
+                    {
+                        <MudSelect Disabled="!_isAdmin" @bind-Value="MenuModel.CategoryId" T="int" Label="@localizer["selectCategory"]">
+                            @foreach (var category in categories)
+                            {
+                                <MudSelectItem T="int" Value="@category.Id">@category.NameAr</MudSelectItem>
+                            }
+                        </MudSelect>
+                    }
+                </MudItem>
+
+                <MudItem xs="12" md="4">
+                    @if (_parentMenus != null)
+                    {
+                        <MudSelect Disabled="!_isAdmin" @bind-Value="@parentId" T="int" Label="@localizer["ParentName"]">
+                            <MudSelectItem T="int" Value="0">N/A</MudSelectItem>
+                            @foreach (var menu in _parentMenus)
+                            {
+                                <MudSelectItem T="int" Value="@menu.Id">@menu.NameAr</MudSelectItem>
+                            }
+                        </MudSelect>
+                    }
+                </MudItem>
+
+                <MudItem xs="12" md="4">
+                    <MudNumericField Disabled="!_isAdmin" For="@(() => MenuModel.LevelOrder)" @bind-Value="MenuModel.LevelOrder" Label="@localizer["LevelOrder"]" Variant="Variant.Text" Min="0" />
+
+                </MudItem>
+
+
+
+                <MudItem xs="12" md="4">
+                    <MudCheckBox T="bool" Disabled="!_isAdmin" For="@(() => MenuModel.IsActive)" @bind-Value="MenuModel.IsActive" Label="@localizer["IsActive"]" />
+                </MudItem>
+
+                <MudItem xs="12" md="6">
+                    <MudItem>
+                        <InputFile id="imageInput" OnChange="SelectImage" hidden />
+                        <MudButton id="imageInputButton"
+                                   HtmlTag="label"
+                                   Variant="Variant.Filled"
+                                   Color="Color.Secondary"
+                                   StartIcon="@Icons.Material.Filled.CloudUpload"
+                                   for="imageInput">
+                            @localizer["UploadImage"]
+                        </MudButton>
+                        @if (_images != null)
+                        {
+                            <MudList T="bool" id="ImagesList">
+                                @if (_images.Count() != 0)
+                                {
+                                    foreach (var image in _images)
+                                    {
+                                        <MudListItem Icon="@Icons.Material.Filled.AttachFile" @key="@image">
+                                            @image.Name
+                                        </MudListItem>
+                                    }
+
+                                }
+                                else
+                                {
+                                    if (!string.IsNullOrEmpty(MenuModel.Image))
+                                    {
+                                        <MudListItem Icon="@Icons.Material.Filled.ImageSearch">
+                                            Image Uploaded
+                                            <MudIconButton Icon="@Icons.Material.Filled.ImageSearch" Color="Color.Secondary" Link=@(@MenuModel.Image) @onclick:stopPropagation Target="_blank"></MudIconButton>
+                                        </MudListItem>
+                                    }
+                                }
+
+                            </MudList>
+                        }
+                    </MudItem>
+                </MudItem>
+
+                <MudItem xs="12" md="6">
+                    <MudItem>
+                        <InputFile id="fileInput" OnChange="SelectFile" hidden />
+                        <MudButton id="fileInputButton"
+                                   HtmlTag="label"
+                                   Variant="Variant.Filled"
+                                   Color="Color.Primary"
+                                   StartIcon="@Icons.Material.Filled.CloudUpload"
+                                   for="fileInput">
+                            @localizer["UploadFile"]
+                        </MudButton>
+                        @if (_files != null)
+                        {
+                            <MudList T="bool" id="FilesList">
+                                @if (_files.Count() != 0)
+                                {
+                                    @foreach (var file in _files)
+                                    {
+                                        <MudListItem Icon="@Icons.Material.Filled.AttachFile" @key="@file">
+                                            @file.Name
+                                            <MudButton Variant="Variant.Text" Color="Color.Error" StartIcon="@Icons.Material.Filled.Delete" Size="Size.Small" OnClick="DeleteFileAsync"></MudButton>
+
+                                        </MudListItem>
+                                    }
+                                }
+                                else
+                                {
+                                    if (!string.IsNullOrEmpty(MenuModel.File))
+                                    {
+                                        <MudListItem Icon="@Icons.Material.Filled.AttachFile">
+                                            File Uploaded
+                                            <MudIconButton Icon="@Icons.Material.Filled.FileDownload" Color="Color.Secondary" Link=@(@MenuModel.File) @onclick:stopPropagation Target="_blank"></MudIconButton>
+                                            <MudButton Variant="Variant.Text" Color="Color.Error" StartIcon="@Icons.Material.Filled.Delete" Size="Size.Small" OnClick="DeleteFileAsync"></MudButton>
+                                        </MudListItem>
+
+                                    }
+                                }
+
+                            </MudList>
+                        }
+                    </MudItem>
+                </MudItem>
+
+            </MudGrid>
+        </MudCardContent>
+        <MudCardActions>
+            <MudButton Variant="Variant.Filled" ButtonType="ButtonType.Button" OnClick="Cancel" Style="margin-inline: 3px;">@localizer["Cancel"]</MudButton>
+            @if (MenuModel.LevelOrder >= 0)
+            {
+                if (MenuModel.Id != 0)
+                {
+                    <MudButton Variant="Variant.Filled" ButtonType="ButtonType.Submit" Color="Color.Success" Style="margin-inline: 3px;">@localizer["Update"]</MudButton>
+                }
+                else
+                {
+                    <MudButton Variant="Variant.Filled" ButtonType="ButtonType.Submit" Color="Color.Success" Style="margin-inline: 3px;">@localizer["Save"]</MudButton>
+                }
+
+            }
+            else
+            {
+                if (MenuModel.Id != 0)
+                {
+                    <MudButton Disabled="true" Variant="Variant.Filled" ButtonType="ButtonType.Submit" Color="Color.Success" Style="margin-inline: 3px;">@localizer["Update"]</MudButton>
+                }
+                else
+                {
+                    <MudButton Disabled="true" Variant="Variant.Filled" ButtonType="ButtonType.Submit" Color="Color.Success" Style="margin-inline: 3px;">@localizer["Save"]</MudButton>
+                }
+
+            }
+        </MudCardActions>
+    </MudCard>
+</EditForm>

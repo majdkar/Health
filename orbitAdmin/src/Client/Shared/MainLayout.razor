@@ -1,0 +1,125 @@
+@inherits LayoutComponentBase
+@inject Microsoft.Extensions.Localization.IStringLocalizer<MainLayout> localizer
+@using SchoolV01.Shared.Constants.Localization
+
+<audio id="notification" src="/media/notification.mp3" />
+
+<MudRTLProvider RightToLeft="@_rightToLeft">
+    <MudThemeProvider Theme="_currentTheme" @bind-IsDarkMode="@_isDarkMode" />
+    <MudDialogProvider />
+    <MudSnackbarProvider />
+
+    <MudPopoverProvider />
+    <AuthorizeView>
+        <NotAuthorized>
+            <MudAppBar Elevation="4" Color="Color.Primary">
+                <MudSpacer />
+                <MudMenu Icon="@Icons.Material.Outlined.Translate" Color="Color.Inherit" Dense="true">
+                    @foreach (var language in LocalizationConstants.SupportedLanguages)
+                    {
+                        <MudMenuItem OnClick="(()=> ChangeLanguageAsync(language.Code))">@language.DisplayName</MudMenuItem>
+                    }
+                </MudMenu>
+                <MudTooltip Text="@localizer["Toggle Dark Mode"]">
+                    <MudIconButton Icon="@Icons.Material.Filled.Brightness4" Color="Color.Inherit" OnClick="@((e) => DarkMode())" />
+                </MudTooltip>
+            </MudAppBar>
+
+            <MudContainer MaxWidth="MaxWidth.Small" Class="d-flex align-center" Style="height: 100vh;max-width: 100%">
+                <MudPaper Elevation="25" Class="pa-8" Style="margin:auto;">
+                    <CascadingValue Value="hubConnection">
+                        @Body
+                    </CascadingValue>
+                </MudPaper>
+            </MudContainer>
+        </NotAuthorized>
+        <Authorized>
+            @(LoadDataAsync())
+            <MudLayout>
+                <MudAppBar Elevation="25">
+                    <a href="/" style="height:100%;     line-height: 9;">
+                        <MudImage Src="logoWhite.png" Class="m-3 pa-1" Style="    height: 62%;" />
+                    </a>
+                    <MudToolBar>
+                        <MudIconButton Icon="@Icons.Material.Outlined.Menu" Color="Color.Inherit" OnClick="@((e) => DrawerToggle())" Class="ml-3" />
+                    </MudToolBar>
+                    @*   <Menu RightToLeft="_rightToLeft" NotificationCount="_notificationCount" Notifications="_notifications" ImageDataUrl="@ImageDataUrl" FirstLetterOfName="@FirstLetterOfName"
+                          UpdateNotifications="@(async()=>await LoadNotificationsAsync())" OnLogout="Logout" OnChangeDarkMode="DarkMode" OnChangeLanguage="ChangeLanguageAsync" OnToggle="@(async() => await RightToLeftToggle())" />   *@ 
+
+                    <MudSpacer />
+                    <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
+                        <MudBadge Content="_notificationCount" Color="Color.Error" Overlap="true" Bordered="true">
+                            <MudMenu Icon="@Icons.Material.Filled.Notifications" Color="Color.Inherit" Dense="true" AnchorOrigin="Origin.CenterRight" ActivationEvent="@MouseEvent.MouseOver">
+                                <MudNavLink Href="/Notification" IconColor="Color.Dark" Icon="@Icons.Material.TwoTone.Send" Match="NavLinkMatch.Prefix" Style="background-color:#EEEEEE"> @localizer["Notifications Management"]</MudNavLink>
+                                @foreach (var notification in _notifications)
+                                {
+                                    <MudMenuItem OnClick="(()=> SelectAsync(notification))">@notification.Title</MudMenuItem>
+                                }
+                            </MudMenu>
+                        </MudBadge>
+                        @*<NLanguageSelector />*@
+                        <MudTooltip Text="@localizer["Toggle right-to-left/left-to-right"]">
+                            <MudIconButton Icon="@Icons.Material.Filled.FormatTextdirectionRToL" Color="Color.Inherit" OnClick="@((e) => RightToLeftToggle())" />
+                        </MudTooltip>
+                        <MudMenu Icon="@Icons.Material.Outlined.Translate" Color="Color.Inherit" Dense="true">
+                            @foreach (var language in LocalizationConstants.SupportedLanguages)
+                            {
+                                <MudMenuItem OnClick="(()=> ChangeLanguageAsync(language.Code))">@language.DisplayName</MudMenuItem>
+                            }
+                        </MudMenu>
+                    </MudHidden>
+                    <MudHidden Breakpoint="Breakpoint.SmAndDown" Invert="true">
+                        @*<NLanguageSelector />*@
+                        <MudMenu Icon="@Icons.Material.Outlined.Translate" Color="Color.Inherit" Dense="true">
+                            @foreach (var language in LocalizationConstants.SupportedLanguages)
+                            {
+                                <MudMenuItem OnClick="(()=> ChangeLanguageAsync(language.Code))">@language.DisplayName</MudMenuItem>
+                            }
+                        </MudMenu>
+                        <MudMenu Icon="@Icons.Material.Filled.Settings" Color="Color.Inherit" Dense="true" AnchorOrigin="Origin.CenterRight">
+                            <div class="px-2">
+                                <MudTooltip Text="@localizer["Toggle Dark Mode"]">
+                                    <MudIconButton Icon="@Icons.Material.Filled.Brightness4" Color="Color.Inherit" OnClick="@((e) => DarkMode())" />
+                                </MudTooltip>
+                            </div>
+
+                        </MudMenu>
+                    </MudHidden>
+                    <MudMenu AnchorOrigin="_rightToLeft ? Origin.CenterRight : Origin.CenterLeft" Dense="true" Class="mt-1 ml-4">
+                        <ActivatorContent>
+                            @if (string.IsNullOrEmpty(ImageDataUrl))
+                            {
+                                <MudAvatar Color="Color.Surface">@FirstLetterOfName</MudAvatar>
+                            }
+                            else
+                            {
+                                <MudAvatar>
+                                    <MudImage Src="@ImageDataUrl" Style="height:50px; width:50px;"></MudImage>
+                                </MudAvatar>
+                            }
+                        </ActivatorContent>
+                        <ChildContent>
+                            <UserCard Class="mt-n2" />
+                            <MudDivider Class="mb-2" />
+                            <MudListItem T=string Text="@localizer["Account"]" Href="/account" Icon="@Icons.Material.Outlined.Person" />
+                            <MudListItem T=string Text="@localizer["Logout"]" Icon="@Icons.Material.Filled.Logout" OnClick="Logout" />
+                        </ChildContent>
+                    </MudMenu>
+
+
+                </MudAppBar>
+                <MudDrawer @bind-Open="_drawerOpen" Elevation="25" ClipMode="DrawerClipMode.Always">
+                    <NavMenu />
+                </MudDrawer>
+
+                <MudMainContent>
+                    <MudContainer MaxWidth="MaxWidth.False" Class="mt-4">
+                        <CascadingValue Value="hubConnection">
+                            @Body
+                        </CascadingValue>
+                    </MudContainer>
+                </MudMainContent>
+            </MudLayout>
+        </Authorized>
+    </AuthorizeView>
+</MudRTLProvider>

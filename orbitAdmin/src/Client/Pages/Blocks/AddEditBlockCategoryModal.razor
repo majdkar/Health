@@ -1,0 +1,94 @@
+﻿@inject Microsoft.Extensions.Localization.IStringLocalizer<Blocks> _localizer
+
+<EditForm Model="@BlockCategoryModel" OnValidSubmit="SaveAsync">
+    <FluentValidationValidator />
+
+    <MudDialog>
+        <TitleContent>
+            @{
+                if (BlockCategoryModel.Id == 0)
+                {
+                    <MudText Typo="Typo.h6">
+                        <MudIcon Icon="@Icons.Material.Filled.Add" Class="mr-3 mb-n1" />
+                        @_localizer["AddBlockCategory"]
+                    </MudText>
+                }
+                else
+                {
+                    <MudText Typo="Typo.h6">
+                        <MudIcon Icon="@Icons.Material.Filled.Update" Class="mr-3 mb-n1" />
+                        @_localizer["UpdateBlockCategory"]
+                    </MudText>
+                }
+            }
+        </TitleContent>
+        <DialogContent>
+            <MudGrid>
+                <MudItem xs="12" md="4">
+                    <MudTextField For="@(() => BlockCategoryModel.NameAr)" @bind-Value="BlockCategoryModel.NameAr" Label="@_localizer["Arabic Name"]" />
+                </MudItem>
+                <MudItem xs="12" md="4">
+                    <MudTextField For="@(() => BlockCategoryModel.NameEn)" @bind-Value="BlockCategoryModel.NameEn" Label="@_localizer["English Name"]" />
+                </MudItem>
+                <MudItem xs="12" md="4">
+                    <MudTextField For="@(() => BlockCategoryModel.NameGe)" @bind-Value="BlockCategoryModel.NameGe" Label="@_localizer["German Name"]" />
+                </MudItem>
+                <MudItem xs="12" md="12">
+                    <MudSelect For="@(() => BlockCategoryModel.BlockType)" @bind-Value="BlockCategoryModel.BlockType" T="string" Label="@_localizer["BlockType"]">
+                        <MudSelectItem T="string">N/A</MudSelectItem>
+                        @foreach (string blockType in BlockTypes)
+                        {
+                            <MudSelectItem T="string" Value="@blockType">@blockType</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+                <MudItem xs="12" md="12">
+                    <MudTextField For="@(() => BlockCategoryModel.DescriptionAr)" @bind-Value="BlockCategoryModel.DescriptionAr" Label="@_localizer["Arabic Description"]" />
+                </MudItem>
+                <MudItem xs="12" md="12">
+                    <MudTextField For="@(() => BlockCategoryModel.DescriptionEn)" @bind-Value="BlockCategoryModel.DescriptionEn" Label="@_localizer["English Description"]" />
+                </MudItem>
+                <MudItem xs="12" md="12">
+                    <MudTextField For="@(() => BlockCategoryModel.DescriptionGe)" @bind-Value="BlockCategoryModel.DescriptionGe" Label="@_localizer["German Description"]" />
+                </MudItem>
+
+
+
+                <MudItem xs="12" md="12">
+                    <MudCheckBox T="bool" For="@(() => BlockCategoryModel.IsActive)" @bind-Value="BlockCategoryModel.IsActive" Label="@_localizer["IsActive"]" />
+                </MudItem>
+            </MudGrid>
+        </DialogContent>
+        <DialogActions>
+            <MudButton Variant="Variant.Filled" ButtonType="ButtonType.Button" OnClick="Cancel">@_localizer["Cancel"]</MudButton>
+            @if (BlockCategoryModel.Id != 0)
+            {
+                <MudButton Variant="Variant.Filled" ButtonType="ButtonType.Submit" Color="Color.Secondary">
+                    @if (_processing)
+                    {
+                        <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                        <MudText Class="ms-2">@_localizer["Processing"]</MudText>
+                    }
+                    else
+                    {
+                        @_localizer["Update"]
+                    }
+                </MudButton>
+            }
+            else
+            {
+                <MudButton Variant="Variant.Filled" ButtonType="ButtonType.Submit" Color="Color.Success">
+                    @if (_processing)
+                    {
+                        <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                        <MudText Class="ms-2">@_localizer["Processing"]</MudText>
+                    }
+                    else
+                    {
+                        @_localizer["Save"]
+                    }
+                </MudButton>
+            }
+        </DialogActions>
+    </MudDialog>
+</EditForm>

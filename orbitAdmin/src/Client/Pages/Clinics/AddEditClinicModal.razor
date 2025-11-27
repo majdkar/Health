@@ -1,0 +1,95 @@
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Clinics> _localizer
+
+<EditForm Model="@AddEditClinicModel" OnValidSubmit="SaveAsync">
+    <FluentValidationValidator @ref="_fluentValidationValidator" />
+    <MudDialog>
+        <TitleContent>
+            @{
+                if (AddEditClinicModel.Id == 0)
+                {
+                    <MudText Typo="Typo.h6">
+                        <MudIcon Icon="@Icons.Material.Filled.Add" Class="mr-3 mb-n1" />
+                        @_localizer["Add Clinic"]
+                    </MudText>
+                }
+                else
+                {
+                    <MudText Typo="Typo.h6">
+                        <MudIcon Icon="@Icons.Material.Filled.Update" Class="mr-3 mb-n1" />
+                        @_localizer["Update Clinic"]
+                    </MudText>
+                }
+            }
+        </TitleContent>
+        <DialogContent>
+            <MudGrid>
+
+                <MudItem xs="12" md="6">
+                    <MudTextField T="string" For="@(() => AddEditClinicModel.Name)" @bind-Value="AddEditClinicModel.Name" Label="@_localizer["Name"]" />
+                </MudItem>
+
+                <MudItem xs="12" md="6">
+                    <MudTextField T="string" For="@(()=>AddEditClinicModel.EnglishName)" @bind-Value="AddEditClinicModel.EnglishName" Label="@_localizer["Name /En"]" />
+                </MudItem>
+
+                <MudItem xs="12" md="4">
+                    <MudSelect @bind-Value="@AddEditClinicModel.CityId" T="int" Label="@_localizer["City"]" Variant=Variant.Text>
+                        @foreach (var country in cities)
+                        {
+                            <MudSelectItem T="int" Value="@country.Id">@(IsArabic? country.NameAr: country.NameEn)</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+
+                <MudItem xs="12" md="4">
+                    <MudCheckBox T="bool" For="@(() => AddEditClinicModel.ByDirectorate)" @bind-Value="AddEditClinicModel.ByDirectorate" Label="@_localizer["By Directorate"]" />
+                </MudItem>
+
+                @if (AddEditClinicModel.ByDirectorate)
+                {
+
+                    <MudItem xs="12" md="4">
+                        <MudSelect @bind-Value="@AddEditClinicModel.DirectorateId" T="int?" Label="@_localizer["Directorate"]" Variant=Variant.Text>
+                            @foreach (var country in Directorates)
+                            {
+                                <MudSelectItem T="int?" Value="@country.Id">@(IsArabic? country.Name: country.EnglishName)</MudSelectItem>
+                            }
+                        </MudSelect>
+                    </MudItem>
+                }
+
+            </MudGrid>
+        </DialogContent>
+        <DialogActions>
+            <MudButton Variant="Variant.Filled" OnClick="Cancel">@_localizer["Cancel"]</MudButton>
+            @if (AddEditClinicModel.Id != 0)
+            {
+                  <MudButton Variant="Variant.Filled" ButtonType="ButtonType.Submit" Disabled="@(!Validated)" Color="Color.Secondary">
+                @if (_processing)
+                    {
+                        <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                        <MudText Class="ms-2">Processing</MudText>
+                    }
+                    else
+                    {
+                        @_localizer["Update"]
+                    }
+                </MudButton>
+            }
+            else
+            {
+                <MudButton Variant="Variant.Filled" ButtonType="ButtonType.Submit" Disabled="@(!Validated)" Color="Color.Success">
+                @if (_processing)
+                    {
+                        <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                        <MudText Class="ms-2">Processing</MudText>
+                    }
+                    else
+                    {
+                        @_localizer["Save"]
+                    }
+                </MudButton>
+            }
+        </DialogActions>
+    </MudDialog>
+</EditForm>

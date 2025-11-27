@@ -1,0 +1,92 @@
+﻿@page "/events"
+
+@using SchoolV01.Shared.ViewModels.Events;
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Events> localizer
+
+<style>
+    .mud-table-container {
+        overflow: auto;
+    }
+</style>
+<style>
+    .mud-dialog-container {
+        overflow: scroll;
+    }
+    .tox-tinymce {
+        max-height:250px;
+    }
+</style>
+<MudItem xs="12" md="12">
+    <MudText Typo="Typo.h6" Color="Color.Primary">@localizer["EventsDescription"] </MudText>
+    @if (categories != null)
+    {
+        <MudSelect Style="margin-top: 10px;" @bind-Value="CategoryId" SelectedValuesChanged="@(PageChanged)" T="string" Label="@localizer["selectCategory"]" Variant="Variant.Outlined">
+            <MudSelectItem T="string" Value="0.ToString()">All</MudSelectItem>
+            @foreach (var category in categories)
+            {
+                <MudSelectItem T="string" Value="@category.Id.ToString()">@category.Name</MudSelectItem>
+            }
+        </MudSelect>
+    }
+</MudItem>
+
+
+
+<MudTable Class="my-4" Elevation="4" ServerData="ServerReload"
+          Hover="true" @ref="_table" Breakpoint="Breakpoint.Sm" Loading="@loaded" LoadingProgressColor="Color.Primary"
+          OnRowClick="RowClickEvent" T="EventViewModel">
+
+    <ToolBarContent>
+        <div class="justify-center mud-text-align-center">
+           <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="@(() => InvokeAddEditEvent(0))" StartIcon="@Icons.Material.Filled.Add" IconColor="Color.Surface">@localizer["New"] </MudButton>
+           <MudButton Variant="Variant.Filled" OnClick="@(() => OnSearch(""))" StartIcon="@Icons.Material.Filled.Refresh" IconColor="Color.Surface" Color="Color.Secondary">@localizer["Reload"] </MudButton>
+        </div>
+        <MudSpacer />
+        <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder=@localizer["Search"] Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+    </ToolBarContent>
+
+    <HeaderContent>
+        <MudTh><MudTableSortLabel T="EventViewModel" SortLabel="Name">@localizer["Name"] </MudTableSortLabel></MudTh>
+        <MudTd DataLabel="StartDate">@localizer["StartDate"] </MudTd>
+        <MudTd DataLabel="EndDate">@localizer["EndDate"] </MudTd>
+        <MudTd DataLabel="IsVisible">@localizer["IsVisible"] </MudTd>
+        <MudTd DataLabel="IsActive">@localizer["IsActive"] </MudTd>
+        <MudTh >@localizer["Actions"] </MudTh>
+    </HeaderContent>
+
+    <RowTemplate>
+        <MudTd DataLabel="Name">
+            <MudHighlighter Text="@context.Name" HighlightedText="@searchString" />
+        </MudTd>
+
+        <MudTd DataLabel="StartDate">
+            <MudHighlighter Text="@context.StartDate.ToString("dd/MM/yyyy")" />
+        </MudTd>
+
+        <MudTd DataLabel="EndDate">
+            <MudHighlighter Text="@context.EndDate.ToString("dd/MM/yyyy")" />
+        </MudTd>
+
+        <MudTd DataLabel="Visible?">
+            <MudCheckBox T="bool" @bind-Value="@context.IsVisible" Color="Color.Secondary"></MudCheckBox>
+        </MudTd>
+
+        <MudTd DataLabel="Active?">
+            <MudCheckBox T="bool" @bind-Value="@context.IsActive" @oninput="@(() => SoftDeleteEvent(@context.Id))" @onclick:stopPropagation Color="Color.Secondary"></MudCheckBox>
+        </MudTd>
+
+        <MudTd DataLabel="Actions" Style="text-align: right">
+            <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Edit" Color="Color.Info" Size="Size.Small" @onclick="@(() => InvokeAddEditEvent(@context.Id))">@localizer["Edit"]</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Error" Size="Size.Small" @onclick="@(() => SoftDeleteEvent(@context.Id))">@localizer["Delete"]</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Info" Size="Size.Small" @onclick="@(() => InvokeAddEditEventPhotos(@context.Id))">@localizer["Album"]</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Info" Size="Size.Small" @onclick="@(() => InvokeAddEditEventAttachements(@context.Id))">@localizer["Attachements"]</MudButton>
+        </MudTd>
+    </RowTemplate>
+
+    <PagerContent>
+        <TablePager />
+    </PagerContent>
+
+</MudTable>
+
+

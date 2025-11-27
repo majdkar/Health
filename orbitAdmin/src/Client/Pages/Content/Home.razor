@@ -1,0 +1,13 @@
+@page "/home"
+@page "/"
+@using System.Security.Claims;
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Home> _localizer
+
+<AuthorizeView Policy="@Permissions.Dashboards.View">
+    <MudItem xs="12" sm="12" md="12">
+        <div class="d-flex justify-center mt-4">
+            @*<MudIcon Icon="@CustomIcons.BlazorHero" Color="Color.Primary" Size="Size.Large" ViewBox="0 0 40 40" Style="width: 250px; height: 250px;" />*@
+            <img Src="logohero.png" style="width:40%; height:30%" Alt="Orbit" Elevation="25" />
+        </div>
+    </MudItem>
+</AuthorizeView>

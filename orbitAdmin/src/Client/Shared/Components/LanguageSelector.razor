@@ -1,0 +1,11 @@
+﻿@inject IStringLocalizer<Language> localizer
+
+@if (_languages != null)
+{
+    <MudSelect @bind-Value="Language" SelectedValuesChanged="ChangeLanguage" T="string" Label="@localizer["LanguageCode"]" Variant=@VariantValue>
+        @foreach (var language in _languages)
+        {
+            <MudSelectItem T="string"  Value="@language.LanguageCode">@language.LanguageCode</MudSelectItem>
+        }
+    </MudSelect>
+}

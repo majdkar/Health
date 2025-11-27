@@ -1,0 +1,20 @@
+﻿@inherits MudButton
+
+<MudButton Variant="Variant" Color="Color" Disabled="IsProcessing || Disabled" ButtonType="ButtonType" Class="Class" Style="Style">
+    @if (IsProcessing)
+    {
+        <MudProgressCircular Color="Color.Surface" Size="Size.Small" Indeterminate="true" />
+        <MudText Class="ml-2"> Processing</MudText>
+    }
+    else
+    {
+        <MudText>@ButtonText</MudText>
+    }
+</MudButton>
+
+@code {
+
+    [Parameter] public bool IsProcessing { get; set; }
+    [Parameter] public string ButtonText { get; set; } = "Submit";
+
+}

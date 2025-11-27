@@ -1,0 +1,115 @@
+﻿@page "/block-photo-details/{Id:int?}"
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Blocks> localizer
+<style>
+    .mud-dialog-container {
+        overflow: scroll;
+    }
+
+    .tox-tinymce {
+        max-height: 250px;
+    }
+</style>
+<MudItem xs="12" md="4">
+    <HeroTitle Title="@Title" />
+</MudItem>
+
+<MudGrid>
+    <MudItem xs="12" sm="12" md="12">
+        <MudCard Elevation="4" Class="mb-5">
+            <MudCardHeader>
+                <CardHeaderAvatar>
+                    <MudAvatar Color="Color.Secondary">
+                        <MudIcon Icon="@Icons.Material.Outlined.InsertPhoto" />
+                    </MudAvatar>
+                </CardHeaderAvatar>
+                <CardHeaderContent>
+                    <MudText Typo="Typo.body1">@localizer["Album"]</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+
+            <MudGrid>
+
+                @foreach (var imageUrlForPreview in blockphotoUrlForPreviewList)
+                {
+
+
+
+                    <MudItem xs="12" sm="4" md="3">
+                        <MudCardMedia Align="center" Class="ml-2 mr-2 rounded-lg" Image="@imageUrlForPreview" Height="250" />
+                        <MudIconButton Icon="@Icons.Material.Filled.DeleteOutline" Color="Color.Error" OnClick="@(()=>DeleteImage(imageUrlForPreview))" />
+
+                        @*<MudButton HtmlTag="label"
+                    Variant="Variant.Filled"
+                    Color="Color.Error"
+
+                    OnClick="@(()=>DeleteImage(imageUrlForPreview))"
+                    >
+                    Delete
+                    </MudButton>*@
+                    </MudItem>
+                }
+
+                @if (blockphotoUrlForPreviewList.Count == 0)
+
+                {
+                    <MudItem xs="12" sm="4" md="3">
+                        <MudCardMedia Align="center" Class="ml-2 mr-2 rounded-lg" Image="@noImageUrl" Height="250" />
+                    </MudItem>
+                }
+            </MudGrid>
+            <MudCardActions>
+                <InputFile id="fileInput" OnChange="UploadFiles" hidden multiple />
+                <MudButton HtmlTag="label"
+                           Variant="Variant.Filled"
+                           Color="Color.Success"
+                           for="fileInput">
+                    @localizer["Upload Files"]
+                </MudButton>
+
+                <MudButton HtmlTag="label" Style="margin-inline:2px;"
+                           Variant="Variant.Filled"
+                           Color="Color.Error"
+                           OnClick="DeleteAllImages" Disabled="@disableDeleteBlockPhoto">
+                    @localizer["Delete Files"]
+                </MudButton>
+               <MudButton Variant="Variant.Filled" ButtonType="ButtonType.Button" Color="Color.Primary" OnClick="BlocksAsync">@localizer["Back"]</MudButton>
+
+
+
+
+                </MudCardActions>
+                </MudCard>
+
+                </MudItem>
+                @*<MudItem xs="12" sm="12" md="12">
+
+
+    <MudCard Elevation="4" Class="mb-5">
+    <MudCardHeader>
+    <CardHeaderAvatar>
+
+    </CardHeaderAvatar>
+    <CardHeaderContent>
+
+    </CardHeaderContent>
+    </MudCardHeader>
+
+    <MudCardActions>
+
+    </MudCardActions>
+    </MudCard>
+
+    </MudItem>*@
+                </MudGrid>
+
+
+
+
+
+
+
+
+
+
+
+

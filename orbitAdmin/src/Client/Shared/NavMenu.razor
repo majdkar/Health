@@ -1,0 +1,276 @@
+﻿@inject Microsoft.Extensions.Localization.IStringLocalizer<NavMenu> _localizer
+@using System.Security.Claims
+@using Microsoft.AspNetCore.SignalR.Client
+@using SchoolV01.Shared.Constants.Application
+@using SchoolV01.Shared.Constants.Role
+@using SchoolV01.Shared.ViewModels.Blocks;
+@using SchoolV01.Shared.ViewModels.Menus
+@using SchoolV01.Shared.Wrapper;
+
+@* <UserCard />
+<MudDivider Class="my-2" Style="flex-grow: inherit;" /> *@
+<MudNavMenu Bordered="true">
+    <MudNavLink Href="/" Match="NavLinkMatch.All" Icon="@Icons.Material.Outlined.Home">@_localizer["Home"]</MudNavLink>
+
+
+
+    <AuthorizeView Policy="@Permissions.WebSiteManagement.View" Context="auth">
+        <MudNavGroup Title="@_localizer["WebSite Management"]" Icon="@Icons.Material.Filled.KeyboardArrowDown">
+            <MudNavGroup Title="@_localizer["Blocks Management"]">
+                <AuthorizeView Roles="@RoleConstants.AdministratorRole">
+                    <MudNavLink Href="/block-categories">@_localizer["Block Categories List"]</MudNavLink>
+                </AuthorizeView>
+                <MudNavGroup Title="@_localizer["Blocks List"]" Expanded="true">
+                    @foreach (var item in blockCategories)
+                    {
+                        <MudNavLink Href="@($"/blocks/{@item.Id}")">
+                            @if (System.Globalization.CultureInfo.CurrentCulture.Name == "en-US")
+                            {
+                                @item.NameEn
+                            }
+                            else
+                            {
+                                @item.NameAr
+                            }
+                        </MudNavLink>
+                    }
+                </MudNavGroup>
+            </MudNavGroup>
+
+            <MudNavGroup Title="@_localizer["Menus Management"]">
+                <AuthorizeView Roles="@RoleConstants.AdministratorRole">
+                    <MudNavLink Href="/menu-categories">@_localizer["Add Menu Categories"]</MudNavLink>
+                </AuthorizeView>
+                <MudNavGroup Title="@_localizer["Menu Categories"]" Expanded="true">
+                    @foreach (var item in categories)
+                    {
+                        <MudNavLink Href="@($"/menus/{@item.Id}")">
+                            @if (System.Globalization.CultureInfo.CurrentCulture.Name == "en-US")
+                            {
+                                @item.NameEn
+                            }
+                            else
+                            {
+                                @item.NameAr
+                            }
+                        </MudNavLink>
+                    }
+                </MudNavGroup>
+            </MudNavGroup>
+
+            <MudNavGroup Title="@_localizer["Pages Management"]">
+                <MudNavLink Href="/pages">@_localizer["Pages"]</MudNavLink>
+            </MudNavGroup>
+        </MudNavGroup>
+    </AuthorizeView>
+
+    @if (_canViewCountrys || _canViewCities || _canViewProjectTypes || _canViewPositions)
+    {
+        <MudNavGroup Title="@_localizer["GeneralSettings Management"]" Icon="@Icons.Material.Filled.Settings">
+            @if (_canViewCountrys)
+            {
+                <MudNavLink Href="/General-Settings/Countries" Match="NavLinkMatch.Prefix">
+                    @_localizer["Countries"]
+                </MudNavLink>
+            }
+
+            @if (_canViewCities)
+            {
+                <MudNavLink Href="/General-Settings/Cities" Match="NavLinkMatch.Prefix">
+                    @_localizer["Cities"]
+                </MudNavLink>
+            }
+
+            @if (_canViewPositions)
+            {
+                <MudNavLink Href="/GeneralSettings/Positions" Match="NavLinkMatch.Prefix">
+                    @_localizer["Brands"]
+                </MudNavLink>
+            }
+
+            @if (_canViewPositions)
+            {
+                <MudNavLink Href="/GeneralSettings/ProjectTypes" Match="NavLinkMatch.Prefix">
+        @_localizer["Device Categories"]
+                </MudNavLink>
+            }
+
+        </MudNavGroup>
+    }
+
+    @if (_canViewDirectorates)
+    {
+        <MudNavLink Href="/Directorates" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Outlined.DirtyLens">
+            @_localizer["Directorates Management"]
+        </MudNavLink>
+    }
+
+    @if (_canViewHospitals)
+    {
+        <MudNavLink Href="/Hospitals" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Outlined.DirtyLens">
+            @_localizer["Hospitals Management"]
+        </MudNavLink>
+    }
+
+    @if (_canViewClinics)
+    {
+        <MudNavLink Href="/Clinics" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Outlined.DirtyLens">
+            @_localizer["Clinics Management"]
+        </MudNavLink>
+    }
+
+    @if (_canViewSuppliers)
+    {
+        <MudNavLink Href="/Suppliers" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Outlined.DirtyLens">
+            @_localizer["Suppliers Management"]
+        </MudNavLink>
+    }
+
+    @if (_isAdmin)
+    {
+        <MudNavGroup Title="@_localizer["Administrator"]" Icon="@Icons.Material.Outlined.Person">
+            @*<MudListSubheader Class="mt-2 mb-n2">@_localizer["Administrator"]</MudListSubheader>*@
+            @if (_canViewUsers)
+            {
+                <MudNavLink Href="/identity/users" Match="NavLinkMatch.Prefix">
+                    @_localizer["Users"]
+                </MudNavLink>
+            }
+            @if (_canViewRoles)
+            {
+                <MudNavLink Href="/identity/roles" Match="NavLinkMatch.Prefix">
+                    @_localizer["Roles"]
+                </MudNavLink>
+            }
+
+        </MudNavGroup>
+
+    }
+
+     
+
+</MudNavMenu>
+
+@code {
+    [CascadingParameter] private HubConnection HubConnection { get; set; }
+
+    private ClaimsPrincipal _authenticationStateProviderUser;
+
+    private MenuViewModel Border;
+
+    private bool _canViewHangfire;
+    private bool _canViewDashboards;
+    private bool _canViewMatchTable;
+    private bool _canViewDocuments;
+    private bool _canViewDocumentTypes;
+    private bool _canViewAuditTrails;
+    private bool _canViewRoles;
+    private bool _canViewUsers;
+    private bool _canViewChat;
+
+    private bool _canViewCities;
+    private bool _canViewCountrys;
+    private bool _canViewDirectorates;
+    private bool _canViewPositions;
+    private bool _canViewProjectTypes;
+    private bool _canViewHospitals;
+    private bool _canViewClinics;
+    private bool _canViewSuppliers;
+
+    @*/*s0012s*/*@
+    private bool _canViewOwners;
+
+    private bool _canViewWebSiteManagement;
+
+    private bool _isAdmin;
+
+    private ClaimsPrincipal _currentUser;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        _authenticationStateProviderUser = await _stateProvider.GetAuthenticationStateProviderUserAsync();
+        _canViewHangfire = (await _authorizationService.AuthorizeAsync(_authenticationStateProviderUser, Permissions.Hangfire.View)).Succeeded;
+        _canViewDashboards = (await _authorizationService.AuthorizeAsync(_authenticationStateProviderUser, Permissions.Dashboards.View)).Succeeded;
+        _canViewDocuments = (await _authorizationService.AuthorizeAsync(_authenticationStateProviderUser, Permissions.Documents.View)).Succeeded;
+        _canViewDocumentTypes = (await _authorizationService.AuthorizeAsync(_authenticationStateProviderUser, Permissions.DocumentTypes.View)).Succeeded;
+        _canViewAuditTrails = (await _authorizationService.AuthorizeAsync(_authenticationStateProviderUser, Permissions.AuditTrails.View)).Succeeded;
+        _canViewRoles = (await _authorizationService.AuthorizeAsync(_authenticationStateProviderUser, Permissions.Roles.View)).Succeeded;
+        _canViewUsers = (await _authorizationService.AuthorizeAsync(_authenticationStateProviderUser, Permissions.Users.View)).Succeeded;
+        _canViewChat = (await _authorizationService.AuthorizeAsync(_authenticationStateProviderUser, Permissions.Communication.Chat)).Succeeded;
+        _canViewWebSiteManagement = (await _authorizationService.AuthorizeAsync(_authenticationStateProviderUser, Permissions.WebSiteManagement.View)).Succeeded;
+        _canViewCities = (await _authorizationService.AuthorizeAsync(_authenticationStateProviderUser, Permissions.Cities.View)).Succeeded;
+        _canViewCountrys = (await _authorizationService.AuthorizeAsync(_authenticationStateProviderUser, Permissions.Countries.View)).Succeeded;
+        _canViewDirectorates = (await _authorizationService.AuthorizeAsync(_authenticationStateProviderUser, Permissions.Directorates.View)).Succeeded;
+        _canViewPositions = (await _authorizationService.AuthorizeAsync(_authenticationStateProviderUser, Permissions.Positions.View)).Succeeded;
+        _canViewProjectTypes = (await _authorizationService.AuthorizeAsync(_authenticationStateProviderUser, Permissions.ProjectTypes.View)).Succeeded;
+        _canViewHospitals = (await _authorizationService.AuthorizeAsync(_authenticationStateProviderUser, Permissions.Hospitals.View)).Succeeded;
+        _canViewClinics = (await _authorizationService.AuthorizeAsync(_authenticationStateProviderUser, Permissions.Clinics.View)).Succeeded;
+        _canViewSuppliers = (await _authorizationService.AuthorizeAsync(_authenticationStateProviderUser, Permissions.Suppliers.View)).Succeeded;
+        
+
+        _currentUser = await _authenticationManager.CurrentUser();
+        _isAdmin = _currentUser.IsInRole("Administrator");
+
+
+    }
+    private IEnumerable<BlockCategoryViewModel> blockCategories = [];
+    private IEnumerable<MenuCategoryViewModel> categories = [];
+
+    protected async override Task OnInitializedAsync()
+    {
+        await Task.WhenAll(LoadBlockCategories());
+        try
+        {
+            await LoadMenuCategories();
+        }
+        catch
+        {
+            _snackBar.Add("Error Loading Categories!");
+        }
+
+        HubConnection = new HubConnectionBuilder()
+            .WithUrl(_navigationManager.ToAbsoluteUri(ApplicationConstants.SignalR.HubUrl))
+            .Build();
+        HubConnection.On(ApplicationConstants.SignalR.ReceiveUpdateDashboard, async () =>
+        {
+            _snackBar.Add("Menu Changed");
+            try
+            {
+                await LoadMenuCategories();
+            }
+            catch
+            {
+                _snackBar.Add("Error Loading Categories!");
+            }
+            StateHasChanged();
+        });
+        await HubConnection.StartAsync();
+
+    }
+
+    private async Task LoadMenuCategories()
+    {
+        var response = await _httpClient.GetFromJsonAsync<IEnumerable<MenuCategoryViewModel>>(EndPoints.MenuCategoriesSelect);
+        if (response != null)
+        {
+            categories = response;
+        }
+        else
+        {
+            _snackBar.Add("Error retrieving data");
+        }
+    }
+    private async Task LoadBlockCategories()
+    {
+        var response = await _httpClient.GetFromJsonAsync<IEnumerable<BlockCategoryViewModel>>(EndPoints.BlockCategoriesSelect);
+        if (response != null)
+        {
+            blockCategories = response;
+        }
+        else
+        {
+            _snackBar.Add("Error retrieving data");
+        }
+    }
+
+}

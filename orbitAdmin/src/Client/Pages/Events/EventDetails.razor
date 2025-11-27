@@ -1,0 +1,241 @@
+﻿
+@page "/event-details/{id?}"
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Events> localizer
+<MudGrid>
+    <MudItem xs="12" sm="8" md="9">
+        <EditForm Model="@eventModel" OnValidSubmit="SaveAsync">
+            <FluentValidationValidator />
+            <MudCard Elevation="4">
+                <MudCardHeader>
+                    <CardHeaderAvatar>
+                        <MudAvatar Color="Color.Secondary">
+                            @if (eventModel.Id == 0)
+                                    {
+                            <MudIcon Icon="@Icons.Material.Outlined.Add" />
+                            }
+                                    else
+                                    {
+                            <MudIcon Icon="@Icons.Material.Outlined.PublishedWithChanges" />
+                            }
+                        </MudAvatar>
+                    </CardHeaderAvatar>
+                    <CardHeaderContent>
+                        @if (eventModel.Id == 0)
+                                {
+                        <MudText Typo="Typo.body1">@localizer["AddEvent"]</MudText>
+                        }
+                                else
+                                {
+                        <MudText Typo="Typo.body1">@localizer["UpdateEvent"]</MudText>
+                        }
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudGrid>
+
+                        <MudItem xs="12" md="6">
+                            <MudTextField For="@(() => eventModel.Name)" @bind-Value="eventModel.Name" Label="@localizer["Arabic Name"]" Variant="Variant.Outlined" />
+                        </MudItem>
+                        <MudItem xs="12" md="6">
+                            <MudTextField For="@(() => eventModel.EnglishName)" @bind-Value="eventModel.EnglishName" Label="@localizer["English Name"]" Variant="Variant.Outlined" />
+                        </MudItem>
+                        <MudItem xs="12" md="12">
+                            <MudText>@localizer["Arabic Description"]</MudText>
+                            <Editor Conf="@Constants.editorConf" JsConfSrc="/tinymce/tinymce.min.js"  Id="editorAr" Inline=false  ClassName="tinymce-wrapper" Field=@(() => eventModel.Description) @bind-Value="eventModel.Description" />
+                        </MudItem>
+                        <MudItem xs="12" md="12">
+                            <MudText>@localizer["English Description"]</MudText>
+                            <Editor Conf="@Constants.editorConf" JsConfSrc="/tinymce/tinymce.min.js"  Id="editorEn" Inline=false  ClassName="tinymce-wrapper" Field=@(() => eventModel.EnglishDescription) @bind-Value="eventModel.EnglishDescription" />
+                        </MudItem>
+
+                        <MudItem xs="12" md="6">
+                            <MudDatePicker @bind-Date="startDate" Label="@localizer["StartDate"]" DisableToolbar="true" AutoClose="true" Elevation="12" Variant="Variant.Outlined" />
+                        </MudItem>
+
+                        <MudItem xs="12" md="6">
+                            <MudDatePicker @bind-Date="endDate" Label="@localizer["EndDate"]" DisableToolbar="true" AutoClose="true" Elevation="12" Variant="Variant.Outlined" />
+                        </MudItem>
+
+                        <MudItem xs="12" md="6">
+                            <MudNumericField For="@(() => eventModel.RecordOrder)" @bind-Value="eventModel.RecordOrder" Label="@localizer["RecordOrder"]" Variant="Variant.Outlined" Min="0" />
+
+                        </MudItem>
+                                                <MudItem xs="12" md="6">
+                            <MudTextField For="@(() => eventModel.Url)" @bind-Value="eventModel.Url" Label="@localizer["Url"]" Variant="Variant.Outlined" />
+                        </MudItem>
+
+                        <MudItem xs="12" md="6">
+                            @if (categories != null)
+                            {
+                                <MudSelect @bind-Value="eventModel.CategoryId" T="int" Label="@localizer["Category"]" Variant="Variant.Outlined">
+                                    @foreach (var category in categories)
+                                    {
+                                        <MudSelectItem T="int" Value="@category.Id">@category.Name</MudSelectItem>
+                                    }
+                                </MudSelect>
+                            }
+                        </MudItem>
+
+                        <MudItem xs="12" md="6">
+                            <MudCheckBox T="bool" For="@(() => eventModel.IsVisible)" @bind-Value="eventModel.IsVisible" Label="@localizer["IsVisible"]" />
+                        </MudItem>
+
+                        <MudItem xs="12" md="6">
+                            <MudCheckBox T="bool" For="@(() => eventModel.IsActive)" @bind-Value="eventModel.IsActive" Label="@localizer["IsActive"]" />
+                        </MudItem>
+                    </MudGrid>
+                </MudCardContent>
+                <MudCardActions Class="d-flex justify-end flex-grow-1 gap-4 mr-2">
+                   <MudButton Variant="Variant.Filled" ButtonType="ButtonType.Button" Class="mr-2" OnClick="Cancel">@localizer["Cancel"]</MudButton>
+                    @if (eventModel.Id != 0)
+                    {
+                       <MudButton Variant="Variant.Filled" ButtonType="ButtonType.Submit" Color="Color.Primary">@localizer["Update"]</MudButton>
+                    }
+                    else
+                    {
+                       <MudButton Variant="Variant.Filled" ButtonType="ButtonType.Submit" Color="Color.Primary">@localizer["Save"]</MudButton>
+                    }
+                </MudCardActions>
+            </MudCard>
+        </EditForm>
+    </MudItem>
+
+
+
+
+
+
+
+    <MudItem xs="12" sm="4" md="3">
+        <MudCard Elevation="4" Class="mb-5">
+            <MudCardHeader>
+                <CardHeaderAvatar>
+                    <MudAvatar Color="Color.Secondary">
+                        <MudIcon Icon="@Icons.Material.Outlined.InsertPhoto" />
+                    </MudAvatar>
+                </CardHeaderAvatar>
+                <CardHeaderContent>
+                    <MudText Typo="Typo.body1">@localizer["EventPhoto"]</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+            @if (!string.IsNullOrEmpty(@imageUrlForPreview))
+            {
+                <MudCardMedia Align="center" Class="ml-2 mr-2 rounded-lg" Image="@imageUrlForPreview" Height="250" />
+            }
+            else
+            {
+                <MudCardMedia Align="center" Class="ml-2 mr-2 rounded-lg" Image="@noImageUrl" Height="250" />
+            }
+            <MudCardActions>
+                <InputFile id="imageInput" OnChange="SelectImage" hidden />
+                <MudIconButton id="imageInputButton"
+                               HtmlTag="label"
+                               Variant="Variant.Text"
+                               Color="Color.Primary"
+                               Size="Size.Small"
+                               Icon="@Icons.Material.Filled.UploadFile"
+                               for="imageInput">
+                    @localizer["UploadImage"]
+                </MudIconButton>
+                <MudIconButton Icon="@Icons.Material.Filled.DeleteOutline" Color="Color.Error" OnClick="DeleteImage" Disabled="@disableDeleteImageButton" />
+            </MudCardActions>
+        </MudCard>
+
+        <MudCard Elevation="4" Class="mb-5">
+            <MudCardHeader>
+                <CardHeaderAvatar>
+                    <MudAvatar Color="Color.Secondary">
+                        <MudIcon Icon="@Icons.Material.Outlined.SwitchVideo" />
+                    </MudAvatar>
+                </CardHeaderAvatar>
+                <CardHeaderContent>
+                    <MudText Typo="Typo.body1">@localizer["EventVideo"]</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+            @if(videoisReadytobeuploaded)
+            {
+                <MudCardMedia Align="center" Class="ml-2 mr-2 rounded-lg" Image="@ready2Upload" Height="100" />
+            }
+            else if (!string.IsNullOrEmpty(@videoUrlForPreview))
+            {
+                <MudIconButton Icon="@Icons.Material.Filled.VideoLibrary" Color="Color.Secondary" Link="@eventModel.Video" @onclick:stopPropagation Target="_blank"></MudIconButton>
+                @*<MudCardMedia Align="center" Class="ml-2 mr-2 rounded-lg" Image="@videoUrlForPreview" Height="250"  />*@
+            }
+            else
+            {
+                <MudCardMedia Align="center" Class="ml-2 mr-2 rounded-lg" Image="@noImageUrl" Height="100" />
+            }
+            <MudCardActions>
+                <InputFile id="videoInput" OnChange="SelectVideo" hidden />
+                <MudIconButton id="videoInputButton"
+                               HtmlTag="label"
+                               Variant="Variant.Text"
+                               Color="Color.Primary"
+                               Size="Size.Small"
+                               Icon="@Icons.Material.Filled.UploadFile"
+                               for="videoInput">
+                    @localizer["UploadVideo"]
+                </MudIconButton>
+                <MudIconButton Icon="@Icons.Material.Filled.DeleteOutline" Color="Color.Error" OnClick="DeleteVideo" Disabled="@disableDeleteVideoButton" />
+            </MudCardActions>
+        </MudCard>
+
+
+
+
+
+        <MudCard Elevation="4">
+            <MudCardHeader>
+                <CardHeaderAvatar>
+                    <MudAvatar Color="Color.Secondary">
+                        <MudIcon Icon="@Icons.Material.Filled.Attachment" />
+                    </MudAvatar>
+                </CardHeaderAvatar>
+                <CardHeaderContent>
+                    <MudText Typo="Typo.body1">@localizer["EventFile"]</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+            <div class="d-flex justify-center mb-2">
+                @if (!string.IsNullOrEmpty(@eventModel.File))
+                {
+                    <MudButton Link=@(eventModel.File) Align="center" Class="ml-2 mr-2" Target="_blank" StartIcon="@Icons.Material.Filled.FileDownload" Size="Size.Small" Variant="Variant.Outlined" Color="Color.Primary">@localizer["DownloadAttachment"]</MudButton>
+                }
+                else
+                {
+                    <MudButton Variant="Variant.Filled" Align="center" FullWidth=true Class="ml-2 mr-2" Disabled StartIcon="@Icons.Material.Filled.FileDownload" Size="Size.Small" Color="Color.Default">@localizer["NoAttachment"]</MudButton>
+                }
+            </div>
+            @if (_files != null)
+            {
+                <MudList T="bool" id="FilesList">
+                    @foreach (var file in _files)
+                    {
+                        <MudListItem Icon="@Icons.Material.Filled.AttachFile" @key="@file">
+                            @file.Name
+                        </MudListItem>
+                    }
+                </MudList>
+            }
+            <MudCardActions>
+                <InputFile id="fileInput" OnChange="SelectFile" hidden />
+                <MudIconButton id="fileInputButton"
+                               HtmlTag="label"
+                               Variant="Variant.Text"
+                               Color="Color.Primary"
+                               Size="Size.Small"
+                               Icon="@Icons.Material.Filled.UploadFile"
+                               for="fileInput">
+                    @localizer["UploadFile"]
+                </MudIconButton>
+                <MudIconButton Icon="@Icons.Material.Filled.DeleteOutline" Color="Color.Error" OnClick="DeleteFile" Disabled="@disableDeleteFileButton" />
+            </MudCardActions>
+        </MudCard>
+    </MudItem>
+</MudGrid>
+
+
+
+
+
+
+

@@ -1,0 +1,375 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Actions" xml:space="preserve">
+    <value>Actions</value>
+  </data>
+  <data name="AddBlockCategory" xml:space="preserve">
+    <value>Add New Block Category</value>
+  </data>
+  <data name="AddTranslation" xml:space="preserve">
+    <value>Add Translation</value>
+  </data>
+  <data name="Album" xml:space="preserve">
+    <value>Album</value>
+  </data>
+  <data name="Arabic Description" xml:space="preserve">
+    <value>Arabic Description</value>
+  </data>
+  <data name="Arabic Description1" xml:space="preserve">
+    <value>Arabic Description 1</value>
+  </data>
+  <data name="Arabic Description2" xml:space="preserve">
+    <value>Arabic Description 2</value>
+  </data>
+  <data name="Arabic Description3" xml:space="preserve">
+    <value>Arabic Description 3</value>
+  </data>
+  <data name="Arabic Description4" xml:space="preserve">
+    <value>Arabic Description 4</value>
+  </data>
+  <data name="Arabic Name" xml:space="preserve">
+    <value>Arabic Name</value>
+  </data>
+  <data name="Attachements" xml:space="preserve">
+    <value>Attachements</value>
+  </data>
+  <data name="Block Details" xml:space="preserve">
+    <value>Block Details</value>
+  </data>
+  <data name="BlockCategoriesDescription" xml:space="preserve">
+    <value>Block Categories</value>
+  </data>
+  <data name="BlockFile" xml:space="preserve">
+    <value>Attachment File</value>
+  </data>
+  <data name="BlockPhoto" xml:space="preserve">
+    <value>Block's Photo</value>
+  </data>
+  <data name="BlockPhoto1" xml:space="preserve">
+    <value>Block's Photo 1</value>
+  </data>
+  <data name="BlockPhoto2" xml:space="preserve">
+    <value>Block's Photo 2</value>
+  </data>
+  <data name="BlockPhoto3" xml:space="preserve">
+    <value>Block's Photo 3</value>
+  </data>
+  <data name="BlocksByCategoryDescription" xml:space="preserve">
+    <value>Review Avaliable Blocks of Category</value>
+  </data>
+  <data name="BlocksDescription" xml:space="preserve">
+    <value>Review Avaliable Blocks</value>
+  </data>
+  <data name="BlockType" xml:space="preserve">
+    <value>Block Type</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Category" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Delete Files" xml:space="preserve">
+    <value>Delete All</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="DownloadAttachment" xml:space="preserve">
+    <value>Download</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="English Description" xml:space="preserve">
+    <value>English Description</value>
+  </data>
+  <data name="English Description1" xml:space="preserve">
+    <value>English Description 1</value>
+  </data>
+  <data name="English Description2" xml:space="preserve">
+    <value>English Description 2</value>
+  </data>
+  <data name="English Description3" xml:space="preserve">
+    <value>English Description 3</value>
+  </data>
+  <data name="English Description4" xml:space="preserve">
+    <value>English Description 4</value>
+  </data>
+  <data name="English Name" xml:space="preserve">
+    <value>English Name</value>
+  </data>
+  <data name="File" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="HideTranslation" xml:space="preserve">
+    <value>Hide Translation</value>
+  </data>
+  <data name="Id" xml:space="preserve">
+    <value>Id</value>
+  </data>
+  <data name="Image" xml:space="preserve">
+    <value>Image</value>
+  </data>
+  <data name="IsActive" xml:space="preserve">
+    <value>Active?</value>
+  </data>
+  <data name="IsVisible" xml:space="preserve">
+    <value>Visible?</value>
+  </data>
+  <data name="LanguageCode" xml:space="preserve">
+    <value>Language Code</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="New" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="NoAttachment" xml:space="preserve">
+    <value>No Attachment</value>
+  </data>
+  <data name="NoTranslationData" xml:space="preserve">
+    <value>No Translation data for : </value>
+  </data>
+  <data name="RecordOrder" xml:space="preserve">
+    <value>Record Order</value>
+  </data>
+  <data name="Reload" xml:space="preserve">
+    <value>Reload</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="selectCategory" xml:space="preserve">
+    <value>Select Category</value>
+  </data>
+  <data name="ShowTranslation" xml:space="preserve">
+    <value>Show Translation</value>
+  </data>
+  <data name="Slug" xml:space="preserve">
+    <value>Slug</value>
+  </data>
+  <data name="TranslationDetails" xml:space="preserve">
+    <value>Translation details for : </value>
+  </data>
+  <data name="Translations" xml:space="preserve">
+    <value>Translations</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="UpdateBlockCategory" xml:space="preserve">
+    <value>Update Block Category</value>
+  </data>
+  <data name="UpdateTransalation" xml:space="preserve">
+    <value>Update Translation</value>
+  </data>
+  <data name="Upload Files" xml:space="preserve">
+    <value>Upload</value>
+  </data>
+  <data name="UploadFile" xml:space="preserve">
+    <value>Upload File</value>
+  </data>
+  <data name="UploadImage" xml:space="preserve">
+    <value>Upload Image</value>
+  </data>
+  <data name="Url" xml:space="preserve">
+    <value>URL</value>
+  </data>
+  <data name="ViewBlocks" xml:space="preserve">
+    <value>Blocks</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Delete Content" xml:space="preserve">
+    <value />
+  </data>
+  <data name="End Date" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Start Date" xml:space="preserve">
+    <value />
+  </data>
+  <data name="German Description" xml:space="preserve">
+    <value>German Description</value>
+  </data>
+  <data name="German Description1" xml:space="preserve">
+    <value>German Description 1</value>
+  </data>
+  <data name="German Description2" xml:space="preserve">
+    <value>German Description 2</value>
+  </data>
+  <data name="German Description3" xml:space="preserve">
+    <value>German Description 3</value>
+  </data>
+  <data name="German Description4" xml:space="preserve">
+    <value>German Description 4</value>
+  </data>
+  <data name="German Name" xml:space="preserve">
+    <value>German Name</value>
+  </data>
+  <data name="Visible For User" xml:space="preserve">
+    <value>Visible For User</value>
+  </data>
+  <data name="AddBlock" xml:space="preserve">
+    <value>AddBlock</value>
+  </data>
+  <data name="ParentName" xml:space="preserve">
+    <value>ParentName</value>
+  </data>
+  <data name="SubBlocks" xml:space="preserve">
+    <value>Sub Blocks</value>
+  </data>
+  <data name="Home Block" xml:space="preserve">
+    <value>Home Block</value>
+  </data>
+  <data name="UpdateBlock" xml:space="preserve">
+    <value>Update Block</value>
+  </data>
+  <data name="CreateAt" xml:space="preserve">
+    <value>CreateAt</value>
+  </data>
+  <data name="Author Id" xml:space="preserve">
+    <value>Author Id</value>
+  </data>
+  <data name="Seo Managment" xml:space="preserve">
+    <value>Seo Managment</value>
+  </data>
+  <data name="Block : " xml:space="preserve">
+    <value>Block : </value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+</root>

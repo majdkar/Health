@@ -1,0 +1,76 @@
+﻿@using SchoolV01.Client.Resources.Pages.Settings
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Settings> localizer
+
+<EditForm Model="@AddEditCityModel" OnValidSubmit="SaveAsync">
+    <FluentValidationValidator />
+    <MudDialog>
+        <TitleContent>
+            @if (AddEditCityModel.Id == 0)
+            {
+                <MudText Typo="Typo.h6">
+                    <MudIcon Icon="@Icons.Material.Filled.Add" Class="mr-3 mb-n1" />
+                    @localizer["AddCity"]
+                </MudText>
+            }
+            else
+            {
+                <MudText Typo="Typo.h6">
+                    <MudIcon Icon="@Icons.Material.Filled.Update" Class="mr-3 mb-n1" />
+                    @localizer["UpdateCity"]
+                </MudText>
+            }
+        </TitleContent>
+        <DialogContent>
+            <MudGrid>
+                <MudItem xs="12" md="6">
+                    <MudItem xs="12" md="6">
+                        <MudTextField For="@(() => AddEditCityModel.NameAr)" @bind-Value="AddEditCityModel.NameAr" Label="@localizer["Name /Ar"]" />
+                    </MudItem>
+                    <MudItem xs="12" md="6">
+                        <MudTextField For="@(() => AddEditCityModel.NameEn)" @bind-Value="AddEditCityModel.NameEn" Label="@localizer["Name /En"]" />
+                    </MudItem>
+                </MudItem>
+
+                <MudItem xs="12" md="6">
+                    <MudSelect @bind-Value="@AddEditCityModel.CountryId" T="int" Label="@localizer["Country"]" Variant=Variant.Text>
+                        @foreach (var country in countries)
+                        {
+                            <MudSelectItem T="int" Value="@country.Id">@(IsArabic ? country.NameAr : country.NameEn)</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+            </MudGrid>
+        </DialogContent>
+        <DialogActions>
+           <MudButton Variant="Variant.Filled" ButtonType="ButtonType.Button" OnClick="Cancel">@localizer["Cancel"]</MudButton>
+            @if (AddEditCityModel.Id != 0)
+            {
+               <MudButton Variant="Variant.Filled" ButtonType="ButtonType.Submit" Color="Color.Secondary">
+                    @if (_processing)
+                    {
+                        <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                        <MudText Class="ms-2">@localizer["Processing"]</MudText>
+                    }
+                    else
+                    {
+                        @localizer["Update"]
+                    }
+                </MudButton>
+            }
+            else
+            {
+               <MudButton Variant="Variant.Filled" ButtonType="ButtonType.Submit" Color="Color.Success">
+                    @if (_processing)
+                    {
+                        <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                        <MudText Class="ms-2">@localizer["Processing"]</MudText>
+                    }
+                    else
+                    {
+                        @localizer["Save"]
+                    }
+                </MudButton>
+            }
+        </DialogActions>
+    </MudDialog>
+</EditForm>
