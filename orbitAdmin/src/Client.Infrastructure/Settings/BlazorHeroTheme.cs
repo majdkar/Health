@@ -116,55 +116,46 @@ namespace SchoolV01.Client.Infrastructure.Settings
 
             PaletteLight = new PaletteLight()
             {
-                Primary = "#7f58af",
-                Secondary = "#64c5eb",
-                Tertiary = "#e84d8a",
-                AppbarBackground = "#7f58af",
+                Primary = "#008CFF",          // أزرق رئيسي من اللوغو
+                Secondary = "#30B7D8",        // أزرق سماوي
+                Tertiary = "#43C465",         // أخضر من علامة + باللوغو
+                Success = "#43C465",
+                Info = "#30B7D8",
+                Warning = "#FFA726",
+                Error = "#E53935",
+
+                AppbarBackground = "#008CFF",
                 AppbarText = "#FFFFFF",
-                Background = Colors.Gray.Lighten5,
-                DrawerBackground = "#FFF",
-                DrawerText = "rgba(0,0,0, 0.7)",
-                Success = "#04AA6F",
-                //Primary = "#08096c",
-                //Secondary = "#32333d",
-                //Tertiary = "#7B68EE",
-                //AppbarBackground = "#08096c",
-                //AppbarText = "#ECEFF1",
-                //Background = Colors.Grey.Lighten5,
-                //DrawerBackground = "#FFF",
-                //DrawerText = "rgba(0,0,0, 0.7)",
-                //Success = "#04AA6F"
 
-                //Surface= "#ECEFF1"
-                //  TextPrimary= "#ECEFF1"
+                Background = "#F5F8FC",
+                Surface = "#FFFFFF",
 
+                DrawerBackground = "#FFFFFF",
+                DrawerText = "rgba(0,0,0,0.7)",
+
+                TextPrimary = "#1A1A1A",
+                TextSecondary = "rgba(0,0,0,0.6)"
             },
             PaletteDark = new PaletteDark()
             {
-                Primary = "#28aade",
-                Secondary = "#EEEEEE",
-                Tertiary = "#7B68EE",
-                Success = "#007E33",
-                Black = "#ffffff",
-                Background = "#32333d",
-                BackgroundGray = "#27272f",
-                Surface = "#373740",
-                DrawerBackground = "#27272f",
-                DrawerText = "rgba(255,255,255, 0.50)",
-                AppbarBackground = "#28aade",
+                Primary = "#30B7D8",
+                Secondary = "#008CFF",
+                Tertiary = "#43C465",
+                Success = "#43C465",
 
-                HoverOpacity = 1,
-                AppbarText = "#373740",
-                TextPrimary = "#F5F5F5",
-                TextSecondary = "rgba(255,255,255, 0.50)",
-                ActionDefault = "#EEEEEE",
-                ActionDisabled = "#757575",
-                ActionDisabledBackground = "rgba(255,255,255, 0.12)",
-                DrawerIcon = "rgba(255,255,255, 0.50)",
-                TextDisabled = "#757575",
-                PrimaryContrastText = "#424242",
-                SecondaryContrastText = "#424242"
+                Background = "#1E1E1E",
+                Surface = "#2A2A2A",
+
+                DrawerBackground = "#242424",
+                DrawerText = "rgba(255,255,255,0.7)",
+
+                AppbarBackground = "#008CFF",
+                AppbarText = "#FFFFFF",
+
+                TextPrimary = "#FFFFFF",
+                TextSecondary = "rgba(255,255,255,0.6)"
             },
+
 
             Typography = DefaultTypography,
             LayoutProperties = DefaultLayoutProperties,

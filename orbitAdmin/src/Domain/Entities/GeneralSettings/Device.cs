@@ -16,6 +16,7 @@ namespace SchoolV01.Domain.Entities.GeneralSettings
         public string Model { get; set; }
         public string SerialNumber { get; set; }
         public string Code { get; set; }
+        public string DeviceStatus { get; set; }
         public int? Year { get; set; }
         public DateTime? StartRun { get; set; }
 

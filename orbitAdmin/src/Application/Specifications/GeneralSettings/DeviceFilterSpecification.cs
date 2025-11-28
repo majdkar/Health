@@ -52,7 +52,7 @@ namespace SchoolV01.Application.Specifications.GeneralSettings
                  SerialNumber =e.SerialNumber,
                  SubProjectType= e.SubProjectType,
                  SubSubProjectType =e.SubSubProjectType,
-                
+                 DeviceStatus =e.DeviceStatus
             };
             return source.Select(expression);
         }

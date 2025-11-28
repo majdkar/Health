@@ -9,7 +9,7 @@
     }
 </style>
 
-<HeroTitle Title="@_localizer["Suppliers Management"]" Description="@_localizer["Suppliers Management."]" />
+<HeroTitle Title="@_localizer["Suppliers Management"]" Description="@_localizer["Suppliers Management"]" />
 @if (!_loaded)
 {
     <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
@@ -72,13 +72,14 @@ else
             <MudTd DataLabel="Actions" Style="text-align: right">
                 @if (_canEditSuppliers || _canDeleteSuppliers || _canPreviewSuppliersCard)
                 {
-                  @*   @if (_canViewSuppliers)
+                    @if (_canViewSuppliers)
                     {
-                        <MudButton Style="margin: 2px;" Variant="Variant.Filled" Size="Size.Small" Color="Color.Success" @onclick="@(() => InvokeModal(@context.Id))">@_localizer["Details"]</MudButton>
-                    } *@
+                        <MudButton Variant="Variant.Filled" Size="Size.Small" Color="Color.Primary" @onclick="@(() => InvokeDevices(@context.Id))">@_localizer["Devices"]</MudButton>
+                    }
                     @if (_canEditSuppliers)
                     {
                         <MudButton Variant="Variant.Filled" Size="Size.Small" Color="Color.Info" @onclick="@(() => InvokeModal(@context.Id))">@_localizer["Edit"]</MudButton>
+                         
                     }
                     @if (_canDeleteSuppliers)
                     {

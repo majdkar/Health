@@ -1060,6 +1060,96 @@ namespace SchoolV01.Infrastructure.Migrations
                     b.ToTable("Countries");
                 });
 
+            modelBuilder.Entity("SchoolV01.Domain.Entities.GeneralSettings.Device", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ByType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ClinicId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("DeviceStatus")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EnglishName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("HospitalId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LicenseUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Model")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ProjectTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SerialNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("StartRun")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("SubProjectTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SubSubProjectTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SupplierId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Year")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClinicId");
+
+                    b.HasIndex("Deleted");
+
+                    b.HasIndex("HospitalId");
+
+                    b.HasIndex("ProjectTypeId");
+
+                    b.HasIndex("SubProjectTypeId");
+
+                    b.HasIndex("SubSubProjectTypeId");
+
+                    b.HasIndex("SupplierId");
+
+                    b.ToTable("Devices");
+                });
+
             modelBuilder.Entity("SchoolV01.Domain.Entities.GeneralSettings.Directorate", b =>
                 {
                     b.Property<int>("Id")
@@ -1148,6 +1238,47 @@ namespace SchoolV01.Infrastructure.Migrations
                     b.HasIndex("DirectorateId");
 
                     b.ToTable("Hospitals");
+                });
+
+            modelBuilder.Entity("SchoolV01.Domain.Entities.GeneralSettings.Maintenance", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("DeviceId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("MaintenanceDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Deleted");
+
+                    b.HasIndex("DeviceId");
+
+                    b.ToTable("Maintenances");
                 });
 
             modelBuilder.Entity("SchoolV01.Domain.Entities.GeneralSettings.Position", b =>
@@ -1967,6 +2098,45 @@ namespace SchoolV01.Infrastructure.Migrations
                     b.Navigation("Directorate");
                 });
 
+            modelBuilder.Entity("SchoolV01.Domain.Entities.GeneralSettings.Device", b =>
+                {
+                    b.HasOne("SchoolV01.Domain.Entities.GeneralSettings.Clinic", "Clinic")
+                        .WithMany()
+                        .HasForeignKey("ClinicId");
+
+                    b.HasOne("SchoolV01.Domain.Entities.GeneralSettings.Hospital", "Hospital")
+                        .WithMany()
+                        .HasForeignKey("HospitalId");
+
+                    b.HasOne("SchoolV01.Domain.Entities.GeneralSettings.ProjectType", "ProjectType")
+                        .WithMany()
+                        .HasForeignKey("ProjectTypeId");
+
+                    b.HasOne("SchoolV01.Domain.Entities.GeneralSettings.ProjectType", "SubProjectType")
+                        .WithMany()
+                        .HasForeignKey("SubProjectTypeId");
+
+                    b.HasOne("SchoolV01.Domain.Entities.GeneralSettings.ProjectType", "SubSubProjectType")
+                        .WithMany()
+                        .HasForeignKey("SubSubProjectTypeId");
+
+                    b.HasOne("SchoolV01.Domain.Entities.GeneralSettings.Supplier", "Supplier")
+                        .WithMany()
+                        .HasForeignKey("SupplierId");
+
+                    b.Navigation("Clinic");
+
+                    b.Navigation("Hospital");
+
+                    b.Navigation("ProjectType");
+
+                    b.Navigation("SubProjectType");
+
+                    b.Navigation("SubSubProjectType");
+
+                    b.Navigation("Supplier");
+                });
+
             modelBuilder.Entity("SchoolV01.Domain.Entities.GeneralSettings.Directorate", b =>
                 {
                     b.HasOne("SchoolV01.Domain.Entities.GeneralSettings.City", "City")
@@ -1993,6 +2163,17 @@ namespace SchoolV01.Infrastructure.Migrations
                     b.Navigation("City");
 
                     b.Navigation("Directorate");
+                });
+
+            modelBuilder.Entity("SchoolV01.Domain.Entities.GeneralSettings.Maintenance", b =>
+                {
+                    b.HasOne("SchoolV01.Domain.Entities.GeneralSettings.Device", "Device")
+                        .WithMany()
+                        .HasForeignKey("DeviceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Device");
                 });
 
             modelBuilder.Entity("SchoolV01.Domain.Entities.GeneralSettings.ProjectType", b =>

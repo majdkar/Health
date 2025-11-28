@@ -64,10 +64,12 @@ else
             <MudTd DataLabel="Actions" Style="text-align: right">
                 @if (_canEditDirectorates || _canDeleteDirectorates || _canPreviewDirectoratesCard)
                 {
-                  @*   @if (_canViewDirectorates)
+                    @if (_canViewDirectorates)
                     {
-                        <MudButton Style="margin: 2px;" Variant="Variant.Filled" Size="Size.Small" Color="Color.Success" @onclick="@(() => InvokeModal(@context.Id))">@_localizer["Details"]</MudButton>
-                    } *@
+                        <MudButton Style="margin: 2px;" Variant="Variant.Filled" Size="Size.Small" Color="Color.Success" @onclick="@(() => InvokeHospitals(@context.Id))">@_localizer["Hospitals"]</MudButton>
+
+                        <MudButton Style="margin: 2px;" Variant="Variant.Filled" Size="Size.Small" Color="Color.Primary" @onclick="@(() => InvokeClinics(@context.Id))">@_localizer["Clinics"]</MudButton>
+                    }
                     @if (_canEditDirectorates)
                     {
                         <MudButton Variant="Variant.Filled" Size="Size.Small" Color="Color.Info" @onclick="@(() => InvokeModal(@context.Id))">@_localizer["Edit"]</MudButton>

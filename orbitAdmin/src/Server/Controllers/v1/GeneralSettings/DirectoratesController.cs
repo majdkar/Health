@@ -26,6 +26,14 @@ namespace SchoolV01.Server.Controllers.v1.GeneralSettings
             return Ok(Leavetypes);
         }
 
+
+
+
+
+
+
+
+
         /// <summary>
         /// Get All Directorates
         /// </summary>

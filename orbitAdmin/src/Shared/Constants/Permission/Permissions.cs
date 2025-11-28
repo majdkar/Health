@@ -28,6 +28,17 @@ namespace SchoolV01.Shared.Constants.Permission
             public const string Export = "Permissions.ProjectTypes.Export";
         }
       
+      
+        public static class Maintenances
+        {
+            public const string View = "Permissions.Maintenances.View";
+            public const string Create = "Permissions.Maintenances.Create";
+            public const string Edit = "Permissions.Maintenances.Edit";
+            public const string Delete = "Permissions.Maintenances.Delete";
+            public const string Search = "Permissions.Maintenances.Search";
+            public const string Export = "Permissions.Maintenances.Export";
+        }
+      
         public static class Positions
         {
             public const string View = "Permissions.Positions.View";
@@ -36,6 +47,16 @@ namespace SchoolV01.Shared.Constants.Permission
             public const string Delete = "Permissions.Positions.Delete";
             public const string Search = "Permissions.Positions.Search";
             public const string Export = "Permissions.Positions.Export";
+        }
+      
+        public static class Devices
+        {
+            public const string View = "Permissions.Devices.View";
+            public const string Create = "Permissions.Devices.Create";
+            public const string Edit = "Permissions.Devices.Edit";
+            public const string Delete = "Permissions.Devices.Delete";
+            public const string Search = "Permissions.Devices.Search";
+            public const string Export = "Permissions.Devices.Export";
         }
       
         public static class Suppliers

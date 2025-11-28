@@ -264,4 +264,22 @@
   <data name="Users" xml:space="preserve">
     <value>المستخدمون</value>
   </data>
+  <data name="Hospitals Management" xml:space="preserve">
+    <value>ادارة المستشفيات</value>
+  </data>
+  <data name="Clinics Management" xml:space="preserve">
+    <value>ادارة المستوصفات</value>
+  </data>
+  <data name="Suppliers Management" xml:space="preserve">
+    <value>ادارة الشركات الموردة</value>
+  </data>
+  <data name="Devices Management" xml:space="preserve">
+    <value>ادارة الاجهزة</value>
+  </data>
+  <data name="Reports Management" xml:space="preserve">
+    <value>ادارة التقرير</value>
+  </data>
+  <data name="Devices Reports" xml:space="preserve">
+    <value>تقرير الأجهزة</value>
+  </data>
 </root>

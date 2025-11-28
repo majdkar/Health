@@ -32,6 +32,13 @@ namespace SchoolV01.Client.Infrastructure.Managers.Dashboard
             return data;
         }
 
+        public async Task<IResult<DashboardInfoDataResponse>> GetDataInfoAsync()
+        {
+            var response = await _httpClient.GetAsync(Routes.DashboardEndpoints.GetDataInfo);
+            var data = await response.ToResult<DashboardInfoDataResponse>();
+            return data;
+        }
+
         public Task<List<NotificationResponse>> GetNotificationsAsync(string userId)
         {
             throw new System.NotImplementedException();

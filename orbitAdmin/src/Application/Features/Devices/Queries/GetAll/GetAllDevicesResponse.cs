@@ -19,6 +19,7 @@ namespace SchoolV01.Application.Features.Devices.Queries
         public DateTime? StartRun { get; set; }
 
 
+        public string DeviceStatus { get; set; }
 
         public int? ProjectTypeId { get; set; }
         public ProjectType ProjectType { get; set; }

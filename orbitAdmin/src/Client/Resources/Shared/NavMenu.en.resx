@@ -180,4 +180,22 @@
   <data name="Users" xml:space="preserve">
     <value>Users</value>
   </data>
+  <data name="Hospitals Management" xml:space="preserve">
+    <value>Hospitals Management</value>
+  </data>
+  <data name="Clinics Management" xml:space="preserve">
+    <value>Clinics Management</value>
+  </data>
+  <data name="Suppliers Management" xml:space="preserve">
+    <value>Suppliers Management</value>
+  </data>
+  <data name="Devices Management" xml:space="preserve">
+    <value>Devices Management</value>
+  </data>
+  <data name="Reports Management" xml:space="preserve">
+    <value>Reports Management</value>
+  </data>
+  <data name="Devices Reports" xml:space="preserve">
+    <value>Devices Reports</value>
+  </data>
 </root>

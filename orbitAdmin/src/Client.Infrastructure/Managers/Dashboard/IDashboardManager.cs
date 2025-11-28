@@ -12,6 +12,7 @@ namespace SchoolV01.Client.Infrastructure.Managers.Dashboard
     {
         Task<List<NotificationResponse>> GetNotificationsAsync(string userId);
         Task<IResult<DashboardDataResponse>> GetDataAsync(int seasonId);
+        Task<IResult<DashboardInfoDataResponse>> GetDataInfoAsync();
         Task<IResult<List<DailyScheduleResponse>>> GetDailySchedule(DayOfWeek day, int seasonId);
     }
 }

@@ -24,6 +24,17 @@ namespace SchoolV01.Server.Controllers.v1
             var result = await Mediator.Send(new GetDashboardDataQuery(seasonId));
             return Ok(result);
         }
+        /// <summary>
+        /// Get Dashboard Data Info
+        /// </summary>
+        /// <returns>Status 200 OK </returns>
+        [Authorize(Policy = Permissions.Dashboards.View)]
+        [HttpGet("Info")]
+        public async Task<IActionResult> GetDataInfoAsync()
+        {
+            var result = await Mediator.Send(new GetDashboardInfoDataQuery());
+            return Ok(result);
+        }
 
     }
 }

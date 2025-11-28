@@ -179,6 +179,14 @@ namespace SchoolV01.Client.Pages.Suppliers
             _snackBar.Add(_localizer["Employees Report exported"], Severity.Success);
         }
 
+
+        private void InvokeDevices(int id = 0)
+        {
+
+            _navigationManager.NavigateTo($"/DevicesBySupplierId/{id}");
+
+        }
+
         private async Task InvokeModal(int id = 0)
         {
             var parameters = new DialogParameters();

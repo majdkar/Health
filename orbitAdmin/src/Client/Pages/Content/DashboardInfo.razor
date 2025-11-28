@@ -1,0 +1,117 @@
+﻿@page "/dashboardInfo"
+@attribute [Authorize(Policy = Permissions.Dashboards.View)]
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Dashboard> _localizer
+
+<MudPaper Class="pa-4">
+
+    <!-- الشعار في الأعلى -->
+    <MudStack Direction="Row" AlignItems="AlignItems.Center" Spacing="2" Class="mb-4">
+        <img src="logohero.png" Alt="Logo" width="100px" />
+        <MudText Typo="Typo.h4" Class="ml-2">الهندسة الطبية</MudText>
+    </MudStack>
+
+    @if (_isProcessingDashboardDataResponse)
+    {
+        <MudProgressLinear Color="Color.Primary" Indeterminate="true" Class="my-7" />
+    }
+    else if (_data is not null)
+    {
+        <MudGrid Spacing="3">
+
+            <!-- بطاقات المعلومات مع أيقونات -->
+
+
+            <MudItem xs="12" sm="6" md="3">
+                <MudCard Class="pa-4" Style="background-color: #FFF3E0;">
+                    <MudCardContent>
+                        <MudStack Direction="Row" AlignItems="AlignItems.Center" Spacing="1">
+                            <MudIcon Icon="@Icons.Material.Filled.AccountBalance" Color="Color.Warning" Size="Size.Large" />
+                            <MudText Typo="Typo.h6">@_localizer["Directorates"]</MudText>
+                        </MudStack>
+                        <MudText Typo="Typo.h3" Color="Color.Warning">@_data.Directorate</MudText>
+                    </MudCardContent>
+                </MudCard>
+            </MudItem>
+
+            <MudItem xs="12" sm="6" md="3">
+                <MudCard Class="pa-4" Style="background-color: #E3F2FD;">
+                    <MudCardContent>
+                        <MudStack Direction="Row" AlignItems="AlignItems.Center" Spacing="1">
+                            <MudIcon Icon="@Icons.Material.Filled.LocalHospital" Color="Color.Primary" Size="Size.Large" />
+                            <MudText Typo="Typo.h6">@_localizer["Clinics"]</MudText>
+                        </MudStack>
+                        <MudText Typo="Typo.h3" Color="Color.Primary">@_data.Clinic</MudText>
+                    </MudCardContent>
+                </MudCard>
+            </MudItem>
+
+            <MudItem xs="12" sm="6" md="3">
+                <MudCard Class="pa-4" Style="background-color: #FCE4EC;">
+                    <MudCardContent>
+                        <MudStack Direction="Row" AlignItems="AlignItems.Center" Spacing="1">
+                            <MudIcon Icon="@Icons.Material.Filled.LocalShipping" Color="Color.Secondary" Size="Size.Large" />
+                            <MudText Typo="Typo.h6">@_localizer["Suppliers"]</MudText>
+                        </MudStack>
+                        <MudText Typo="Typo.h3" Color="Color.Secondary">@_data.Supplier</MudText>
+                    </MudCardContent>
+                </MudCard>
+            </MudItem>
+
+            <MudItem xs="12" sm="6" md="3">
+                <MudCard Class="pa-4" Style="background-color: #E8F5E9;">
+                    <MudCardContent>
+                        <MudStack Direction="Row" AlignItems="AlignItems.Center" Spacing="1">
+                            <MudIcon Icon="@Icons.Material.Filled.Apartment" Color="Color.Success" Size="Size.Large" />
+                            <MudText Typo="Typo.h6">@_localizer["Hospitals"]</MudText>
+                        </MudStack>
+                        <MudText Typo="Typo.h3" Color="Color.Success">@_data.Hospital</MudText>
+                    </MudCardContent>
+                </MudCard>
+            </MudItem>
+
+  
+
+            <!-- قسم أجهزة المركز -->
+            <MudItem xs="12">
+                <MudCard Class="pa-4">
+                    <MudCardContent>
+                        <MudText Typo="Typo.h6" Class="mb-2">
+                            @_localizer["Center Devices"]</MudText>
+                        <MudGrid Spacing="2">
+                            <MudItem xs="12" sm="4">
+                                <MudPaper Class="pa-3" Style="background-color: #FFEBEE;">
+                                    <MudStack Direction="Row" AlignItems="AlignItems.Center" Spacing="1">
+                                        <MudIcon Icon="@Icons.Material.Filled.Settings" Color="Color.Error" Size="Size.Medium" />
+                                        <MudText>@_localizer["Needs Calibration"]</MudText>
+                                    </MudStack>
+                                    <MudText Typo="Typo.h4" Color="Color.Error">@_data.DeviceCalibration</MudText>
+                                </MudPaper>
+                            </MudItem>
+                            <MudItem xs="12" sm="4">
+                                <MudPaper Class="pa-3" Style="background-color: #FFFDE7;">
+                                    <MudStack Direction="Row" AlignItems="AlignItems.Center" Spacing="1">
+                                        <MudIcon Icon="@Icons.Material.Filled.Build" Color="Color.Warning" Size="Size.Medium" />
+                                        <MudText>@_localizer["Needs Maintenance"]</MudText>
+                                    </MudStack>
+                                    <MudText Typo="Typo.h4" Color="Color.Warning">@_data.DeviceMaintenance</MudText>
+                                </MudPaper>
+                            </MudItem>
+                            <MudItem xs="12" sm="4">
+                                <MudPaper Class="pa-3" Style="background-color: #E8F5E9;">
+                                    <MudStack Direction="Row" AlignItems="AlignItems.Center" Spacing="1">
+                                        <MudIcon Icon="@Icons.Material.Filled.CheckCircle" Color="Color.Success" Size="Size.Medium" />
+                                        <MudText>@_localizer["Working Well"]</MudText>
+                                    </MudStack>
+                                    <MudText Typo="Typo.h4" Color="Color.Success">@_data.DeviceWorked</MudText>
+                                </MudPaper>
+                            </MudItem>
+                        </MudGrid>
+                    </MudCardContent>
+                </MudCard>
+            </MudItem>
+
+        </MudGrid>
+    }
+
+</MudPaper>
+

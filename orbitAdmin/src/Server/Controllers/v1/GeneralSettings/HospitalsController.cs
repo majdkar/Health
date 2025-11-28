@@ -26,6 +26,28 @@ namespace SchoolV01.Server.Controllers.v1.GeneralSettings
             return Ok(Leavetypes);
         }
 
+
+
+        /// <summary>
+        /// Get All Paged Hospitals By DirectorateId
+        /// </summary>
+        /// <param name="DirectorateId"></param>
+        /// <param name="pageNumber"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="searchString"></param>
+        /// <param name="orderBy"></param>
+        /// <returns>Status 200 OK</returns>
+        [Authorize(Policy = Permissions.Hospitals.View)]
+        [HttpGet("ByDirectorateId")]
+        public async Task<IActionResult> GetAllPagedByDirectorateId(int DirectorateId, int pageNumber, int pageSize, string searchString, string orderBy = null)
+        {
+            var Leavetypes = await Mediator.Send(new GetAllPagedHospitalsByDirectorateIdQuery(DirectorateId, pageNumber, pageSize, searchString, orderBy));
+            return Ok(Leavetypes);
+        }
+
+
+
+
         /// <summary>
         /// Get All Hospitals
         /// </summary>

@@ -213,4 +213,10 @@
   <data name="Directorates Management." xml:space="preserve">
     <value>ادارة المديريات</value>
   </data>
+  <data name="Hospitals" xml:space="preserve">
+    <value>المستشفيات</value>
+  </data>
+  <data name="Clinics" xml:space="preserve">
+    <value>المستوصفات</value>
+  </data>
 </root>

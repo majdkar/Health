@@ -1,0 +1,255 @@
+@using SchoolV01.Shared.Constants.Device
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Devices> _localizer
+
+<EditForm Model="@AddEditDeviceModel" OnValidSubmit="SaveAsync">
+    <FluentValidationValidator @ref="_fluentValidationValidator" />
+    <MudDialog>
+        <TitleContent>
+            @{
+                if (AddEditDeviceModel.Id == 0)
+                {
+                    <MudText Typo="Typo.h6">
+                        <MudIcon Icon="@Icons.Material.Filled.Add" Class="mr-3 mb-n1" />
+                        @_localizer["Add Device"]
+                    </MudText>
+                }
+                else
+                {
+                    <MudText Typo="Typo.h6">
+                        <MudIcon Icon="@Icons.Material.Filled.Update" Class="mr-3 mb-n1" />
+                        @_localizer["Update Device"]
+                    </MudText>
+                }
+            }
+        </TitleContent>
+        <DialogContent>
+            <MudGrid>
+
+                <MudItem xs="12" md="6">
+                    <MudTextField T="string" For="@(() => AddEditDeviceModel.Name)" @bind-Value="AddEditDeviceModel.Name" Label="@_localizer["Name"]" />
+                </MudItem>
+
+                <MudItem xs="12" md="6">
+                    <MudTextField T="string" For="@(()=>AddEditDeviceModel.EnglishName)" @bind-Value="AddEditDeviceModel.EnglishName" Label="@_localizer["Name /En"]" />
+                </MudItem>
+
+
+                <MudItem xs="12" md="6">
+                    <MudSelect T="int?"
+                               Label="@_localizer["Project Category"]"
+                               Variant="Variant.Outlined"
+                               Value="AddEditDeviceModel.ProjectTypeId"
+                               ValueChanged="OnProjectTypeChanged"
+                               ValueExpression="@(() => AddEditDeviceModel.ProjectTypeId)">
+                        @foreach (var item in ProjectTypes)
+                        {
+                            <MudSelectItem T="int?" Value="@item.Id">
+                                @(IsArabic? item.Name: item.EnglishName)
+                            </MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+
+                @if (SubProjectTypes != null)
+                {
+                                    <MudItem xs="12" md="6">
+
+                    <MudSelect T="int?"
+                                   Label="@_localizer["Sub Project Category"]"
+                               Variant="Variant.Outlined"
+                               Value="AddEditDeviceModel.SubProjectTypeId"
+                               ValueChanged="OnSubProjectTypeChanged"
+                               ValueExpression="@(() => AddEditDeviceModel.SubProjectTypeId)">
+                        @foreach (var item in SubProjectTypes)
+                        {
+                            <MudSelectItem T="int?" Value="@item.Id">
+                                @(IsArabic? item.Name: item.EnglishName)
+                            </MudSelectItem>
+                        }
+                    </MudSelect>
+                    </MudItem>
+                }
+                @if (SubSubProjectTypes != null)
+                {
+                    <MudItem xs="12" md="6">
+                        <MudSelect @bind-Value="AddEditDeviceModel.SubSubProjectTypeId"
+                                   T="int?"
+                                   Label="@_localizer["Sub Sub Project Category"]"
+                                   Variant="Variant.Outlined">
+                            @foreach (var item in SubSubProjectTypes)
+                            {
+                                <MudSelectItem T="int?" Value="@item.Id">
+                                    @(IsArabic? item.Name: item.EnglishName)
+                                </MudSelectItem>
+                            }
+                        </MudSelect>
+                    </MudItem>
+                }
+
+                <MudItem xs="12" md="6">
+                    <MudSelect @bind-Value="@AddEditDeviceModel.SupplierId"  T="int?" Label="@_localizer["Supplier"]" Variant=Variant.Outlined>
+                        @foreach (var country in Suppliers)
+                        {
+                            <MudSelectItem T="int?" Value="@country.Id">@(IsArabic? country.Name: country.EnglishName)</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+
+                <MudItem xs="12" md="6">
+                    <MudSelect @bind-Value="AddEditDeviceModel.ByType" T="string" Label="@_localizer["By Type"]" Variant="Variant.Outlined">
+                        <MudSelectItem T="string" Value="ByTypeEnum.Clinic.ToString()">@_localizer["Clinic"]</MudSelectItem>
+                        <MudSelectItem T="string" Value="ByTypeEnum.Hospital.ToString()">@_localizer["Hospital"]</MudSelectItem>
+                    </MudSelect>
+                </MudItem>
+
+
+                @if (AddEditDeviceModel.ByType == "Clinic")
+                {
+                    <MudItem xs="12" md="6">
+                        <MudSelect @bind-Value="@AddEditDeviceModel.ClinicId" T="int?" Label="@_localizer["Clinic"]" Variant="Variant.Outlined">
+                            @foreach (var clinic in Clinics)
+                            {
+                                <MudSelectItem T="int?" Value="@clinic.Id">@(IsArabic? clinic.Name: clinic.EnglishName)</MudSelectItem>
+                            }
+                        </MudSelect>
+                    </MudItem>
+                }
+
+                @if (AddEditDeviceModel.ByType == "Hospital")
+                {
+                    <MudItem xs="12" md="6">
+                        <MudSelect @bind-Value="@AddEditDeviceModel.HospitalId" T="int?" Label="@_localizer["Hospital"]" Variant="Variant.Outlined">
+                            @foreach (var hospital in Hospitals)
+                            {
+                                <MudSelectItem T="int?" Value="@hospital.Id">@(IsArabic? hospital.Name: hospital.EnglishName)</MudSelectItem>
+                            }
+                        </MudSelect>
+                    </MudItem>
+                }
+
+
+                <MudItem xs="12" md="6">
+                    <MudTextField T="string" For="@(() => AddEditDeviceModel.Code)" Variant="Variant.Outlined" @bind-Value="AddEditDeviceModel.Code" Label="@_localizer["Code"]" />
+                </MudItem>
+
+
+                <MudItem xs="12" md="6">
+                    <MudTextField T="string" For="@(() => AddEditDeviceModel.SerialNumber)" Variant="Variant.Outlined" @bind-Value="AddEditDeviceModel.SerialNumber" Label="@_localizer["SerialNumber"]" />
+                </MudItem>
+
+
+                <MudItem xs="12" md="6">
+                    <MudTextField T="string" For="@(() => AddEditDeviceModel.Model)" Variant="Variant.Outlined" @bind-Value="AddEditDeviceModel.Model" Label="@_localizer["Model"]" />
+                </MudItem>
+
+
+                <MudItem xs="12" md="6">
+                    <MudTextField T="int?" For="@(() => AddEditDeviceModel.Year)" Variant="Variant.Outlined" @bind-Value="AddEditDeviceModel.Year" Label="@_localizer["Year"]" />
+                </MudItem>
+
+
+
+                <MudItem xs="12" md="6">
+                    <MudDatePicker @bind-Date="AddEditDeviceModel.StartRun" Culture="System.Globalization.CultureInfo.InvariantCulture" DateFormat="d/MM/yyyy" Label="@_localizer["StartRun"]" DisableToolbar="true" AutoClose="true" Elevation="12" InputVariant="Variant.Outlined" />
+                </MudItem>
+
+
+
+                <MudItem xs="12" md="6">
+                    <MudSelect @bind-Value="@AddEditDeviceModel.DeviceStatus" T="string" Label="@_localizer["Device Status"]" AnchorOrigin="Origin.BottomCenter" Variant="Variant.Outlined">
+                        @foreach (var value in DeviceStatus.Values)
+                        {
+                            <MudSelectItem T="string" Value="@value.Key">@_localizer[@value.Key]</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+
+
+
+                <MudItem xs="12" md="6">
+                    @*upload company images*@
+                    <MudCard Elevation="4" Class="mb-5">
+                        <MudCardHeader>
+                            <CardHeaderAvatar>
+                                <MudAvatar Color="Color.Secondary">
+                                    <MudIcon Icon="@Icons.Material.Outlined.InsertPhoto" />
+                                </MudAvatar>
+                            </CardHeaderAvatar>
+                            <CardHeaderContent>
+                                <MudText Typo="Typo.body1">@_localizer["Upload License Image"]</MudText>
+                            </CardHeaderContent>
+                        </MudCardHeader>
+                        @if (!string.IsNullOrEmpty(AddEditDeviceModel.LicenseUrl))
+                        {
+                            <MudCardMedia Align="center" Class="ml-2 mr-2 rounded-lg" Image="@(AddEditDeviceModel.LicenseUrl.Replace('\\', '/'))" Height="150" />
+                        }
+                        <MudCardActions>
+                            <InputFile id="imageInput1" OnChange="UploadLicenseImage" hidden />
+                            <div>
+                                <MudButton HtmlTag="label"
+                                           Variant="MudBlazor.Variant.Text"
+                                           Color="Color.Primary"
+                                           Size="Size.Small"
+                                           StartIcon="@Icons.Material.Filled.CloudUpload"
+                                           for="imageInput1">
+                                    @_localizer["Upload"]
+                                </MudButton>
+                                @if (!string.IsNullOrEmpty(AddEditDeviceModel.LicenseUrl))
+                                {
+                                    <MudButton Variant="MudBlazor.Variant.Text"
+                                               Color="Color.Info"
+                                               StartIcon="@Icons.Material.Filled.RemoveRedEye"
+                                               Size="Size.Small"
+                                               Link="@(AddEditDeviceModel.LicenseUrl)" Target="_blank">
+                                        @_localizer["View"]
+                                    </MudButton>
+                                    <MudButton Variant="MudBlazor.Variant.Text"
+                                               Color="Color.Error"
+                                               StartIcon="@Icons.Material.Filled.Delete"
+                                               Size="Size.Small"
+                                               OnClick="DeleteLicenseImageAsync">
+                                        @_localizer["Delete"]
+                                    </MudButton>
+                                }
+                            </div>
+                        </MudCardActions>
+                    </MudCard>
+                </MudItem>
+
+               
+
+            </MudGrid>
+        </DialogContent>
+        <DialogActions>
+            <MudButton Variant="Variant.Filled" OnClick="Cancel">@_localizer["Cancel"]</MudButton>
+            @if (AddEditDeviceModel.Id != 0)
+            {
+                  <MudButton Variant="Variant.Filled" ButtonType="ButtonType.Submit" Disabled="@(!Validated)" Color="Color.Secondary">
+                @if (_processing)
+                    {
+                        <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                        <MudText Class="ms-2">Processing</MudText>
+                    }
+                    else
+                    {
+                        @_localizer["Update"]
+                    }
+                </MudButton>
+            }
+            else
+            {
+                <MudButton Variant="Variant.Filled" ButtonType="ButtonType.Submit" Disabled="@(!Validated)" Color="Color.Success">
+                @if (_processing)
+                    {
+                        <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                        <MudText Class="ms-2">Processing</MudText>
+                    }
+                    else
+                    {
+                        @_localizer["Save"]
+                    }
+                </MudButton>
+            }
+        </DialogActions>
+    </MudDialog>
+</EditForm>

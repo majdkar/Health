@@ -44,6 +44,7 @@ namespace SchoolV01.Shared.Constants.Application
             public const string GetAllClinicsCacheKey = "all-Clinics";
             public const string GetAllSuppliersCacheKey = "all-Suppliers";
             public const string GetAllDevicesCacheKey = "all-Devices";
+            public const string GetAllMaintenancesCacheKey = "all-Maintenances";
 
    
             public const string GetAllGroupsCacheKey = "all-Groups";

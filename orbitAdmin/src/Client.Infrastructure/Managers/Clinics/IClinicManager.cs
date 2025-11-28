@@ -13,6 +13,7 @@ namespace SchoolV01.Client.Infrastructure.Managers.GeneralSettings
         Task<IResult<List<GetAllClinicsResponse>>> GetAllAsync();
         
         Task<PaginatedResult<GetAllClinicsResponse>> GetAllPagedAsync(GetAllPagedClinicsRequest request);
+        Task<PaginatedResult<GetAllClinicsResponse>> GetAllPagedByDirectorateIdAsync(GetAllPagedClinicsRequest request,int supplierId);
 
         Task<IResult<int>> SaveAsync(AddEditClinicCommand request);
 

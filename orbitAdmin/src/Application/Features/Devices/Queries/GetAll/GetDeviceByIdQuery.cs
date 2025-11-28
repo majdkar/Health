@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using AutoMapper;
 using SchoolV01.Application.Interfaces.Repositories;
 using SchoolV01.Domain.Entities.GeneralSettings;
@@ -6,16 +6,17 @@ using SchoolV01.Shared.Wrapper;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace SchoolV01.Application.Features.Devices.Queries
 {
-    public class GetDeviceByIdQuery : IRequest<Result<GetAllDevicesResponse>>
+    public class GetDeviceByIdQuery : IRequest<Result<GetByIdDevicesResponse>>
     {
         public int Id { get; set; }
     }
 
-    internal class GetDeviceByIdQueryHandler : IRequestHandler<GetDeviceByIdQuery, Result<GetAllDevicesResponse>>
+    internal class GetDeviceByIdQueryHandler : IRequestHandler<GetDeviceByIdQuery, Result<GetByIdDevicesResponse>>
     {
         private readonly IUnitOfWork<int> _unitOfWork;
         private readonly IMapper _mapper;
@@ -26,11 +27,18 @@ namespace SchoolV01.Application.Features.Devices.Queries
             _mapper = mapper;
         }
 
-        public async Task<Result<GetAllDevicesResponse>> Handle(GetDeviceByIdQuery query, CancellationToken cancellationToken)
+        public async Task<Result<GetByIdDevicesResponse>> Handle(GetDeviceByIdQuery request, CancellationToken cancellationToken)
         {
-            var Device = await _unitOfWork.Repository<Device>().GetByIdAsync(query.Id);
-            var mappedDevice = _mapper.Map<GetAllDevicesResponse>(Device);
-            return await Result<GetAllDevicesResponse>.SuccessAsync(mappedDevice);
+            var device = await _unitOfWork.Repository<Device>().Entities.Include(x => x.ProjectType)
+                .Include(x => x.SubProjectType)
+                .Include(x => x.SubSubProjectType)
+                .Include(x => x.Supplier)
+                .Include(x => x.Clinic)
+                .Include(x => x.Hospital).FirstOrDefaultAsync(x => x.Id == request.Id);
+
+            var mapped = _mapper.Map<GetByIdDevicesResponse>(device);
+
+            return await Result<GetByIdDevicesResponse>.SuccessAsync(mapped);
         }
     }
 }

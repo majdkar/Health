@@ -396,6 +396,12 @@
             </summary>
             <returns>Status 200 OK </returns>
         </member>
+        <member name="M:SchoolV01.Server.Controllers.v1.DashboardController.GetDataInfoAsync">
+            <summary>
+            Get Dashboard Data Info
+            </summary>
+            <returns>Status 200 OK </returns>
+        </member>
         <member name="M:SchoolV01.Server.Controllers.v1.GeneralSettings.CitiesController.GetAll">
             <summary>
             Get All Cities
@@ -434,6 +440,17 @@
             <summary>
             Get All Paged Clinics
             </summary>
+            <param name="pageNumber"></param>
+            <param name="pageSize"></param>
+            <param name="searchString"></param>
+            <param name="orderBy"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:SchoolV01.Server.Controllers.v1.GeneralSettings.ClinicsController.GetAllPagedByDirectorateId(System.Int32,System.Int32,System.Int32,System.String,System.String)">
+            <summary>
+            Get All Paged Clinics By DirectorateId
+            </summary>
+            <param name="DirectorateId"></param>
             <param name="pageNumber"></param>
             <param name="pageSize"></param>
             <param name="searchString"></param>
@@ -501,6 +518,54 @@
             <param name="searchString"></param>
             <returns></returns>
         </member>
+        <member name="M:SchoolV01.Server.Controllers.v1.GeneralSettings.DevicesController.GetAll(System.Int32,System.Int32,System.String,System.String)">
+            <summary>
+            Get All Paged Devices
+            </summary>
+            <param name="pageNumber"></param>
+            <param name="pageSize"></param>
+            <param name="searchString"></param>
+            <param name="orderBy"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:SchoolV01.Server.Controllers.v1.GeneralSettings.DevicesController.GetAllPagedBySupplierId(System.Int32,System.Int32,System.Int32,System.String,System.String)">
+            <summary>
+            Get All Paged Devices
+            </summary>
+            <param name="supplierId"></param>
+            <param name="pageNumber"></param>
+            <param name="pageSize"></param>
+            <param name="searchString"></param>
+            <param name="orderBy"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:SchoolV01.Server.Controllers.v1.GeneralSettings.DevicesController.GetAll">
+            <summary>
+            Get All Devices
+            </summary>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:SchoolV01.Server.Controllers.v1.GeneralSettings.DevicesController.GetById(System.Int32)">
+            <summary>
+            Get a Device By Id
+            </summary>
+            <param name="id"></param>
+            <returns>Status 200 Ok</returns>
+        </member>
+        <member name="M:SchoolV01.Server.Controllers.v1.GeneralSettings.DevicesController.Post(SchoolV01.Application.Features.Devices.Commands.AddEditDeviceCommand)">
+            <summary>
+            Create/Update a Device
+            </summary>
+            <param name="command"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:SchoolV01.Server.Controllers.v1.GeneralSettings.DevicesController.Delete(System.Int32)">
+            <summary>
+            Delete a Device
+            </summary>
+            <param name="id"></param>
+            <returns>Status 200 OK</returns>
+        </member>
         <member name="M:SchoolV01.Server.Controllers.v1.GeneralSettings.DirectoratesController.GetAll(System.Int32,System.Int32,System.String,System.String)">
             <summary>
             Get All Paged Directorates
@@ -548,6 +613,17 @@
             <param name="orderBy"></param>
             <returns>Status 200 OK</returns>
         </member>
+        <member name="M:SchoolV01.Server.Controllers.v1.GeneralSettings.HospitalsController.GetAllPagedByDirectorateId(System.Int32,System.Int32,System.Int32,System.String,System.String)">
+            <summary>
+            Get All Paged Hospitals By DirectorateId
+            </summary>
+            <param name="DirectorateId"></param>
+            <param name="pageNumber"></param>
+            <param name="pageSize"></param>
+            <param name="searchString"></param>
+            <param name="orderBy"></param>
+            <returns>Status 200 OK</returns>
+        </member>
         <member name="M:SchoolV01.Server.Controllers.v1.GeneralSettings.HospitalsController.GetAll">
             <summary>
             Get All Hospitals
@@ -571,6 +647,44 @@
         <member name="M:SchoolV01.Server.Controllers.v1.GeneralSettings.HospitalsController.Delete(System.Int32)">
             <summary>
             Delete a Hospital
+            </summary>
+            <param name="id"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:SchoolV01.Server.Controllers.v1.GeneralSettings.MaintenancesController.GetAll(System.Int32,System.Int32,System.Int32,System.String,System.String)">
+            <summary>
+            Get All Paged Maintenances
+            </summary>
+            <param name="DeviceId"></param>
+            <param name="pageNumber"></param>
+            <param name="pageSize"></param>
+            <param name="searchString"></param>
+            <param name="orderBy"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:SchoolV01.Server.Controllers.v1.GeneralSettings.MaintenancesController.GetAll">
+            <summary>
+            Get All Maintenances
+            </summary>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:SchoolV01.Server.Controllers.v1.GeneralSettings.MaintenancesController.GetById(System.Int32)">
+            <summary>
+            Get a Maintenance By Id
+            </summary>
+            <param name="id"></param>
+            <returns>Status 200 Ok</returns>
+        </member>
+        <member name="M:SchoolV01.Server.Controllers.v1.GeneralSettings.MaintenancesController.Post(SchoolV01.Application.Features.Maintenances.Commands.AddEditMaintenanceCommand)">
+            <summary>
+            Create/Update a Maintenance
+            </summary>
+            <param name="command"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:SchoolV01.Server.Controllers.v1.GeneralSettings.MaintenancesController.Delete(System.Int32)">
+            <summary>
+            Delete a Maintenance
             </summary>
             <param name="id"></param>
             <returns>Status 200 OK</returns>
@@ -633,6 +747,12 @@
             Delete a ProjectType
             </summary>
             <param name="id"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:SchoolV01.Server.Controllers.v1.GeneralSettings.ReportsController.GetAll(SchoolV01.Application.Requests.Reports.GetAllPagedReportsRequest)">
+            <summary>
+            Get All Paged Devices
+            </summary>
             <returns>Status 200 OK</returns>
         </member>
         <member name="M:SchoolV01.Server.Controllers.v1.GeneralSettings.SuppliersController.GetAll(System.Int32,System.Int32,System.String,System.String)">

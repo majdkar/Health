@@ -19,67 +19,60 @@ namespace SchoolV01.Api.Controllers
             this.env=env;
         }
 
-        [HttpPost("{fileLocation:int}/{uploadType:int}")]
-        public async Task<IActionResult> Upload([FromForm] IFormFile file , int fileLocation , int uploadType)
+        public class UploadFileRequest
         {
+            [FromForm]
+            public IFormFile File { get; set; }
+        }
+
+        [HttpPost("{fileLocation:int}/{uploadType:int}")]
+        public async Task<IActionResult> Upload(
+            [FromForm] UploadFileRequest request,
+            int fileLocation,
+            int uploadType)
+        {
+            var file = request.File;
+
+            if (file == null)
+                return BadRequest("File not provided.");
+
             try
             {
                 var requestUploadType = (Enums.UploadFileTypeEnum)uploadType;
-                if (!CheckFileExtension(file , requestUploadType))
+
+                if (!CheckFileExtension(file, requestUploadType))
                 {
-                    return BadRequest($"The File does not have an extension or it is not image. " +
-                        $"The Expected extension is .jpg/.png/.bmp");
+                    return BadRequest("Invalid file extension.");
                 }
-                if(requestUploadType != Enums.UploadFileTypeEnum.Video)
+
+                if (requestUploadType != Enums.UploadFileTypeEnum.Video)
                 {
                     if (!CheckFileSize(file))
-                    {
-                        return BadRequest($"The size of file is more than 10 mb, " +
-                            $"please make sure that the file size must be less than 10 mb");
-                    }
-
+                        return BadRequest("File exceeds 10 MB.");
                 }
                 else
                 {
                     if (!CheckVideoFileSize(file))
-                    {
-                        return BadRequest($"The size of file is more than 10 mb, " +
-                            $"please make sure that the file size must be less than 500 mb");
-                    }
-
+                        return BadRequest("Video exceeds 500 MB.");
                 }
 
+                var folder = Path.Combine(Constants.UploadFolderName, ((Enums.FileLocation)fileLocation).ToString());
+                Directory.CreateDirectory(folder);
 
-                // Read the folder where the file is to be saved
-                var folder = Path.Combine(Constants.UploadFolderName,((Enums.FileLocation)fileLocation).ToString());
-                var fileNameExtension = file.FileName.Split(".").LastOrDefault();
-                var trustedFileNameForFileStorage = Path.GetRandomFileName() + "." + fileNameExtension;
-                if (file.Length > 0)
+                var ext = Path.GetExtension(file.FileName);
+                var newFileName = $"{Guid.NewGuid()}{ext}";
+                var filePath = Path.Combine(folder, newFileName);
+
+                using (var fs = new FileStream(filePath, FileMode.Create))
                 {
-                   // Read the Uploaded File Name
-                   //var postedFileName = ContentDispositionHeaderValue
-                   //  .Parse(file.ContentDisposition)
-                   //    .FileName.Trim('"');
-
-                    // set the file path as FolderName/FileName
-                    var finalPath = Path.Combine(folder, trustedFileNameForFileStorage);
-                    using (var fs = new FileStream(finalPath, FileMode.Create))
-                    {
-                        await file.CopyToAsync(fs);
-                    }
-                    return Ok(trustedFileNameForFileStorage);
-                }
-                else
-                {
-                    return BadRequest("The File is not received.");
+                    await file.CopyToAsync(fs);
                 }
 
-
+                return Ok(newFileName);
             }
             catch (Exception ex)
             {
-                return StatusCode(500,
-                  $"Some Error Occcured while uploading File {ex.Message}");
+                return StatusCode(500, $"Error: {ex.Message}");
             }
         }
 

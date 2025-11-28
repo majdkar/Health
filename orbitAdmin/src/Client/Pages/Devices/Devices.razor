@@ -1,0 +1,115 @@
+@page "/Devices"
+@attribute [Authorize(Policy = Permissions.Devices.View)]
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Devices> _localizer
+@using SchoolV01.Application.Features.Devices.Queries;
+
+<style>
+    .mud-table-container {
+        overflow: auto;
+    }
+</style>
+
+<HeroTitle Title="@_localizer["Devices Management"]" Description="@_localizer["Devices Management"]" />
+@if (!_loaded)
+{
+    <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
+}
+else
+{
+    <MudTable Elevation="25" ServerData=ServerReload Hover="true" Dense="@_dense" Bordered="@_bordered" Striped="@_striped" @ref="_table">
+        <ToolBarContent>
+            <div class="justify-center mud-text-align-center">
+                @if (_canCreateDevices)
+                {
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="@(() => InvokeModal(0))" StartIcon="@Icons.Material.Filled.Add" IconColor="Color.Surface">@_localizer["Create"]</MudButton>
+                    <MudButton Variant="Variant.Filled" OnClick="@(() => OnSearch(""))" StartIcon="@Icons.Material.Filled.Refresh" IconColor="Color.Surface" Color="Color.Secondary">@_localizer["Reload"]</MudButton>
+                    @if (_canExportDevices)
+                    {
+                        <MudButton Variant="Variant.Filled" OnClick="ExportToExcel" StartIcon="@Icons.Custom.FileFormats.FileExcel" IconColor="Color.Secondary" Color="Color.Surface" Style="margin-left: 5px;">@_localizer["Export"]</MudButton>
+                    }
+                }
+                else
+                {
+                    <MudButton Variant="Variant.Filled" OnClick="@(() => OnSearch(""))" StartIcon="@Icons.Material.Filled.Refresh" IconColor="Color.Surface" Color="Color.Secondary">@_localizer["Reload"]</MudButton>
+                    @if (_canExportDevices)
+                    {
+                        <MudButton Variant="Variant.Filled" OnClick="ExportToExcel" StartIcon="@Icons.Custom.FileFormats.FileExcel" IconColor="Color.Secondary" Color="Color.Surface" Style="margin-left: 5px;">@_localizer["Export"]</MudButton>
+                    }
+                }
+            </div>
+            <MudSpacer />
+            @if (_canSearchDevices)
+            {
+                <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="@_localizer["Search"]" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+            }
+        </ToolBarContent>
+        <HeaderContent>
+            <MudTh><MudTableSortLabel T="GetAllDevicesResponse" SortLabel="Name">@_localizer["Name"]</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel T="GetAllDevicesResponse" SortLabel="EnglishName">@_localizer["English Name"]</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel T="GetAllDevicesResponse" SortLabel="Supplier">@_localizer["Supplier"]</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel T="GetAllDevicesResponse" SortLabel="Model">@_localizer["Model"]</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel T="GetAllDevicesResponse" SortLabel="Code">@_localizer["Code"]</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel T="GetAllDevicesResponse" SortLabel="DeviceStatus">@_localizer["DeviceStatus"]</MudTableSortLabel></MudTh>
+
+            <MudTh Style="text-align:right">@_localizer["Actions"]</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="Name">
+                <MudHighlighter Text="@context.Name" HighlightedText="@_searchString" />
+            </MudTd>
+            <MudTd DataLabel="EnglishName">
+                <MudHighlighter Text="@context.EnglishName" HighlightedText="@_searchString" />
+            </MudTd>
+            <MudTd DataLabel="Supplier">
+                <MudHighlighter Text="@(IsArabic? context.Supplier?.Name: context.Supplier?.EnglishName)" HighlightedText="@_searchString" />
+            </MudTd>
+            <MudTd DataLabel="Model">
+                <MudHighlighter Text="@(IsArabic? context.Model: context.Model)" HighlightedText="@_searchString" />
+            </MudTd>
+            <MudTd DataLabel="Code">
+                <MudHighlighter Text="@(IsArabic? context.Code: context.Code)" HighlightedText="@_searchString" />
+            </MudTd>
+            <MudTd DataLabel="DeviceStatus">
+                <MudHighlighter Text="@(!string.IsNullOrEmpty(context.DeviceStatus) ?  _localizer[context.DeviceStatus] : "---")" HighlightedText="@_searchString" />
+            </MudTd>
+    
+            <MudTd DataLabel="Actions" Style="text-align: right">
+                @if (_canEditDevices || _canDeleteDevices || _canPreviewDevicesCard)
+                {
+                  @*   @if (_canViewDevices)
+                    {
+                        <MudButton Style="margin: 2px;" Variant="Variant.Filled" Size="Size.Small" Color="Color.Success" @onclick="@(() => InvokeModal(@context.Id))">@_localizer["Details"]</MudButton>
+                    } *@
+                    @if (_canEditDevices)
+                    {
+                        <MudButton Variant="Variant.Filled" Size="Size.Small" Color="Color.Info" @onclick="@(() => InvokeModal(@context.Id))">@_localizer["Edit"]</MudButton>
+                        <MudButton Variant="Variant.Filled" Size="Size.Small" Color="Color.Primary" @onclick="@(() => InvokeMaintenances(@context.Id))">@_localizer["Maintenance Table"]</MudButton>
+                    }
+                    @if (_canDeleteDevices)
+                    {
+                        <MudButton Style="margin: 1px;" Variant="Variant.Filled" Size="Size.Small" Color="Color.Error" @onclick="@(() => Delete(@context.Id))">@_localizer["Delete"]</MudButton>
+                    }
+                }
+                else
+                {
+                    <MudButton Variant="Variant.Filled"
+                       
+                       StartIcon="@Icons.Material.Filled.DoNotTouch"
+                       IconColor="Color.Secondary"
+                       Size="Size.Small"
+                       Color="Color.Surface">
+                        @_localizer["No Allowed Actions"]
+                    </MudButton>
+                }
+            </MudTd>
+        </RowTemplate>
+        <PagerContent>
+            <TablePager />
+        </PagerContent>
+    </MudTable>
+    <div class="d-flex flex-wrap mt-4">
+        <MudSwitch @bind-Value="@_dense" Color="Color.Secondary" Style="margin-left: 5px;">@_localizer["Dense"]</MudSwitch>
+        <MudSwitch @bind-Value="@_striped" Color="Color.Tertiary" Style="margin-left: 5px;">@_localizer["Striped"]</MudSwitch>
+        <MudSwitch @bind-Value="@_bordered" Color="Color.Warning" Style="margin-left: 5px;">@_localizer["Bordered"]</MudSwitch>
+    </div>
+}

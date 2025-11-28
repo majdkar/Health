@@ -1,0 +1,183 @@
+@page "/ReportDevices"
+@using SchoolV01.Shared.Constants.Device
+@using SchoolV01.Client.Pages.Devices
+@attribute [Authorize(Policy = Permissions.Owners.View)]
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Devices> _localizer
+@inject IJSRuntime ijsRuntime
+
+<MudPaper Elevation="5" Class="pa-6 mt-10">
+
+    <MudText Typo="Typo.h5" Class="mb-4">@_localizer["Devices Reports"]</MudText>
+
+    <MudGrid GutterSize="3">
+
+        <!-- City -->
+        <MudItem xs="12" md="4">
+            @if (_city is not null)
+            {
+                <MudSelect T="int" Label="@_localizer["City"]" @bind-Value="CityId" Variant="Variant.Outlined">
+                    @foreach (var value in _city)
+                    {
+                        <MudSelectItem T="int" Value="@value.Id">@(IsArabic ? value.NameAr : value.NameEn)</MudSelectItem>
+                    }
+                </MudSelect>
+            }
+        </MudItem>
+
+        <!-- Directorate -->
+        <MudItem xs="12" md="4">
+            @if (_directorate is not null)
+            {
+                <MudSelect T="int" Label="@_localizer["Directorate"]" @bind-Value="DirectorateId" Variant="Variant.Outlined">
+                    @foreach (var value in _directorate)
+                    {
+                        <MudSelectItem Value="@value.Id">@(IsArabic ? value.Name : value.EnglishName)</MudSelectItem>
+                    }
+                </MudSelect>
+            }
+        </MudItem>
+
+        <!-- Project Type -->
+        <MudItem xs="12" md="4">
+            <MudAutocomplete T="int" Clearable="true" MaxItems="null" Label="@_localizer["Device Category"]"
+                             @bind-Value="ProjectTypeId"
+                             SearchFunc="SearchProjectType"
+                             ToStringFunc="@(i => _projectTypes.FirstOrDefault(b => b.Id == i)?.Name ?? string.Empty)"
+                             Variant="Variant.Outlined" />
+        </MudItem>
+
+        <!-- By Type -->
+        <MudItem xs="12" md="4">
+            <MudSelect T="string" Label="@_localizer["By Type"]" @bind-Value="ByType" Variant="Variant.Outlined">
+                <MudSelectItem Value="@ByTypeEnum.Clinic.ToString()">@_localizer["Clinic"]</MudSelectItem>
+                <MudSelectItem Value="@ByTypeEnum.Hospital.ToString()">@_localizer["Hospital"]</MudSelectItem>
+            </MudSelect>
+        </MudItem>
+
+        <!-- Clinic/Hospital Conditional -->
+        @if (ByType == ByTypeEnum.Clinic.ToString())
+        {
+            <MudItem xs="12" md="4">
+                <MudAutocomplete T="int" Clearable="true" Label="@_localizer["Clinic"]"
+                                 @bind-Value="ClinicId"
+                                 SearchFunc="SearchClinics"
+                                 ToStringFunc="@(i => _clinic.FirstOrDefault(b => b.Id == i)?.Name ?? string.Empty)"
+                                 Variant="Variant.Outlined" />
+            </MudItem>
+        }
+        else
+        {
+            <MudItem xs="12" md="4">
+                <MudAutocomplete T="int" Clearable="true" Label="@_localizer["Hospital"]"
+                                 @bind-Value="HospitalId"
+                                 SearchFunc="SearchHospitals"
+                                 ToStringFunc="@(i => _hospital.FirstOrDefault(b => b.Id == i)?.Name ?? string.Empty)"
+                                 Variant="Variant.Outlined" />
+            </MudItem>
+        }
+
+        <!-- Device Name AR -->
+        <MudItem xs="12" md="4">
+            <MudTextField @bind-Value="DeviceNameAr" Label="@_localizer["Name"]" Variant="Variant.Outlined" />
+        </MudItem>
+
+        <!-- Device Name EN -->
+        <MudItem xs="12" md="4">
+            <MudTextField @bind-Value="DeviceNameEn" Label="@_localizer["English Name"]" Variant="Variant.Outlined" />
+        </MudItem>
+
+        <!-- Code -->
+        <MudItem xs="12" md="4">
+            <MudTextField @bind-Value="Code" Label="@_localizer["Code"]" Variant="Variant.Outlined" />
+        </MudItem>
+
+        <!-- Year -->
+        <MudItem xs="12" md="4">
+            <MudTextField @bind-Value="Year" Label="@_localizer["Year"]" Variant="Variant.Outlined" />
+        </MudItem>
+
+        <!-- Serial Number -->
+        <MudItem xs="12" md="4">
+            <MudTextField @bind-Value="SerialNumber" Label="@_localizer["SerialNumber"]" Variant="Variant.Outlined" />
+        </MudItem>
+
+        <!-- Device Status -->
+        <MudItem xs="12" md="4">
+            <MudSelect T="string" @bind-Value="DeviceStatus" Label="@_localizer["DeviceStatus"]" Variant="Variant.Outlined">
+                @foreach (var value in SchoolV01.Shared.Constants.Device.DeviceStatus.Values)
+                {
+                    <MudSelectItem Value="@value.Key">@_localizer[value.Key]</MudSelectItem>
+                }
+            </MudSelect>
+        </MudItem>
+
+        <!-- Run From -->
+        <MudItem xs="12" md="4">
+            <MudDatePicker @bind-Date="runfromdate" Label="@_localizer["Start From"]" Variant="Variant.Outlined" />
+        </MudItem>
+
+        <!-- Run To -->
+        <MudItem xs="12" md="4">
+            <MudDatePicker @bind-Date="runtodate" Label="@_localizer["Start To"]" Variant="Variant.Outlined" />
+        </MudItem>
+
+    </MudGrid>
+
+    <!-- Buttons -->
+    <div class="mt-6 d-flex gap-2">
+
+        <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="SearchAdvance">
+            @_localizer["Search"]
+        </MudButton>
+
+        <MudButton Variant="Variant.Outlined" StartIcon="@Icons.Material.Filled.Refresh" OnClick="@(() => OnSearch(""))">
+            @_localizer["Reload"]
+        </MudButton>
+
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Custom.FileFormats.FileExcel"
+                   OnClick="ExportToExcel">
+            @_localizer["Export"]
+        </MudButton>
+
+@*         <MudButton Variant="Variant.Filled" Color="Color.Info" StartIcon="@Icons.Material.Filled.Print"
+                   OnClick="PrintMe">
+            @_localizer["Export To Pdf"]
+        </MudButton> *@
+
+    </div>
+</MudPaper>
+
+<br />
+<br />
+
+<!-- Results Table -->
+@if (!_loaded)
+{
+    <MudProgressCircular Class="mt-5" Color="Color.Primary" Indeterminate="true" />
+}
+else
+{
+    <MudTable Items="_pagedData" Hover="true" Dense="true" Bordered="true">
+
+        <HeaderContent>
+            <MudTh>@_localizer["Name"]</MudTh>
+            <MudTh>@_localizer["Supplier"]</MudTh>
+            <MudTh>@_localizer["Device Category"]</MudTh>
+            <MudTh>@_localizer["Code"]</MudTh>
+            <MudTh>@_localizer["SerialNumber"]</MudTh>
+            <MudTh>@_localizer["StartRun"]</MudTh>
+        </HeaderContent>
+
+        <RowTemplate>
+            <MudTd>@(IsArabic? context.Name: context.EnglishName)</MudTd>
+            <MudTd>@(IsArabic? context.SupplierNameAr: context.SupplierNameEn)</MudTd>
+            <MudTd>@(IsArabic? context.ProjectTypeNameAr: context.ProjectTypeNameEn)</MudTd>
+            <MudTd>@context.Code</MudTd>
+            <MudTd>@context.SerialNumber</MudTd>
+            <MudTd>@context.StartRun?.ToShortDateString()</MudTd>
+        </RowTemplate>
+
+    </MudTable>
+
+    <Pagination Selected="tablestate" TotalCount="_totalItems" SelectedChanged="LoadData" />
+}

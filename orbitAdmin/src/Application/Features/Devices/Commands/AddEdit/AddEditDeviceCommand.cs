@@ -47,6 +47,7 @@ namespace SchoolV01.Application.Features.Devices.Commands
         public string ByType { get; set; }   // مشفى ولا عيادة
         public int? ClinicId { get; set; }
         public int? HospitalId { get; set; }
+        public string DeviceStatus { get; set; }
 
         internal class AddEditDeviceCommandHandler : IRequestHandler<AddEditDeviceCommand, Result<int>>
         {
@@ -101,6 +102,7 @@ namespace SchoolV01.Application.Features.Devices.Commands
                         position.SerialNumber = command.SerialNumber ?? position.SerialNumber;
                         position.Code = command.Code ?? position.Code;
                         position.Year = command.Year ?? position.Year;
+                        position.DeviceStatus = command.DeviceStatus ?? position.DeviceStatus;
                         position.StartRun = command.StartRun ?? position.StartRun;
                         position.HospitalId = command.HospitalId ?? position.HospitalId;
                         position.ClinicId = command.ClinicId ?? position.ClinicId;

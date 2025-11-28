@@ -101,6 +101,22 @@ namespace SchoolV01.Client.Pages.Directorates
             }
         }
 
+
+
+        private void InvokeHospitals(int id = 0)
+        {
+
+            _navigationManager.NavigateTo($"/Hospitals/{id}");
+
+        }
+
+
+        private void InvokeClinics(int id = 0)
+        {
+
+            _navigationManager.NavigateTo($"/Clinics/{id}");
+
+        }
         private void OnSearch(string text)
         {
             _searchString = text;

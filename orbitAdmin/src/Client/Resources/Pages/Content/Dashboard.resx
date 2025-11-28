@@ -117,175 +117,28 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Saturday" xml:space="preserve">
-    <value />
+  <data name="Center Devices" xml:space="preserve">
+    <value>Center Devices</value>
   </data>
-  <data name="Sunday" xml:space="preserve">
-    <value />
+  <data name="Clinics" xml:space="preserve">
+    <value>Clinics</value>
   </data>
-  <data name="Monday" xml:space="preserve">
-    <value />
+  <data name="Directorates" xml:space="preserve">
+    <value>Directorates</value>
   </data>
-  <data name="Tuesday" xml:space="preserve">
-    <value />
+  <data name="Hospitals" xml:space="preserve">
+    <value>Hospitals</value>
   </data>
-  <data name="Wednesday" xml:space="preserve">
-    <value />
+  <data name="Needs Calibration" xml:space="preserve">
+    <value>Needs Calibration</value>
   </data>
-  <data name="Thursday" xml:space="preserve">
-    <value />
+  <data name="Needs Maintenance" xml:space="preserve">
+    <value>Needs Maintenance</value>
   </data>
-  <data name="Friday" xml:space="preserve">
-    <value />
+  <data name="Suppliers" xml:space="preserve">
+    <value>Suppliers</value>
   </data>
-  <data name="Students" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Branches" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Teachers" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Academics" xml:space="preserve">
-    <value>Academics</value>
-  </data>
-  <data name="Week" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Today" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Department" xml:space="preserve">
-    <value>Department</value>
-  </data>
-  <data name="Apr" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Aug" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Brands" xml:space="preserve">
-    <value />
-  </data>
-  <data name="TaskCategories" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Academics And LMS Data Overview" xml:space="preserve">
-    <value>Academics And LMS Data Overview</value>
-  </data>
-  <data name="Home" xml:space="preserve">
-    <value>Home</value>
-  </data>
-  <data name="Dec" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Document Extended Attributes" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Document Types" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Term" xml:space="preserve">
-    <value>Term</value>
-  </data>
-  <data name="Feb" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Jan" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Jul" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Jun" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Mar" xml:space="preserve">
-    <value />
-  </data>
-  <data name="May" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Nations" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Nov" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Oct" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Owners" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Passports" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Princedoms" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Products" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Private Leasson" xml:space="preserve">
-    <value>Private Leasson</value>
-  </data>
-  <data name="Realtime Updates &amp; Insights with SignalR." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Registered Roles" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Registered Users" xml:space="preserve">
-    <value />
-  </data>
-  <data name="RequestStatuss" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Sep" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Projects" xml:space="preserve">
-    <value />
-  </data>
-  <data name="UnderConstruction" xml:space="preserve">
-    <value />
-  </data>
-  <data name="View Profile" xml:space="preserve">
-    <value>View Profile</value>
-  </data>
-  <data name="Active" xml:space="preserve">
-    <value>Active</value>
-  </data>
-  <data name="Inactive Students" xml:space="preserve">
-    <value>Inactive Students</value>
-  </data>
-  <data name="Licenses" xml:space="preserve">
-    <value>Licenses</value>
-  </data>
-  <data name="Teachers ; Admin Staff" xml:space="preserve">
-    <value>Teachers ; Admin Staff</value>
-  </data>
-  <data name="Admin" xml:space="preserve">
-    <value>Admin</value>
-  </data>
-  <data name="Events" xml:space="preserve">
-    <value>Events</value>
-  </data>
-  <data name="Upcoming" xml:space="preserve">
-    <value>Upcoming</value>
-  </data>
-  <data name="New Submissions" xml:space="preserve">
-    <value>New Submissions</value>
-  </data>
-  <data name="Generic" xml:space="preserve">
-    <value>Generic</value>
-  </data>
-  <data name="Students Pre-admission" xml:space="preserve">
-    <value>Students Pre-admission</value>
-  </data>
-  <data name="Teachers Registration" xml:space="preserve">
-    <value>Teachers Registration</value>
+  <data name="Working Well" xml:space="preserve">
+    <value>Working Well</value>
   </data>
 </root>

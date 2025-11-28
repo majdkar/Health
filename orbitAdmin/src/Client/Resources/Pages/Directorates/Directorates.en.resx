@@ -213,4 +213,10 @@
   <data name="Directorates Management." xml:space="preserve">
     <value>Directorates Management.</value>
   </data>
+  <data name="Hospitals" xml:space="preserve">
+    <value>Hospitals</value>
+  </data>
+  <data name="Clinics" xml:space="preserve">
+    <value>Clinics</value>
+  </data>
 </root>

@@ -10,12 +10,12 @@
 @* <UserCard />
 <MudDivider Class="my-2" Style="flex-grow: inherit;" /> *@
 <MudNavMenu Bordered="true">
-    <MudNavLink Href="/" Match="NavLinkMatch.All" Icon="@Icons.Material.Outlined.Home">@_localizer["Home"]</MudNavLink>
+    <MudNavLink Href="/" Match="NavLinkMatch.All" IconColor="Color.Tertiary" Icon="@Icons.Material.Outlined.Home">@_localizer["Home"]</MudNavLink>
 
 
 
     <AuthorizeView Policy="@Permissions.WebSiteManagement.View" Context="auth">
-        <MudNavGroup Title="@_localizer["WebSite Management"]" Icon="@Icons.Material.Filled.KeyboardArrowDown">
+        <MudNavGroup Title="@_localizer["WebSite Management"]" IconColor="Color.Tertiary" Icon="@Icons.Material.Filled.KeyboardArrowDown">
             <MudNavGroup Title="@_localizer["Blocks Management"]">
                 <AuthorizeView Roles="@RoleConstants.AdministratorRole">
                     <MudNavLink Href="/block-categories">@_localizer["Block Categories List"]</MudNavLink>
@@ -64,9 +64,31 @@
         </MudNavGroup>
     </AuthorizeView>
 
+
+    @if (_isAdmin)
+    {
+        <MudNavGroup Title="@_localizer["Administrator"]" IconColor="Color.Tertiary" Icon="@Icons.Material.Outlined.Person">
+            @*<MudListSubheader Class="mt-2 mb-n2">@_localizer["Administrator"]</MudListSubheader>*@
+            @if (_canViewUsers)
+            {
+                <MudNavLink Href="/identity/users" Match="NavLinkMatch.Prefix">
+                    @_localizer["Users"]
+                </MudNavLink>
+            }
+            @if (_canViewRoles)
+            {
+                <MudNavLink Href="/identity/roles" Match="NavLinkMatch.Prefix">
+                    @_localizer["Roles"]
+                </MudNavLink>
+            }
+
+        </MudNavGroup>
+
+    }
+
     @if (_canViewCountrys || _canViewCities || _canViewProjectTypes || _canViewPositions)
     {
-        <MudNavGroup Title="@_localizer["GeneralSettings Management"]" Icon="@Icons.Material.Filled.Settings">
+        <MudNavGroup Title="@_localizer["GeneralSettings Management"]" IconColor="Color.Tertiary" Icon="@Icons.Material.Filled.Settings">
             @if (_canViewCountrys)
             {
                 <MudNavLink Href="/General-Settings/Countries" Match="NavLinkMatch.Prefix">
@@ -90,7 +112,7 @@
 
             @if (_canViewPositions)
             {
-                <MudNavLink Href="/GeneralSettings/ProjectTypes" Match="NavLinkMatch.Prefix">
+                <MudNavLink Href="/GeneralSettings/ProjectTypes"  Match="NavLinkMatch.Prefix">
         @_localizer["Device Categories"]
                 </MudNavLink>
             }
@@ -100,52 +122,51 @@
 
     @if (_canViewDirectorates)
     {
-        <MudNavLink Href="/Directorates" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Outlined.DirtyLens">
+        <MudNavLink Href="/Directorates" Match="NavLinkMatch.Prefix" IconColor="Color.Tertiary" Icon="@Icons.Material.Outlined.DirtyLens">
             @_localizer["Directorates Management"]
         </MudNavLink>
     }
 
     @if (_canViewHospitals)
     {
-        <MudNavLink Href="/Hospitals" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Outlined.DirtyLens">
+        <MudNavLink Href="/Hospitals" Match="NavLinkMatch.Prefix" IconColor="Color.Tertiary" Icon="@Icons.Material.Filled.LocalHospital">
             @_localizer["Hospitals Management"]
         </MudNavLink>
     }
 
     @if (_canViewClinics)
     {
-        <MudNavLink Href="/Clinics" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Outlined.DirtyLens">
+        <MudNavLink Href="/Clinics" Match="NavLinkMatch.Prefix" IconColor="Color.Tertiary" Icon="@Icons.Material.Filled.MedicalInformation">
             @_localizer["Clinics Management"]
         </MudNavLink>
     }
 
     @if (_canViewSuppliers)
     {
-        <MudNavLink Href="/Suppliers" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Outlined.DirtyLens">
+        <MudNavLink Href="/Suppliers" Match="NavLinkMatch.Prefix" IconColor="Color.Tertiary" Icon="@Icons.Material.Filled.LocalShipping">
             @_localizer["Suppliers Management"]
         </MudNavLink>
     }
 
-    @if (_isAdmin)
+    @if (_canViewDevices)
     {
-        <MudNavGroup Title="@_localizer["Administrator"]" Icon="@Icons.Material.Outlined.Person">
-            @*<MudListSubheader Class="mt-2 mb-n2">@_localizer["Administrator"]</MudListSubheader>*@
-            @if (_canViewUsers)
-            {
-                <MudNavLink Href="/identity/users" Match="NavLinkMatch.Prefix">
-                    @_localizer["Users"]
-                </MudNavLink>
-            }
-            @if (_canViewRoles)
-            {
-                <MudNavLink Href="/identity/roles" Match="NavLinkMatch.Prefix">
-                    @_localizer["Roles"]
-                </MudNavLink>
-            }
+        <MudNavLink Href="/Devices" Match="NavLinkMatch.Prefix" IconColor="Color.Tertiary" Icon="@Icons.Material.Filled.Devices">
+            @_localizer["Devices Management"]
+        </MudNavLink>
+    }
+
+    @if (_canViewDevices)
+    {
+        <MudNavGroup Title="@_localizer["Reports Management"]" IconColor="Color.Tertiary" Icon="@Icons.Material.Filled.Report">
+
+        <MudNavLink Href="/ReportDevices" Match="NavLinkMatch.Prefix" >
+                @_localizer["Devices Reports"]
+        </MudNavLink>
 
         </MudNavGroup>
-
     }
+
+  
 
      
 
@@ -176,6 +197,7 @@
     private bool _canViewHospitals;
     private bool _canViewClinics;
     private bool _canViewSuppliers;
+    private bool _canViewDevices;
 
     @*/*s0012s*/*@
     private bool _canViewOwners;
@@ -206,6 +228,7 @@
         _canViewHospitals = (await _authorizationService.AuthorizeAsync(_authenticationStateProviderUser, Permissions.Hospitals.View)).Succeeded;
         _canViewClinics = (await _authorizationService.AuthorizeAsync(_authenticationStateProviderUser, Permissions.Clinics.View)).Succeeded;
         _canViewSuppliers = (await _authorizationService.AuthorizeAsync(_authenticationStateProviderUser, Permissions.Suppliers.View)).Succeeded;
+        _canViewDevices = (await _authorizationService.AuthorizeAsync(_authenticationStateProviderUser, Permissions.Devices.View)).Succeeded;
         
 
         _currentUser = await _authenticationManager.CurrentUser();

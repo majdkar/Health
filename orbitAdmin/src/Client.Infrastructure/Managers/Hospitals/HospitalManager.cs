@@ -39,6 +39,12 @@ namespace SchoolV01.Client.Infrastructure.Managers.GeneralSettings
             return await response.ToPaginatedResult<GetAllHospitalsResponse>();
         }
 
+        public async Task<PaginatedResult<GetAllHospitalsResponse>> GetAllPagedByDirectorateIdAsync(GetAllPagedHospitalsRequest request,int supplierId)
+        {
+            var response = await _httpClient.GetAsync(Routes.HospitalsEndpoints.GetAllPagedByDirectorateId(supplierId, request.PageNumber,request.PageSize,request.SearchString,request.Orderby));
+            return await response.ToPaginatedResult<GetAllHospitalsResponse>();
+        }
+
         public async Task<IResult<GetAllHospitalsResponse>> GetAsync(int id)
         {
             var response = await _httpClient.GetAsync($"{Routes.HospitalsEndpoints.Endpoints}/{id}");

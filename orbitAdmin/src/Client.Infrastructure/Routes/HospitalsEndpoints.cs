@@ -20,6 +20,19 @@ namespace SchoolV01.Client.Infrastructure.Routes
             }
             return url;
         }
+        public static string GetAllPagedByDirectorateId(int supplierId, int pageNumber, int pageSize, string searchString, string[] orderBy)
+        {
+            var url = $"{Endpoints}/ByDirectorateId?supplierId={supplierId}&pageNumber={pageNumber}&pageSize={pageSize}&searchString={searchString}&orderBy=";
+            if (orderBy?.Any() == true)
+            {
+                foreach (var orderByPart in orderBy)
+                {
+                    url += $"{orderByPart},";
+                }
+                url = url[..^1]; // loose training ,
+            }
+            return url;
+        }
 
         public static string GetAll = $"{Endpoints}/GetAll";
     }

@@ -117,110 +117,28 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Saturday" xml:space="preserve">
-    <value>السبت</value>
+  <data name="Center Devices" xml:space="preserve">
+    <value>أجهزة المراكز</value>
   </data>
-  <data name="Sunday" xml:space="preserve">
-    <value>الأحد</value>
+  <data name="Clinics" xml:space="preserve">
+    <value>المستوصفات</value>
   </data>
-  <data name="Monday" xml:space="preserve">
-    <value>الإثنين</value>
+  <data name="Directorates" xml:space="preserve">
+    <value>المديريات</value>
   </data>
-  <data name="Tuesday" xml:space="preserve">
-    <value>الثلاثاء</value>
+  <data name="Hospitals" xml:space="preserve">
+    <value>المستشفيات</value>
   </data>
-  <data name="Wednesday" xml:space="preserve">
-    <value>الأربعاء</value>
+  <data name="Needs Calibration" xml:space="preserve">
+    <value>تحتاج معايرة</value>
   </data>
-  <data name="Thursday" xml:space="preserve">
-    <value>الخميس</value>
+  <data name="Needs Maintenance" xml:space="preserve">
+    <value>تحتاج صيانة</value>
   </data>
-  <data name="Friday" xml:space="preserve">
-    <value>الجمعة</value>
+  <data name="Suppliers" xml:space="preserve">
+    <value>الموردين</value>
   </data>
-  <data name="Students" xml:space="preserve">
-    <value>طلاب</value>
-  </data>
-  <data name="Branches" xml:space="preserve">
-    <value>شعبة</value>
-  </data>
-  <data name="Teachers" xml:space="preserve">
-    <value>المدرسين</value>
-  </data>
-  <data name="Academics" xml:space="preserve">
-    <value>الاكاديميات</value>
-  </data>
-  <data name="Week" xml:space="preserve">
-    <value>الأسبوع</value>
-  </data>
-  <data name="Today" xml:space="preserve">
-    <value>اليوم</value>
-  </data>
-  <data name="Department" xml:space="preserve">
-    <value>القسم</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Apr" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
-  </data>
-  <data name="TaskCategories" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
-  </data>
-  <data name="Academics And LMS Data Overview" xml:space="preserve">
-    <value>نظرة عامة على البيانات الأكاديمية وأنظمة إدارة التعلم</value>
-  </data>
-  <data name="Home" xml:space="preserve">
-    <value>الصفحة الرئيسية</value>
-  </data>
-  <data name="Document Extended Attributes" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
-  </data>
-  <data name="Term" xml:space="preserve">
-    <value>الفصل</value>
-  </data>
-  <data name="Jul" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
-  </data>
-  <data name="Private Leasson" xml:space="preserve">
-    <value>درس خصوصي</value>
-  </data>
-  <data name="Sep" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
-  </data>
-  <data name="View Profile" xml:space="preserve">
-    <value>عرض البروفايل</value>
-  </data>
-  <data name="Active" xml:space="preserve">
-    <value>فعال</value>
-  </data>
-  <data name="Inactive Students" xml:space="preserve">
-    <value>الطلاب غير النشطين</value>
-  </data>
-  <data name="Licenses" xml:space="preserve">
-    <value>التراخيص</value>
-  </data>
-  <data name="Teachers ; Admin Staff" xml:space="preserve">
-    <value>المدرسون الموظفون الإداريون</value>
-  </data>
-  <data name="Admin" xml:space="preserve">
-    <value>المدير</value>
-  </data>
-  <data name="Events" xml:space="preserve">
-    <value>الأحداث</value>
-  </data>
-  <data name="Upcoming" xml:space="preserve">
-    <value>القادمة</value>
-  </data>
-  <data name="New Submissions" xml:space="preserve">
-    <value>التقديمات الجديدة</value>
-  </data>
-  <data name="Generic" xml:space="preserve">
-    <value>عامة</value>
-  </data>
-  <data name="Students Pre-admission" xml:space="preserve">
-    <value>الطلاب المتقدمين</value>
-  </data>
-  <data name="Teachers Registration" xml:space="preserve">
-    <value>تسجيل المعلمين</value>
+  <data name="Working Well" xml:space="preserve">
+    <value>يعمل بشكل جيد</value>
   </data>
 </root>
