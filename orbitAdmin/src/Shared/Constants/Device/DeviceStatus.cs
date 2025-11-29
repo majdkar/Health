@@ -9,6 +9,8 @@ namespace SchoolV01.Shared.Constants.Device
             {"ItWorksWell", "ItWorksWell" },
             {"DeviceNeedsMaintenance", "DeviceNeedsMaintenance" },
             {"DeviceNeedsCalibration", "DeviceNeedsCalibration" },
+            {"ItdosenotWorks", "ItdosenotWorks" },
+            {"Coordinator", "Coordinator" },
         
 
         };
@@ -19,6 +21,8 @@ namespace SchoolV01.Shared.Constants.Device
         ItWorksWell,
         DeviceNeedsMaintenance,
         DeviceNeedsCalibration,
+        ItdosenotWorks,
+        Coordinator,
     }
 
     public enum ByTypeEnum

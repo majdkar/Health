@@ -1,0 +1,79 @@
+@using SchoolV01.Shared.Constants.Device
+@inject Microsoft.Extensions.Localization.IStringLocalizer<DeviceStatuss> _localizer
+
+<EditForm Model="@AddEditDeviceStatusModel" OnValidSubmit="SaveAsync">
+    <FluentValidationValidator @ref="_fluentValidationValidator" />
+    <MudDialog>
+        <TitleContent>
+            @{
+                if (AddEditDeviceStatusModel.Id == 0)
+                {
+                    <MudText Typo="Typo.h6">
+                        <MudIcon Icon="@Icons.Material.Filled.Add" Class="mr-3 mb-n1" />
+                        @_localizer["Add DeviceStatus"]
+                    </MudText>
+                }
+                else
+                {
+                    <MudText Typo="Typo.h6">
+                        <MudIcon Icon="@Icons.Material.Filled.Update" Class="mr-3 mb-n1" />
+                        @_localizer["Update DeviceStatus"]
+                    </MudText>
+                }
+            }
+        </TitleContent>
+        <DialogContent>
+            <MudGrid>
+
+
+
+                <MudItem xs="12" md="6">
+                    <MudDatePicker @bind-Date="AddEditDeviceStatusModel.DeviceStatusDate" Variant="Variant.Outlined" Culture="System.Globalization.CultureInfo.InvariantCulture" DateFormat="d/MM/yyyy" Label="@_localizer["DeviceStatus Date"]" DisableToolbar="true" AutoClose="true" Elevation="12" InputVariant="Variant.Outlined" />
+                </MudItem>
+
+                <MudItem xs="12" md="6">
+                    <MudSelect @bind-Value="@AddEditDeviceStatusModel.Status" T="string" Label="@_localizer["DeviceStatus"]" AnchorOrigin="Origin.BottomCenter" Variant="Variant.Outlined">
+                        @foreach (var value in DeviceStatus.Values)
+                        {
+                            <MudSelectItem T="string" Value="@value.Key">@_localizer[@value.Key]</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+
+             
+
+            </MudGrid>
+        </DialogContent>
+        <DialogActions>
+            <MudButton Variant="Variant.Filled" OnClick="Cancel">@_localizer["Cancel"]</MudButton>
+            @if (AddEditDeviceStatusModel.Id != 0)
+            {
+                  <MudButton Variant="Variant.Filled" ButtonType="ButtonType.Submit" Disabled="@(!Validated)" Color="Color.Secondary">
+                @if (_processing)
+                    {
+                        <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                        <MudText Class="ms-2">Processing</MudText>
+                    }
+                    else
+                    {
+                        @_localizer["Update"]
+                    }
+                </MudButton>
+            }
+            else
+            {
+                <MudButton Variant="Variant.Filled" ButtonType="ButtonType.Submit" Disabled="@(!Validated)" Color="Color.Success">
+                @if (_processing)
+                    {
+                        <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                        <MudText Class="ms-2">Processing</MudText>
+                    }
+                    else
+                    {
+                        @_localizer["Save"]
+                    }
+                </MudButton>
+            }
+        </DialogActions>
+    </MudDialog>
+</EditForm>

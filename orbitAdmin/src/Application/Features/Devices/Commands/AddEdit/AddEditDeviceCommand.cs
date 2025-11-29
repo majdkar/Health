@@ -86,6 +86,15 @@ namespace SchoolV01.Application.Features.Devices.Commands
 
                     await _unitOfWork.Repository<Device>().AddAsync(position);
 
+                    var status = new DeviceStatus
+                    {
+                        DeviceId = position.Id,
+                        Status = command.DeviceStatus,
+                        DeviceStatusDate = DateTime.Now
+                    };
+
+                    await _unitOfWork.Repository<DeviceStatus>().AddAsync(status);
+
                     await _unitOfWork.CommitAndRemoveCache(cancellationToken, ApplicationConstants.Cache.GetAllDevicesCacheKey);
                     return await Result<int>.SuccessAsync(position.Id, _localizer["Device Saved"]);
                 }
@@ -94,6 +103,13 @@ namespace SchoolV01.Application.Features.Devices.Commands
                     var position = await _unitOfWork.Repository<Device>().GetByIdAsync(command.Id);
                     if (position != null)
                     {
+                        bool statusChanged = false;
+
+                        if (command.DeviceStatus != null && command.DeviceStatus != position.DeviceStatus)
+                        {
+                            statusChanged = true;
+                        }
+
                         position.Name = command.Name ?? position.Name;
                         position.ProjectTypeId = command.ProjectTypeId ?? position.ProjectTypeId;
                         position.SubProjectTypeId = command.SubProjectTypeId ?? position.SubProjectTypeId;
@@ -107,17 +123,31 @@ namespace SchoolV01.Application.Features.Devices.Commands
                         position.HospitalId = command.HospitalId ?? position.HospitalId;
                         position.ClinicId = command.ClinicId ?? position.ClinicId;
                         position.SupplierId = command.SupplierId ?? position.SupplierId;
-                   
                         position.EnglishName = command.EnglishName ?? position.EnglishName;
+
                         if (IicenseUrlUploadRequest != null)
                         {
                             position.LicenseUrl = _uploadService.UploadAsync(IicenseUrlUploadRequest);
                         }
-                        if (IicenseUrlUploadRequest == null)
+                        else
                         {
                             position.LicenseUrl = command.LicenseUrl;
                         }
+
                         await _unitOfWork.Repository<Device>().UpdateAsync(position);
+
+                        if (statusChanged)
+                        {
+                            var status = new DeviceStatus
+                            {
+                                DeviceId = position.Id,
+                                Status = command.DeviceStatus,
+                                DeviceStatusDate = DateTime.Now
+                            };
+
+                            await _unitOfWork.Repository<DeviceStatus>().AddAsync(status);
+                        }
+
                         await _unitOfWork.CommitAndRemoveCache(cancellationToken, ApplicationConstants.Cache.GetAllDevicesCacheKey);
                         return await Result<int>.SuccessAsync(position.Id, _localizer["Device Updated"]);
                     }
@@ -126,6 +156,7 @@ namespace SchoolV01.Application.Features.Devices.Commands
                         return await Result<int>.FailAsync(_localizer["Device Not Found!"]);
                     }
                 }
+
             }
         }
     }

@@ -7,7 +7,6 @@
     <!-- الشعار في الأعلى -->
     <MudStack Direction="Row" AlignItems="AlignItems.Center" Spacing="2" Class="mb-4">
         <img src="logohero.png" Alt="Logo" width="100px" />
-        <MudText Typo="Typo.h4" Class="ml-2">الهندسة الطبية</MudText>
     </MudStack>
 
     @if (_isProcessingDashboardDataResponse)
@@ -103,6 +102,24 @@
                                         <MudText>@_localizer["Working Well"]</MudText>
                                     </MudStack>
                                     <MudText Typo="Typo.h4" Color="Color.Success">@_data.DeviceWorked</MudText>
+                                </MudPaper>
+                            </MudItem>
+                            <MudItem xs="12" sm="4">
+                                <MudPaper Class="pa-3" Style="background-color: #E3F2FD;">
+                                    <MudStack Direction="Row" AlignItems="AlignItems.Center" Spacing="1">
+                                        <MudIcon Icon="@Icons.Material.Filled.CheckCircle" Color="Color.Primary" Size="Size.Medium" />
+                                        <MudText>@_localizer["Not Working"]</MudText>
+                                    </MudStack>
+                                    <MudText Typo="Typo.h4" Color="Color.Primary">@_data.DeviceNotWork</MudText>
+                                </MudPaper>
+                            </MudItem>
+                            <MudItem xs="12" sm="4">
+                                <MudPaper Class="pa-3" Style="background-color: #FFEBEE;">
+                                    <MudStack Direction="Row" AlignItems="AlignItems.Center" Spacing="1">
+                                        <MudIcon Icon="@Icons.Material.Filled.CheckCircle" Color="Color.Error" Size="Size.Medium" />
+                                        <MudText>@_localizer["Coordinator"]</MudText>
+                                    </MudStack>
+                                    <MudText Typo="Typo.h4" Color="Color.Error">@_data.DeviceCoordinator</MudText>
                                 </MudPaper>
                             </MudItem>
                         </MudGrid>

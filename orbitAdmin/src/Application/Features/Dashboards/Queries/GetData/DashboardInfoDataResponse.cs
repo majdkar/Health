@@ -10,6 +10,8 @@ namespace SchoolV01.Application.Features.Dashboards.Queries.GetData
         public int DeviceWorked { get; set; }
         public int DeviceCalibration { get; set; }
         public int DeviceMaintenance { get; set; }
+        public int DeviceNotWork { get; set; }
+        public int DeviceCoordinator { get; set; }
         public int Supplier { get; set; }
 
     }

@@ -84,6 +84,7 @@ else
                     {
                         <MudButton Variant="Variant.Filled" Size="Size.Small" Color="Color.Info" @onclick="@(() => InvokeModal(@context.Id))">@_localizer["Edit"]</MudButton>
                         <MudButton Variant="Variant.Filled" Size="Size.Small" Color="Color.Primary" @onclick="@(() => InvokeMaintenances(@context.Id))">@_localizer["Maintenance Table"]</MudButton>
+                        <MudButton Variant="Variant.Filled" Size="Size.Small" Color="Color.Tertiary" @onclick="@(() => InvokeStatus(@context.Id))">@_localizer["DeviceStatus"]</MudButton>
                     }
                     @if (_canDeleteDevices)
                     {

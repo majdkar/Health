@@ -69,6 +69,7 @@ namespace SchoolV01.Infrastructure.Contexts
         public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<Device> Devices { get; set; }
         public DbSet<Maintenance> Maintenances { get; set; }
+        public DbSet<DeviceStatus>  DeviceStatuses { get; set; }
 
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())

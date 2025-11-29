@@ -566,6 +566,44 @@
             <param name="id"></param>
             <returns>Status 200 OK</returns>
         </member>
+        <member name="M:SchoolV01.Server.Controllers.v1.GeneralSettings.DeviceStatussController.GetAll(System.Int32,System.Int32,System.Int32,System.String,System.String)">
+            <summary>
+            Get All Paged DeviceStatuss
+            </summary>
+            <param name="DeviceId"></param>
+            <param name="pageNumber"></param>
+            <param name="pageSize"></param>
+            <param name="searchString"></param>
+            <param name="orderBy"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:SchoolV01.Server.Controllers.v1.GeneralSettings.DeviceStatussController.GetAll">
+            <summary>
+            Get All DeviceStatuss
+            </summary>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:SchoolV01.Server.Controllers.v1.GeneralSettings.DeviceStatussController.GetById(System.Int32)">
+            <summary>
+            Get a DeviceStatus By Id
+            </summary>
+            <param name="id"></param>
+            <returns>Status 200 Ok</returns>
+        </member>
+        <member name="M:SchoolV01.Server.Controllers.v1.GeneralSettings.DeviceStatussController.Post(SchoolV01.Application.Features.DeviceStatuss.Commands.AddEditDeviceStatusCommand)">
+            <summary>
+            Create/Update a DeviceStatus
+            </summary>
+            <param name="command"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:SchoolV01.Server.Controllers.v1.GeneralSettings.DeviceStatussController.Delete(System.Int32)">
+            <summary>
+            Delete a DeviceStatus
+            </summary>
+            <param name="id"></param>
+            <returns>Status 200 OK</returns>
+        </member>
         <member name="M:SchoolV01.Server.Controllers.v1.GeneralSettings.DirectoratesController.GetAll(System.Int32,System.Int32,System.String,System.String)">
             <summary>
             Get All Paged Directorates

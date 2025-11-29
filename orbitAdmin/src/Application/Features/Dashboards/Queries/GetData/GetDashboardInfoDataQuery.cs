@@ -33,6 +33,8 @@ namespace SchoolV01.Application.Features.Dashboards.Queries.GetData
                 DeviceCalibration = await _unitOfWork.Repository<Device>().Entities.Where(x => x.DeviceStatus == DeviceStatusEnum.DeviceNeedsCalibration.ToString()).CountAsync(),
                 DeviceMaintenance = await _unitOfWork.Repository<Device>().Entities.Where(x => x.DeviceStatus == DeviceStatusEnum.DeviceNeedsMaintenance.ToString()).CountAsync(),
                 DeviceWorked = await _unitOfWork.Repository<Device>().Entities.Where(x => x.DeviceStatus == DeviceStatusEnum.ItWorksWell.ToString()).CountAsync(),
+                 DeviceCoordinator = await _unitOfWork.Repository<Device>().Entities.Where(x => x.DeviceStatus == DeviceStatusEnum.Coordinator.ToString()).CountAsync(),
+                 DeviceNotWork = await _unitOfWork.Repository<Device>().Entities.Where(x => x.DeviceStatus == DeviceStatusEnum.ItdosenotWorks.ToString()).CountAsync(),
 
             };
 

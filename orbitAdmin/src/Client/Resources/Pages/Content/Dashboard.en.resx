@@ -123,6 +123,9 @@
   <data name="Clinics" xml:space="preserve">
     <value>Clinics</value>
   </data>
+  <data name="Coordinator" xml:space="preserve">
+    <value>Coordinator</value>
+  </data>
   <data name="Directorates" xml:space="preserve">
     <value>Directorates</value>
   </data>
@@ -134,6 +137,9 @@
   </data>
   <data name="Needs Maintenance" xml:space="preserve">
     <value>Needs Maintenance</value>
+  </data>
+  <data name="Not Working" xml:space="preserve">
+    <value>Not Working</value>
   </data>
   <data name="Suppliers" xml:space="preserve">
     <value>Suppliers</value>

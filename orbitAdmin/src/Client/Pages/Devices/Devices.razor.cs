@@ -265,6 +265,13 @@ namespace SchoolV01.Client.Pages.Devices
                 _navigationManager.NavigateTo($"/Maintenances/{id}");
             
         }
+
+        private void InvokeStatus(int id = 0)
+        {
+          
+                _navigationManager.NavigateTo($"/DeviceStatuss/{id}");
+            
+        }
         private async Task Delete(int id)
         {
             string deleteContent = _localizer["Delete Content"];

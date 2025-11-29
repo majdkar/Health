@@ -29,6 +29,17 @@ namespace SchoolV01.Shared.Constants.Permission
         }
       
       
+        public static class DeviceStatuss
+        {
+            public const string View = "Permissions.DeviceStatuss.View";
+            public const string Create = "Permissions.DeviceStatuss.Create";
+            public const string Edit = "Permissions.DeviceStatuss.Edit";
+            public const string Delete = "Permissions.DeviceStatuss.Delete";
+            public const string Search = "Permissions.DeviceStatuss.Search";
+            public const string Export = "Permissions.DeviceStatuss.Export";
+        }
+      
+      
         public static class Maintenances
         {
             public const string View = "Permissions.Maintenances.View";
