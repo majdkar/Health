@@ -282,4 +282,7 @@
   <data name="Devices Reports" xml:space="preserve">
     <value>Devices Reports</value>
   </data>
+  <data name="Companies Forms" xml:space="preserve">
+    <value />
+  </data>
 </root>

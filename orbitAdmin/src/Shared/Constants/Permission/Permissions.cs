@@ -17,6 +17,13 @@ namespace SchoolV01.Shared.Constants.Permission
           
         }
       
+        public static class Forms
+        {
+            public const string View = "Permissions.Forms.View";
+            public const string Delete = "Permissions.Forms.Delete";
+          
+        }
+      
       
         public static class ProjectTypes
         {

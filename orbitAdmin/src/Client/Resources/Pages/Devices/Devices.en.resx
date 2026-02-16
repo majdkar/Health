@@ -315,4 +315,43 @@
   <data name="ItdosenotWorks" xml:space="preserve">
     <value>It dose not Works</value>
   </data>
+  <data name="Form Number" xml:space="preserve">
+    <value>Form Number</value>
+  </data>
+  <data name="Companies Forms Management" xml:space="preserve">
+    <value>Companies Forms Management</value>
+  </data>
+  <data name="Company Name" xml:space="preserve">
+    <value>Company Name</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="Agent Name" xml:space="preserve">
+    <value>Agent Name</value>
+  </data>
+  <data name="Device Type" xml:space="preserve">
+    <value>Device Type</value>
+  </data>
+  <data name="Device Brand" xml:space="preserve">
+    <value>Device Brand</value>
+  </data>
+  <data name="Attachments" xml:space="preserve">
+    <value>Attachments</value>
+  </data>
+  <data name="No attachments available" xml:space="preserve">
+    <value>No attachments available</value>
+  </data>
+  <data name="File Name" xml:space="preserve">
+    <value>File Name</value>
+  </data>
+  <data name="Download" xml:space="preserve">
+    <value>Download</value>
+  </data>
+  <data name="Add New Form" xml:space="preserve">
+    <value>Add New Form</value>
+  </data>
+  <data name="Select Files" xml:space="preserve">
+    <value>Select Files</value>
+  </data>
 </root>

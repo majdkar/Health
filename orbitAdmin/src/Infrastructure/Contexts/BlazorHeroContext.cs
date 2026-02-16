@@ -54,9 +54,13 @@ namespace SchoolV01.Infrastructure.Contexts
         public DbSet<PagePhoto> PagePhotos { get; set; }
         public DbSet<PageAttachement> PageAttachments { get; set; }
 
-     
 
 
+
+
+        // Forms Companies
+        public DbSet<FormCompany>  FormCompanies { get; set; }
+        public DbSet<FormCompanyAttachment>  FormCompanyAttachments { get; set; }
 
         // General Settings
         public DbSet<Country> Countries { get; set; }
@@ -144,6 +148,14 @@ namespace SchoolV01.Infrastructure.Contexts
                     .HasForeignKey(d => d.ToUserId)
                     .OnDelete(DeleteBehavior.ClientSetNull);
             });
+
+
+            builder.Entity<FormCompany>()
+            .HasMany(x => x.Attachments)
+            .WithOne(x => x.FormCompany)
+            .HasForeignKey(x => x.FormCompanyId)
+            .OnDelete(DeleteBehavior.Cascade);
+
             builder.Entity<BlazorHeroUser>(entity =>
             {
                 entity.ToTable(name: "Users", "Identity");
@@ -159,6 +171,10 @@ namespace SchoolV01.Infrastructure.Contexts
                 .HasForeignKey(e => e.RoleId)
                 .OnDelete(DeleteBehavior.Cascade);
             });
+
+            builder.Entity<FormCompany>()
+            .HasIndex(x => x.FormNumber)
+            .IsUnique();
 
             builder.Entity<IdentityUserRole<string>>(entity =>
             {

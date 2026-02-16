@@ -171,4 +171,7 @@
   <data name="Welcome {0}" xml:space="preserve">
     <value>مرحبا {0}</value>
   </data>
+  <data name="Company Catalog Form" xml:space="preserve">
+    <value>استمارة الكاتالوغ للشركات</value>
+  </data>
 </root>

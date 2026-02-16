@@ -8,7 +8,7 @@
     <MudGrid Style="width:500px;">
         <MudItem xs="12">
             <div class="d-flex justify-center" style="height: fit-content;">
-                <img src="logohero.png" style="width:60%;  " />
+                <img src="logohero.png" style="width:45%;  " />
             </div>
         </MudItem>
         <DataAnnotationsValidator />
@@ -24,15 +24,29 @@
                           @bind-Value="_tokenModel.Password" For="@(() => _tokenModel.Password)"
                           InputType="@_passwordInput" Adornment="Adornment.End" AdornmentIcon="@_passwordInputIcon" OnAdornmentClick="TogglePasswordVisibility" />
         </MudItem>
-        <MudItem xs="12" Class="d-flex justify-space-between align-center">
+    @*     <MudItem xs="12" Class="d-flex justify-space-between align-center">
             <MudCheckBox T="bool"  Label="@_localizer["Remember me?"]" Color="Color.Primary" Class="ml-n1"></MudCheckBox>
             <MudItem xs="4" Style="display:grid;">
                 <MudLink Href="/account/forgot-password">@_localizer["Forgot password?"]</MudLink>
+
             </MudItem>
-        </MudItem>
+        </MudItem> *@
         <MudItem xs="12" Class="d-flex justify-center">
             <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Disabled="@(!Validated)" Color="Color.Primary" Size="Size.Large" Style="width: 100%;">@_localizer["Sign In"]</MudButton>
         </MudItem>
+
+        <MudItem xs="12" Class="d-flex justify-center mt-2">
+            <MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="@GoToAddForm">
+                @_localizer["Company Catalog Form"]
+            </MudButton>
+        </MudItem>
+
+        @code {
+            private void GoToAddForm()
+            {
+                _navigationManager.NavigateTo("/formcompany/add");
+            }
+        }
         @*        <MudItem xs="12">
         <MudButton OnClick="FillAdministratorCredentials">@_localizer["Fill Administrator Credentials"]</MudButton>
         </MudItem>

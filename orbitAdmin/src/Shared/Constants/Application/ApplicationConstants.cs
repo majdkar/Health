@@ -37,6 +37,7 @@ namespace SchoolV01.Shared.Constants.Application
         {
             
             public const string GetAllDocumentTypesCacheKey = "all-document-types";
+            public const string GetAllFormCompanysCacheKey = "all-FormCompanys";
             public const string GetAllProjectTypesCacheKey = "all-ProjectTypes";
             public const string GetAllPositionsCacheKey = "all-Positions";
             public const string GetAllDirectoratesCacheKey = "all-Directorates";

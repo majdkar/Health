@@ -641,6 +641,37 @@
             <param name="id"></param>
             <returns>Status 200 OK</returns>
         </member>
+        <member name="M:SchoolV01.Server.Controllers.v1.GeneralSettings.FormCompanysController.GetAll(System.Int32,System.Int32,System.String,System.String)">
+            <summary>
+            Get All Paged Forms
+            </summary>
+            <param name="pageNumber"></param>
+            <param name="pageSize"></param>
+            <param name="searchString"></param>
+            <param name="orderBy"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:SchoolV01.Server.Controllers.v1.GeneralSettings.FormCompanysController.GetById(System.Int32)">
+            <summary>
+            Get a FormCompany By Id
+            </summary>
+            <param name="id"></param>
+            <returns>Status 200 Ok</returns>
+        </member>
+        <member name="M:SchoolV01.Server.Controllers.v1.GeneralSettings.FormCompanysController.Post(SchoolV01.Application.Features.FormCompanys.Commands.AddEditFormCompanyCommand)">
+            <summary>
+            Create/Update a FormCompany
+            </summary>
+            <param name="command"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:SchoolV01.Server.Controllers.v1.GeneralSettings.FormCompanysController.Delete(System.Int32)">
+            <summary>
+            Delete a FormCompany
+            </summary>
+            <param name="id"></param>
+            <returns>Status 200 OK</returns>
+        </member>
         <member name="M:SchoolV01.Server.Controllers.v1.GeneralSettings.HospitalsController.GetAll(System.Int32,System.Int32,System.String,System.String)">
             <summary>
             Get All Paged Hospitals

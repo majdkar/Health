@@ -1,0 +1,190 @@
+﻿@page "/formcompany/add"
+@attribute [AllowAnonymous]
+@using SchoolV01.Application.Features.FormCompanys.Commands
+@using SchoolV01.Application.Requests
+@using MudBlazor
+@using System.IO
+@using SchoolV01.Client.Infrastructure.Managers.GeneralSettings
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Devices> _localizer
+@using SchoolV01.Client.Pages.Devices
+
+
+<PageTitle>Add Form</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.Medium" Class="mt-6">
+
+    <MudPaper Class="pa-6">
+
+        <MudForm @ref="_form">
+
+            <MudText Typo="Typo.h5" Class="mb-4">➕ @_localizer["Add New Form"]</MudText>
+
+            <MudGrid>
+
+                <MudItem xs="12" sm="6">
+                    <MudTextField @bind-Value="_model.CompanyName"
+                                  Label="@_localizer["Company Name"]"
+                                  Required="true" />
+                </MudItem>
+
+                <MudItem xs="12" sm="6">
+                    <MudTextField @bind-Value="_model.AgentName"
+                                  Label="@_localizer["Agent Name"]" />
+                </MudItem>
+
+                <MudItem xs="12" sm="6">
+                    <MudTextField @bind-Value="_model.DeviceType"
+                                  Label="@_localizer["Device Type"]" />
+                </MudItem>
+
+                <MudItem xs="12" sm="6">
+                    <MudTextField @bind-Value="_model.DeviceBrand"
+                                  Label="@_localizer["Device Brand"]" />
+                </MudItem>
+
+                <MudItem xs="12" sm="6">
+                    <MudTextField @bind-Value="_model.Model"
+                                  Label="@_localizer["Model"]" />
+                </MudItem>
+
+            </MudGrid>
+
+            <MudDivider Class="my-4" />
+
+            <!-- Attachments Section -->
+
+
+
+            <MudText Typo="Typo.h6" Class="mt-4">📎 @_localizer["Attachments"]</MudText>
+
+            <label class="d-block">
+                <MudButton HtmlTag="label" for="imageInput1" Variant="Variant.Outlined" Color="Color.Primary" StartIcon="@Icons.Material.Filled.AttachFile">
+                    @_localizer["Select Files"]
+                </MudButton>
+                <InputFile id="imageInput1" OnChange="OnAttachmentsSelected" Multiple style="display:none" />
+            </label>
+
+            @if (_attachments.Any())
+            {
+                <MudTable Items="_attachments" Dense="true" Hover="true" Class="mt-3">
+                    <HeaderContent>
+                        <MudTh>@_localizer["File Name"]</MudTh>
+                        <MudTh>@_localizer["Actions"]</MudTh>
+                    </HeaderContent>
+
+                    <RowTemplate>
+                        <MudTd>@context.FileName</MudTd>
+                       
+                        <MudTd>
+                            <MudIconButton Icon="@Icons.Material.Filled.Delete"
+                                           Color="Color.Error"
+                                           OnClick="@(() => RemoveAttachment(context))" />
+                        </MudTd>
+                    </RowTemplate>
+                </MudTable>
+            }
+
+            <MudDivider Class="my-4" />
+
+            <MudButton Variant="Variant.Filled"
+                       Color="Color.Primary"
+                       OnClick="Save"
+                       Disabled="_saving">
+                @_localizer["Save"]
+            </MudButton>
+
+        </MudForm>
+
+    </MudPaper>
+
+</MudContainer>
+
+@code {
+
+    private MudForm _form;
+    private bool _saving = false;
+
+    [Inject] private IFormCompanyManager FormCompanyManager { get; set; }
+
+
+
+    private AddEditFormCompanyCommand _model = new();
+
+    private List<AttachmentInputModel> _attachments = new();
+
+    private IBrowserFile _dummy; // فقط للحفظ
+    private InputFile _fileInputElement;
+
+    private async Task OnAttachmentsSelected(InputFileChangeEventArgs e)
+    {
+        foreach (var file in e.GetMultipleFiles())
+        {
+            var extension = Path.GetExtension(file.Name);
+            using var stream = file.OpenReadStream(long.MaxValue);
+            var buffer = new byte[file.Size];
+            await stream.ReadAsync(buffer);
+
+            var uploadRequest = new UploadRequest
+            {
+                Data = buffer,
+                Extension = extension,
+                FileName = file.Name,
+                UploadType = Application.Enums.UploadType.Student
+            };
+
+            _attachments.Add(new AttachmentInputModel
+            {
+                FileName = file.Name,
+                UploadRequest = uploadRequest,
+                CustomName = file.Name
+            });
+        }
+    }
+
+    private void RemoveAttachment(AttachmentInputModel item)
+    {
+        _attachments.Remove(item);
+    }
+  
+   
+
+    private async Task Save()
+    {
+        await _form.Validate();
+
+        if (!_form.IsValid)
+            return;
+
+        _saving = true;
+
+        _model.Attachments = _attachments.Select(x =>
+        {
+            x.UploadRequest.FileName = 
+                string.IsNullOrWhiteSpace(x.CustomName)
+                ? x.FileName
+                : x.CustomName;
+
+            return x.UploadRequest;
+        }).ToList();
+
+        var result = await FormCompanyManager.SaveAsync(_model);
+
+        if (result.Succeeded)
+        {
+            _snackBar.Add("Form saved successfully", Severity.Success);
+        }
+        else
+        {
+            _snackBar.Add(result.Messages.FirstOrDefault(), Severity.Error);
+        }
+
+        _saving = false;
+    }
+
+    public class AttachmentInputModel
+    {
+        public string FileName { get; set; }
+        public string CustomName { get; set; }
+        public UploadRequest UploadRequest { get; set; }
+    }
+}

@@ -315,4 +315,43 @@
   <data name="ItdosenotWorks" xml:space="preserve">
     <value>لايعمل</value>
   </data>
+  <data name="Form Number" xml:space="preserve">
+    <value>رقم الاستمارة</value>
+  </data>
+  <data name="Companies Forms Management" xml:space="preserve">
+    <value>إدارة استمارات الشركات </value>
+  </data>
+  <data name="Company Name" xml:space="preserve">
+    <value>أسم الشركة</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>تفاصيل</value>
+  </data>
+  <data name="Agent Name" xml:space="preserve">
+    <value>اسم الوكيل</value>
+  </data>
+  <data name="Device Type" xml:space="preserve">
+    <value>نوع الجهاز</value>
+  </data>
+  <data name="Device Brand" xml:space="preserve">
+    <value>ماركة الجهاز</value>
+  </data>
+  <data name="Attachments" xml:space="preserve">
+    <value>المرفقات</value>
+  </data>
+  <data name="No attachments available" xml:space="preserve">
+    <value>لايوجد مرفقات</value>
+  </data>
+  <data name="File Name" xml:space="preserve">
+    <value>أسم المرفق</value>
+  </data>
+  <data name="Download" xml:space="preserve">
+    <value>تحميل</value>
+  </data>
+  <data name="Add New Form" xml:space="preserve">
+    <value>إضافة استمارة جديدة</value>
+  </data>
+  <data name="Select Files" xml:space="preserve">
+    <value>اختر الملفات</value>
+  </data>
 </root>

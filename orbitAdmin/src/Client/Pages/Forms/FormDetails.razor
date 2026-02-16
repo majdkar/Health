@@ -1,0 +1,122 @@
+﻿@page "/formcompany/details/{Id:int}"
+@using SchoolV01.Application.Features.FormCompanies.Queries
+@using SchoolV01.Client.Infrastructure.Managers.GeneralSettings
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Devices> _localizer
+@using SchoolV01.Client.Pages.Devices
+
+<PageTitle>Form Details</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-6">
+
+    @if (_loading)
+    {
+        <MudProgressCircular Indeterminate="true" Color="Color.Primary" />
+    }
+    else if (_model == null)
+    {
+        <MudAlert Severity="Severity.Error">
+            Form not found
+        </MudAlert>
+    }
+    else
+    {
+        <MudPaper Elevation="3" Class="pa-6">
+
+            <MudGrid>
+
+                <MudItem xs="12">
+                    <MudText Typo="Typo.h5" Color="Color.Primary">
+                        📄 @_localizer["Form Number"] : @_model.FormNumber
+                    </MudText>
+                    <MudDivider Class="my-3" />
+                </MudItem>
+
+                <MudItem xs="12" sm="6">
+                    <MudText><b>@_localizer["Company Name"] :</b> @_model.CompanyName</MudText>
+                </MudItem>
+
+                <MudItem xs="12" sm="6">
+                    <MudText><b>@_localizer["Agent Name"] :</b> @_model.AgentName</MudText>
+                </MudItem>
+
+                <MudItem xs="12" sm="6">
+                    <MudText><b>@_localizer["Device Type"] :</b> @_model.DeviceType</MudText>
+                </MudItem>
+
+                <MudItem xs="12" sm="6">
+                    <MudText><b>@_localizer["Device Brand"] :</b> @_model.DeviceBrand</MudText>
+                </MudItem>
+
+                <MudItem xs="12" sm="6">
+                    <MudText><b>@_localizer["Model"] :</b> @_model.Model</MudText>
+                </MudItem>
+
+            </MudGrid>
+
+        </MudPaper>
+
+        <!-- Attachments Section -->
+        <MudPaper Elevation="2" Class="pa-6 mt-6">
+
+            <MudText Typo="Typo.h6" Class="mb-3">
+                📎 @_localizer["Attachments"]
+            </MudText>
+
+            @if (_model.Attachments == null || !_model.Attachments.Any())
+            {
+                <MudAlert Severity="Severity.Info">
+                    @_localizer["No attachments available"]
+                </MudAlert>
+            }
+            else
+            {
+                <MudTable Items="_model.Attachments" Hover="true" Dense="true">
+
+                    <HeaderContent>
+                        <MudTh>@_localizer["File Name"]</MudTh>
+                        <MudTh>@_localizer["Actions"]</MudTh>
+                    </HeaderContent>
+
+                    <RowTemplate>
+                        <MudTd>@context.FileName</MudTd>
+                        <MudTd>
+                            <MudButton Variant="Variant.Filled"
+                                       Color="Color.Primary"
+                                       StartIcon="@Icons.Material.Filled.Download"
+                                       OnClick="@(() => DownloadFile(context.FileUrl))">
+                                @_localizer["Download"]
+                            </MudButton>
+                        </MudTd>
+                    </RowTemplate>
+
+                </MudTable>
+            }
+
+        </MudPaper>
+    }
+
+</MudContainer>
+
+@code {
+
+    [Parameter] public int Id { get; set; }
+    [Inject] private IFormCompanyManager FormCompanyManager { get; set; }
+
+    private GetByIdFormCompaniesResponse _model;
+    private bool _loading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var result = await FormCompanyManager.GetAsync(Id);
+
+        if (result.Succeeded)
+            _model = result.Data;
+
+        _loading = false;
+    }
+
+    private async Task DownloadFile(string url)
+    {
+        await _jsRuntime.InvokeVoidAsync("open", url, "_blank");
+    }
+}

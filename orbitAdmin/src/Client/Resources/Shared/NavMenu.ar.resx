@@ -282,4 +282,7 @@
   <data name="Devices Reports" xml:space="preserve">
     <value>تقرير الأجهزة</value>
   </data>
+  <data name="Companies Forms" xml:space="preserve">
+    <value>استمارات الشركات</value>
+  </data>
 </root>

@@ -85,6 +85,7 @@ namespace SchoolV01.Application.Features.Devices.Commands
                     }
 
                     await _unitOfWork.Repository<Device>().AddAsync(position);
+                    await _unitOfWork.Commit(cancellationToken); // أو SaveChanges
 
                     var status = new DeviceStatus
                     {
@@ -135,6 +136,7 @@ namespace SchoolV01.Application.Features.Devices.Commands
                         }
 
                         await _unitOfWork.Repository<Device>().UpdateAsync(position);
+                        await _unitOfWork.Commit(cancellationToken); // أو SaveChanges
 
                         if (statusChanged)
                         {

@@ -174,4 +174,7 @@
   <data name="Welcome {0}" xml:space="preserve">
     <value />
   </data>
+  <data name="Company Catalog Form" xml:space="preserve">
+    <value />
+  </data>
 </root>
